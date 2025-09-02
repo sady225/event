@@ -154,7 +154,7 @@
             <div class="title">ローマ字タイピング練習</div>
             <div class="stats">
                 <span class="score">スコア: <span id="score">0</span></span>
-                <span class="progress">完了: <span id="completed">0</span>/<span id="total">69</span></span>
+                <span class="progress">完了: <span id="completed">0</span>/<span id="total">104</span></span>
             </div>
 
             <div class="hiragana-display" id="hiragana-display">あ</div>
@@ -166,7 +166,7 @@
             <input type="text" class="input-field" id="input-field" placeholder="ローマ字を入力してください" autocomplete="off">
 
             <div class="error-message" id="error-message">
-                間違いです。「<span id="expected-char">a</span>」を入力してください。
+                間違いです。
             </div>
 
             <div class="success-message" id="success-message">
@@ -189,84 +189,117 @@
     <script>
         // ローマ字データ
         const romajiData = [
-            { hiragana: 'あ', romaji: 'a' },
-            { hiragana: 'い', romaji: 'i' },
-            { hiragana: 'う', romaji: 'u' },
-            { hiragana: 'え', romaji: 'e' },
-            { hiragana: 'お', romaji: 'o' },
-            { hiragana: 'か', romaji: 'ka' },
-            { hiragana: 'き', romaji: 'ki' },
-            { hiragana: 'く', romaji: 'ku' },
-            { hiragana: 'け', romaji: 'ke' },
-            { hiragana: 'こ', romaji: 'ko' },
-            { hiragana: 'が', romaji: 'ga' },
-            { hiragana: 'ぎ', romaji: 'gi' },
-            { hiragana: 'ぐ', romaji: 'gu' },
-            { hiragana: 'げ', romaji: 'ge' },
-            { hiragana: 'ご', romaji: 'go' },
-            { hiragana: 'さ', romaji: 'sa' },
-            { hiragana: 'し', romaji: 'shi' },
-            { hiragana: 'す', romaji: 'su' },
-            { hiragana: 'せ', romaji: 'se' },
-            { hiragana: 'そ', romaji: 'so' },
-            { hiragana: 'ざ', romaji: 'za' },
-            { hiragana: 'じ', romaji: 'ji' },
-            { hiragana: 'ず', romaji: 'zu' },
-            { hiragana: 'ぜ', romaji: 'ze' },
-            { hiragana: 'ぞ', romaji: 'zo' },
-            { hiragana: 'た', romaji: 'ta' },
-            { hiragana: 'ち', romaji: 'chi' },
-            { hiragana: 'つ', romaji: 'tsu' },
-            { hiragana: 'て', romaji: 'te' },
-            { hiragana: 'と', romaji: 'to' },
-            { hiragana: 'だ', romaji: 'da' },
-            { hiragana: 'ぢ', romaji: 'di' },
-            { hiragana: 'づ', romaji: 'du' },
-            { hiragana: 'で', romaji: 'de' },
-            { hiragana: 'ど', romaji: 'do' },
-            { hiragana: 'な', romaji: 'na' },
-            { hiragana: 'に', romaji: 'ni' },
-            { hiragana: 'ぬ', romaji: 'nu' },
-            { hiragana: 'ね', romaji: 'ne' },
-            { hiragana: 'の', romaji: 'no' },
-            { hiragana: 'は', romaji: 'ha' },
-            { hiragana: 'ひ', romaji: 'hi' },
-            { hiragana: 'ふ', romaji: 'fu' },
-            { hiragana: 'へ', romaji: 'he' },
-            { hiragana: 'ほ', romaji: 'ho' },
-            { hiragana: 'ば', romaji: 'ba' },
-            { hiragana: 'び', romaji: 'bi' },
-            { hiragana: 'ぶ', romaji: 'bu' },
-            { hiragana: 'べ', romaji: 'be' },
-            { hiragana: 'ぼ', romaji: 'bo' },
-            { hiragana: 'ぱ', romaji: 'pa' },
-            { hiragana: 'ぴ', romaji: 'pi' },
-            { hiragana: 'ぷ', romaji: 'pu' },
-            { hiragana: 'ぺ', romaji: 'pe' },
-            { hiragana: 'ぽ', romaji: 'po' },
-            { hiragana: 'ま', romaji: 'ma' },
-            { hiragana: 'み', romaji: 'mi' },
-            { hiragana: 'む', romaji: 'mu' },
-            { hiragana: 'め', romaji: 'me' },
-            { hiragana: 'も', romaji: 'mo' },
-            { hiragana: 'や', romaji: 'ya' },
-            { hiragana: 'ゆ', romaji: 'yu' },
-            { hiragana: 'よ', romaji: 'yo' },
-            { hiragana: 'ら', romaji: 'ra' },
-            { hiragana: 'り', romaji: 'ri' },
-            { hiragana: 'る', romaji: 'ru' },
-            { hiragana: 'れ', romaji: 're' },
-            { hiragana: 'ろ', romaji: 'ro' },
-            { hiragana: 'わ', romaji: 'wa' },
-            { hiragana: 'ゐ', romaji: 'wi' },
-            { hiragana: 'ゑ', romaji: 'we' },
-            { hiragana: 'を', romaji: 'wo' },
-            { hiragana: 'ん', romaji: 'n' }
+            { hiragana: 'あ', romaji: ['a'] },
+            { hiragana: 'い', romaji: ['i'] },
+            { hiragana: 'う', romaji: ['u'] },
+            { hiragana: 'え', romaji: ['e'] },
+            { hiragana: 'お', romaji: ['o'] },
+            { hiragana: 'か', romaji: ['ka'] },
+            { hiragana: 'き', romaji: ['ki'] },
+            { hiragana: 'く', romaji: ['ku'] },
+            { hiragana: 'け', romaji: ['ke'] },
+            { hiragana: 'こ', romaji: ['ko'] },
+            { hiragana: 'きゃ', romaji: ['kya'] },
+            { hiragana: 'きゅ', romaji: ['kyu'] },
+            { hiragana: 'きょ', romaji: ['kyo'] },
+            { hiragana: 'が', romaji: ['ga'] },
+            { hiragana: 'ぎ', romaji: ['gi'] },
+            { hiragana: 'ぐ', romaji: ['gu'] },
+            { hiragana: 'げ', romaji: ['ge'] },
+            { hiragana: 'ご', romaji: ['go'] },
+            { hiragana: 'ぎゃ', romaji: ['gya'] },
+            { hiragana: 'ぎゅ', romaji: ['gyu'] },
+            { hiragana: 'ぎょ', romaji: ['gyo'] },
+            { hiragana: 'さ', romaji: ['sa'] },
+            { hiragana: 'し', romaji: ['shi', 'si'] },
+            { hiragana: 'す', romaji: ['su'] },
+            { hiragana: 'せ', romaji: ['se'] },
+            { hiragana: 'そ', romaji: ['so'] },
+            { hiragana: 'しゃ', romaji: ['sha', 'sya'] },
+            { hiragana: 'しゅ', romaji: ['shu', 'syu'] },
+            { hiragana: 'しょ', romaji: ['sho', 'syo'] },
+            { hiragana: 'ざ', romaji: ['za'] },
+            { hiragana: 'じ', romaji: ['ji', 'zi'] },
+            { hiragana: 'ず', romaji: ['zu'] },
+            { hiragana: 'ぜ', romaji: ['ze'] },
+            { hiragana: 'ぞ', romaji: ['zo'] },
+            { hiragana: 'じゃ', romaji: ['ja', 'jya'] },
+            { hiragana: 'じゅ', romaji: ['ju', 'jyu'] },
+            { hiragana: 'じょ', romaji: ['jo', 'jyo'] },
+            { hiragana: 'た', romaji: ['ta'] },
+            { hiragana: 'ち', romaji: ['chi', 'ti'] },
+            { hiragana: 'つ', romaji: ['tsu', 'tu'] },
+            { hiragana: 'て', romaji: ['te'] },
+            { hiragana: 'と', romaji: ['to'] },
+            { hiragana: 'ちゃ', romaji: ['cha', 'tya'] },
+            { hiragana: 'ちゅ', romaji: ['chu', 'tyu'] },
+            { hiragana: 'ちょ', romaji: ['cho', 'tyo'] },
+            { hiragana: 'だ', romaji: ['da'] },
+            { hiragana: 'ぢ', romaji: ['di', 'dji'] },
+            { hiragana: 'づ', romaji: ['du', 'dzu'] },
+            { hiragana: 'で', romaji: ['de'] },
+            { hiragana: 'ど', romaji: ['do'] },
+            { hiragana: 'ぢゃ', romaji: ['dya'] },
+            { hiragana: 'ぢゅ', romaji: ['dyu'] },
+            { hiragana: 'ぢょ', romaji: ['dyo'] },
+            { hiragana: 'な', romaji: ['na'] },
+            { hiragana: 'に', romaji: ['ni'] },
+            { hiragana: 'ぬ', romaji: ['nu'] },
+            { hiragana: 'ね', romaji: ['ne'] },
+            { hiragana: 'の', romaji: ['no'] },
+            { hiragana: 'にゃ', romaji: ['nya'] },
+            { hiragana: 'にゅ', romaji: ['nyu'] },
+            { hiragana: 'にょ', romaji: ['nyo'] },
+            { hiragana: 'は', romaji: ['ha'] },
+            { hiragana: 'ひ', romaji: ['hi'] },
+            { hiragana: 'ふ', romaji: ['fu', 'hu'] },
+            { hiragana: 'へ', romaji: ['he'] },
+            { hiragana: 'ほ', romaji: ['ho'] },
+            { hiragana: 'ひゃ', romaji: ['hya'] },
+            { hiragana: 'ひゅ', romaji: ['hyu'] },
+            { hiragana: 'ひょ', romaji: ['hyo'] },
+            { hiragana: 'ば', romaji: ['ba'] },
+            { hiragana: 'び', romaji: ['bi'] },
+            { hiragana: 'ぶ', romaji: ['bu'] },
+            { hiragana: 'べ', romaji: ['be'] },
+            { hiragana: 'ぼ', romaji: ['bo'] },
+            { hiragana: 'びゃ', romaji: ['bya'] },
+            { hiragana: 'びゅ', romaji: ['byu'] },
+            { hiragana: 'びょ', romaji: ['byo'] },
+            { hiragana: 'ぱ', romaji: ['pa'] },
+            { hiragana: 'ぴ', romaji: ['pi'] },
+            { hiragana: 'ぷ', romaji: ['pu'] },
+            { hiragana: 'ぺ', romaji: ['pe'] },
+            { hiragana: 'ぽ', romaji: ['po'] },
+            { hiragana: 'ぴゃ', romaji: ['pya'] },
+            { hiragana: 'ぴゅ', romaji: ['pyu'] },
+            { hiragana: 'ぴょ', romaji: ['pyo'] },
+            { hiragana: 'ま', romaji: ['ma'] },
+            { hiragana: 'み', romaji: ['mi'] },
+            { hiragana: 'む', romaji: ['mu'] },
+            { hiragana: 'め', romaji: ['me'] },
+            { hiragana: 'も', romaji: ['mo'] },
+            { hiragana: 'みゃ', romaji: ['mya'] },
+            { hiragana: 'みゅ', romaji: ['myu'] },
+            { hiragana: 'みょ', romaji: ['myo'] },
+            { hiragana: 'や', romaji: ['ya'] },
+            { hiragana: 'ゆ', romaji: ['yu'] },
+            { hiragana: 'よ', romaji: ['yo'] },
+            { hiragana: 'ら', romaji: ['ra'] },
+            { hiragana: 'り', romaji: ['ri'] },
+            { hiragana: 'る', romaji: ['ru'] },
+            { hiragana: 'れ', romaji: ['re'] },
+            { hiragana: 'ろ', romaji: ['ro'] },
+            { hiragana: 'りゃ', romaji: ['rya'] },
+            { hiragana: 'りゅ', romaji: ['ryu'] },
+            { hiragana: 'りょ', romaji: ['ryo'] },
+            { hiragana: 'わ', romaji: ['wa'] },
+            { hiragana: 'を', romaji: ['wo', 'o'] },
+            { hiragana: 'ん', romaji: ['n'] }
         ];
 
         // 状態管理
         let currentIndex = 0;
-        let currentCharIndex = 0;
         let score = 0;
         let completedCount = 0;
         let showHint = false;
@@ -280,7 +313,6 @@
         const hintRomaji = document.getElementById('hint-romaji');
         const errorMessage = document.getElementById('error-message');
         const successMessage = document.getElementById('success-message');
-        const expectedCharSpan = document.getElementById('expected-char');
         const scoreSpan = document.getElementById('score');
         const completedSpan = document.getElementById('completed');
         const hintButton = document.getElementById('hint-button');
@@ -333,17 +365,16 @@
 
         // UIを更新する関数
         function updateDisplay() {
-            const currentRomaji = romajiData[currentIndex];
-            hiraganaDisplay.textContent = currentRomaji.hiragana;
-            hintHiragana.textContent = currentRomaji.hiragana;
-            hintRomaji.textContent = currentRomaji.romaji;
+            const currentProblem = romajiData[currentIndex];
+            hiraganaDisplay.textContent = currentProblem.hiragana;
+            hintHiragana.textContent = currentProblem.hiragana;
+            hintRomaji.textContent = currentProblem.romaji[0];
             scoreSpan.textContent = score;
             completedSpan.textContent = completedCount;
             
             // 入力フィールドをリセット
             inputField.value = '';
             inputField.className = 'input-field';
-            currentCharIndex = 0;
             
             // メッセージを隠す
             errorMessage.style.display = 'none';
@@ -364,41 +395,43 @@
         // 入力処理
         function handleInput(e) {
             const input = e.target.value.toLowerCase();
-            const currentRomaji = romajiData[currentIndex];
-            const expectedRomaji = currentRomaji.romaji;
+            const currentProblem = romajiData[currentIndex];
+            const possibleRomaji = currentProblem.romaji;
             
             if (input.length === 0) {
                 inputField.className = 'input-field';
-                currentCharIndex = 0;
                 errorMessage.style.display = 'none';
                 successMessage.style.display = 'none';
                 return;
             }
 
-            const expectedChar = expectedRomaji[currentCharIndex];
-            const newChar = input[input.length - 1];
+            const isPrefix = possibleRomaji.some(r => r.startsWith(input));
 
-            if (newChar === expectedChar) {
-                currentCharIndex++;
+            if (isPrefix) {
                 inputField.className = 'input-field correct';
                 errorMessage.style.display = 'none';
-                playSound(true);
 
-                // 完全に入力完了した場合
-                if (input === expectedRomaji) {
+                const isComplete = possibleRomaji.includes(input);
+
+                if (isComplete) {
+                    playSound(true);
                     score += 10;
                     completedCount++;
                     successMessage.style.display = 'block';
                     scoreSpan.textContent = score;
                     completedSpan.textContent = completedCount;
                     
+                    inputField.disabled = true;
                     setTimeout(() => {
                         setNewProblem();
+                        inputField.disabled = false;
+                        inputField.focus();
                     }, 1000);
+                } else {
+                    playSound(true);
                 }
             } else {
                 inputField.className = 'input-field incorrect';
-                expectedCharSpan.textContent = expectedChar;
                 errorMessage.style.display = 'block';
                 successMessage.style.display = 'none';
                 playSound(false);
