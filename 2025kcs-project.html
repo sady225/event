@@ -195,7 +195,7 @@
             <p>本プロジェクトは、喜名自治会と株式会社琉球のタネが連携し、地域の子どもたちのキャリア教育を推進するものです。学校や家庭に居場所を見つけにくい子どもたちに対し、地域とのつながりを通じて自己肯定感・将来への希望を育み、子どもたちが自立した大人に成長する “ご縁づくり” を目指します。</p>
         </div>
 
-        <img width="100%" src="./image.png">
+        <img width="100%" src="./image.png" alt="Kina Careereducation School">
 
         <div class="section">
             <h2>2. 背景と目的</h2>
@@ -612,7 +612,52 @@
         // Initially hide answers for a cleaner look
         document.querySelectorAll('.faq-answer').forEach(answer => {
             answer.style.display = 'block'; // Keep them visible for better readability
-        });
+        });        
     </script>
+
+  
+
+<script>
+ window.difyChatbotConfig = {
+  token: '6jIbBcXptzMZEx6k',
+  inputs: {
+    // You can define the inputs from the Start node here
+    // key is the variable name
+    // e.g.
+    // name: "KANAME"
+  },
+  systemVariables: {
+    // user_id: 'YOU CAN DEFINE USER ID HERE',
+    // conversation_id: 'YOU CAN DEFINE CONVERSATION ID HERE, IT MUST BE A VALID UUID',
+  },
+  userVariables: {
+    // avatar_url: 'YOU CAN DEFINE USER AVATAR URL HERE',
+    // name: 'YOU CAN DEFINE USER NAME HERE',
+  },
+ }
+</script>
+<script
+ src="https://udify.app/embed.min.js"
+ id="6jIbBcXptzMZEx6k"
+ defer>
+</script>
+<style>
+  #dify-chatbot-bubble-button {
+    background-color: #1C64F2 !important;
+  }
+  #dify-chatbot-bubble-window {
+    width: 24rem !important;
+    height: 40rem !important;
+  }
+</style>
+
+<iframe>
+ src="https://udify.app/chatbot/6jIbBcXptzMZEx6k"
+ style="width: 100%; height: 100%; min-height: 700px"
+ frameborder="0"
+ allow="microphone">
+</iframe>
+
+
 </body>
 </html>
