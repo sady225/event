@@ -31,6 +31,22 @@
             min-height: 100vh;
             font-size: 16px; /* 基準フォントサイズ */
         }
+
+        /* 追加した画像のスタイル */
+        .ponchi-top-image-wrapper {
+            max-width: 900px; /* コンテナと同じ最大幅 */
+            margin: 0 auto 2rem; /* 中央配置と下余白 */
+            text-align: center; /* 画像を中央に */
+        }
+
+        .ponchi-top-image {
+            max-width: 100%; /* 親要素の幅に合わせて縮小 */
+            height: auto; /* アスペクト比を維持 */
+            border-radius: 1rem; /* 少し丸みを帯びさせる */
+            box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.2); /* 影を追加 */
+            display: block; /* 中央配置のためにブロック要素に */
+            margin: 0 auto;
+        }
         
         .ponchi-container {
             max-width: 900px;
@@ -193,6 +209,9 @@
             body {
                 padding: 1.5rem 0.5rem; /* モバイルでは左右の余白を減らす */
             }
+            .ponchi-top-image-wrapper {
+                margin-bottom: 1.5rem; /* モバイルでの下余白 */
+            }
             .ponchi-container {
                 padding: 1.25rem; /* 20px */
             }
@@ -257,6 +276,10 @@
     </style>
 </head>
 <body>
+    <div class="ponchi-top-image-wrapper">
+        <img src="https://pbs.twimg.com/media/G2yAhblaAAEfEaf?format=png&name=small" alt="講演会・トークセッション イメージ" class="ponchi-top-image">
+    </div>
+
     <div class="ponchi-container">
         <h1 class="ponchi-title">🎬 講演会・トークセッション<br>全体の流れ</h1>
         
