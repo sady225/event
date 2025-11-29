@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2025年度 Kina Career education School 事業/地域協育振興プロジェクト</title>
-    <link rel="stylesheet" href="paper.css">
+
     <style>
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -12,17 +13,20 @@
             background-color: #f0f2f5;
             color: #333;
         }
+
         .container {
             max-width: 900px;
             margin: 30px auto;
             padding: 20px;
         }
+
         h1 {
             text-align: center;
             color: #2c3e50;
             font-size: 2.5em;
             margin-bottom: 0.5em;
         }
+
         h2 {
             color: #2980b9;
             border-bottom: 2px solid #3498db;
@@ -30,51 +34,79 @@
             margin-top: 40px;
             font-size: 1.8em;
         }
+
         h3 {
             color: #34495e;
             font-size: 1.4em;
             text-align: center;
         }
+
         h4 {
             font-size: 1.2em;
             color: #c0392b;
         }
+
         .section {
             margin-bottom: 2.5em;
         }
+
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 25px;
         }
+
         .card {
             background: #ffffff;
             padding: 25px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-left: 5px solid #3498db;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
-        .card p, .card ul {
+
+        .card p,
+        .card ul {
             color: #555;
         }
+
         .card ul {
             padding-left: 20px;
         }
+
         .card li {
             margin-bottom: 8px;
         }
+
         /* Specific card styles */
-        .card.bg-goal { border-left-color: #2ecc71; }
-        .card.bg-steps h4 { color: #8e44ad; }
-        .card.bg-steps { border-left-color: #9b59b6; }
-        .card.bg-team h4 { color: #f39c12; }
-        .card.bg-team { border-left-color: #f39c12; }
-        .card.bg-schedule { border-left-color: #e67e22; }
+        .card.bg-goal {
+            border-left-color: #2ecc71;
+        }
+
+        .card.bg-steps h4 {
+            color: #8e44ad;
+        }
+
+        .card.bg-steps {
+            border-left-color: #9b59b6;
+        }
+
+        .card.bg-team h4 {
+            color: #f39c12;
+        }
+
+        .card.bg-team {
+            border-left-color: #f39c12;
+        }
+
+        .card.bg-schedule {
+            border-left-color: #e67e22;
+        }
 
         .final-section p {
             background: #ecf0f1;
@@ -97,15 +129,20 @@
         }
 
         .section h2 {
-            font-size: 1.8em; /* Adjusted to match existing h2 size */
-            color: #2980b9; /* Adjusted to match existing h2 color */
+            font-size: 1.8em;
+            /* Adjusted to match existing h2 size */
+            color: #2980b9;
+            /* Adjusted to match existing h2 color */
             margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 15px;
-            border-bottom: 2px solid #3498db; /* Adjusted to match existing h2 border */
-            padding-bottom: 10px; /* Adjusted to match existing h2 padding */
-            margin-top: 40px; /* Adjusted to match existing h2 margin */
+            border-bottom: 2px solid #3498db;
+            /* Adjusted to match existing h2 border */
+            padding-bottom: 10px;
+            /* Adjusted to match existing h2 padding */
+            margin-top: 40px;
+            /* Adjusted to match existing h2 margin */
         }
 
         .faq-grid {
@@ -183,16 +220,106 @@
         footer p {
             margin: 5px 0;
         }
+
+        /* Gallery Styles */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-caption {
+            padding: 10px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #555;
+            background: #fff;
+            margin: 0;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 900px;
+            max-height: 80vh;
+            object-fit: contain;
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+
+        @keyframes zoom {
+            from {
+                transform: scale(0)
+            }
+
+            to {
+                transform: scale(1)
+            }
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
+
 <body>
-    <div class="container paper">        
-<h1>子どもたちが<br>自立した大人に成長する <br>“ご縁づくり” </h1>
-<h3>Kina Career education School 事業<br>地域協育振興プロジェクト</h3>
+    <div class="container paper">
+        <h1>子どもたちが<br>自立した大人に成長する <br>“ご縁づくり” </h1>
+        <h3>Kina Career education School 事業<br>地域協育振興プロジェクト</h3>
 
         <div class="section">
             <h2>1. プロジェクト概要</h2>
-            <p>本プロジェクトは、喜名自治会と株式会社琉球のタネが連携し、地域の子どもたちのキャリア教育を推進するものです。学校や家庭に居場所を見つけにくい子どもたちに対し、地域とのつながりを通じて自己肯定感・将来への希望を育み、子どもたちが自立した大人に成長する “ご縁づくり” を目指します。</p>
+            <p>本プロジェクトは、喜名自治会と株式会社琉球のタネが連携し、地域の子どもたちのキャリア教育を推進するものです。学校や家庭に居場所を見つけにくい子どもたちに対し、地域とのつながりを通じて自己肯定感・将来への希望を育み、子どもたちが自立した大人に成長する
+                “ご縁づくり” を目指します。</p>
         </div>
 
         <img width="100%" src="./image.png">
@@ -201,8 +328,11 @@
             <h2>2. 背景と目的</h2>
             <div class="grid">
                 <div class="card">
-                    <h3>背景</h3>                    
-                    <ul><li>読谷村の一部地域において、学校や家庭に「居場所」がないために、子ども達の問題行動が目立ちはじめ、大人と子どもが安心して暮らすことのできる ”地域づくり” が求められています。</li><li>また、子ども達を支える地域のつながりも、高齢化や子育て世代の地縁団体活動離れにより、年々薄れつつあります。</li></ul>
+                    <h3>背景</h3>
+                    <ul>
+                        <li>読谷村の一部地域において、学校や家庭に「居場所」がないために、子ども達の問題行動が目立ちはじめ、大人と子どもが安心して暮らすことのできる ”地域づくり” が求められています。</li>
+                        <li>また、子ども達を支える地域のつながりも、高齢化や子育て世代の地縁団体活動離れにより、年々薄れつつあります。</li>
+                    </ul>
                 </div>
                 <div class="card bg-goal">
                     <h3>目的</h3>
@@ -217,7 +347,7 @@
 
         <div class="section">
             <h2>3. 主な取り組み</h2>
-            
+
             <h3>① 子ども向け（キャリア教育授業）</h3>
             <div class="grid">
                 <div class="card bg-steps">
@@ -259,170 +389,177 @@
 
         <div class="section">
             <h2>4. 実施体制・ 役割分担</h2>
-                    <p><strong>主催：</strong>喜名自治会</p>
-                    <p><strong>共催：</strong>株式会社 琉球のタネ</p>
-                    <p><strong>協力要請機関：</strong>読谷村・教育委員会・青少年センター・警察・社会福祉協議会・商工会・福祉農業関係者・PTA・民生委員・ファミリーサポートセンター・村議員 など</p>
-             <style>
-                        table {
-                            width: 100%;
-                            border-collapse: collapse;
-                            margin-top: 20px;
-                            font-size: 0.9em;
-                            background-color: #ffffff;
-                        }
-                        th, td {
-                            border: 1px solid #dddddd;
-                            padding: 8px;
-                            text-align: center;
-                        }
-                        th {
-                            background-color: #c7e0ea;
-                        }
-                    </style>
-                    <table width="80%">
-                        <thead>
-                            <tr>
-                                <th>主体</th>
-                                <th>主な役割（依頼）</th>
-                            </tr> <tr>
-    <td><strong>自治会（事業主催）</strong></td>
-    <td>事業決定・予算管理・会場（公民館）提供・地域連携会議主催・広報回覧</td>
-  </tr>
-  <tr>
-    <td><strong>琉球のタネ（運営共催）</strong></td>
-    <td>プログラム設計・キャリア教育実施・記録・保護者勉強会</td>
-  </tr>
-  <tr>
-    <td><strong>教育委員会</strong></td>
-    <td>学校調整協力・COCOLOプランのアドバイス</td>
-  </tr>
-  <tr>
-    <td><strong>こども未来課</strong></td>
-    <td>子ども移動費・送迎車両・ファミリーサポートセンター調整</td>
-  </tr>
-  <tr>
-    <td><strong>青少年センター</strong></td>
-    <td>運営補助・学校調整補助</td>
-  </tr>
-  <tr>
-    <td><strong>学校（小・中）</strong></td>
-    <td>児童情報共有・保護者連絡協力・COCOLOプラン協力</td>
-  </tr>
-  <tr>
-    <td><strong>商工会</strong></td>
-    <td>キャリア講師および体験先企業紹介</td>
-  </tr>
-  <tr>
-    <td><strong>民生委員・福祉機関</strong></td>
-    <td>家庭支援および食支援連携</td>
-  </tr>
-  <tr>
-    <td><strong>PTA／保護者</strong></td>
-    <td>勉強会参加・子どもの送迎補助・自宅学習サポート</td>
-  </tr>
+            <p><strong>主催：</strong>喜名自治会</p>
+            <p><strong>共催：</strong>株式会社 琉球のタネ</p>
+            <p><strong>協力要請機関：</strong>読谷村・教育委員会・青少年センター・警察・社会福祉協議会・商工会・福祉農業関係者・PTA・民生委員・ファミリーサポートセンター・村議員 など</p>
+            <style>
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 20px;
+                    font-size: 0.9em;
+                    background-color: #ffffff;
+                }
 
-                   </thead>
-                   </table>
+                th,
+                td {
+                    border: 1px solid #dddddd;
+                    padding: 8px;
+                    text-align: center;
+                }
+
+                th {
+                    background-color: #c7e0ea;
+                }
+            </style>
+            <table width="80%">
+                <thead>
+                    <tr>
+                        <th>主体</th>
+                        <th>主な役割（依頼）</th>
+                    </tr>
+                    <tr>
+                        <td><strong>自治会（事業主催）</strong></td>
+                        <td>事業決定・予算管理・会場（公民館）提供・地域連携会議主催・広報回覧</td>
+                    </tr>
+                    <tr>
+                        <td><strong>琉球のタネ（運営共催）</strong></td>
+                        <td>プログラム設計・キャリア教育実施・記録・保護者勉強会</td>
+                    </tr>
+                    <tr>
+                        <td><strong>教育委員会</strong></td>
+                        <td>学校調整協力・COCOLOプランのアドバイス</td>
+                    </tr>
+                    <tr>
+                        <td><strong>こども未来課</strong></td>
+                        <td>子ども移動費・送迎車両・ファミリーサポートセンター調整</td>
+                    </tr>
+                    <tr>
+                        <td><strong>青少年センター</strong></td>
+                        <td>運営補助・学校調整補助</td>
+                    </tr>
+                    <tr>
+                        <td><strong>学校（小・中）</strong></td>
+                        <td>児童情報共有・保護者連絡協力・COCOLOプラン協力</td>
+                    </tr>
+                    <tr>
+                        <td><strong>商工会</strong></td>
+                        <td>キャリア講師および体験先企業紹介</td>
+                    </tr>
+                    <tr>
+                        <td><strong>民生委員・福祉機関</strong></td>
+                        <td>家庭支援および食支援連携</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PTA／保護者</strong></td>
+                        <td>勉強会参加・子どもの送迎補助・自宅学習サポート</td>
+                    </tr>
+
+                </thead>
+            </table>
         </div>
 
         <div class="section">
             <h2>5. スケジュール</h2>
-                    <style>
-                        table {
-                            width: 100%;
-                            border-collapse: collapse;
-                            margin-top: 20px;
-                            font-size: 0.9em;
-                            background-color: #ffffff;
-                        }
-                        th, td {
-                            border: 1px solid #dddddd;
-                            padding: 8px;
-                            text-align: center;
-                        }
-                        th {
-                            background-color: #c7e0ea;
-                        }
-                    </style>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>実施内容</th>
-                                <th>9月</th>
-                                <th>10月</th>
-                                <th>11月</th>
-                                <th>12月</th>
-                                <th>1月</th>
-                                <th>2月</th>
-                                <th>3月</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>事前準備</td>
-                                <td>→</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>4.取組1：関係づくり</td>
-                                <td></td>
-                                <td>毎週月曜</td>
-                                <td>→</td>
-                                <td>→</td>
-                                <td>→</td>
-                                <td>→</td>
-                                <td>→</td>
-                            </tr>
-                            <tr>
-                                <td>4.取組2：地域探訪</td>
-                                <td></td>
-                                <td>月1〜2回</td>
-                                <td>→</td>
-                                <td>→</td>
-                                <td>→</td>
-                                <td>→</td>
-                                <td>→</td>
-                            </tr>
-                            <tr>
-                                <td>4.取組3：職場体験</td>
-                                <td></td>
-                                <td></td>
-                                <td>状況に応じて<br>個別実施</td>
-                                <td>→</td>
-                                <td>→</td>
-                                <td>→</td>
-                                <td>→</td>
-                            </tr>
-                            <tr>
-                                <td>5-①.子育て勉強会（保護者等）</td>
-                                <td></td>
-                                <td>第1回</td>
-                                <td>第2回</td>
-                                <td>第3回</td>
-                                <td>第4回</td>
-                                <td>第5回</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>5-②.地域連携会議（隔月）</td>
-                                <td>初回開催</td>
-                                <td></td>
-                                <td>第2回</td>
-                                <td></td>
-                                <td>第3回</td>
-                                <td></td>
-                                <td>第4回</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                
+            <style>
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 20px;
+                    font-size: 0.9em;
+                    background-color: #ffffff;
+                }
+
+                th,
+                td {
+                    border: 1px solid #dddddd;
+                    padding: 8px;
+                    text-align: center;
+                }
+
+                th {
+                    background-color: #c7e0ea;
+                }
+            </style>
+            <table>
+                <thead>
+                    <tr>
+                        <th>実施内容</th>
+                        <th>9月</th>
+                        <th>10月</th>
+                        <th>11月</th>
+                        <th>12月</th>
+                        <th>1月</th>
+                        <th>2月</th>
+                        <th>3月</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>事前準備</td>
+                        <td>→</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>4.取組1：関係づくり</td>
+                        <td></td>
+                        <td>毎週月曜</td>
+                        <td>→</td>
+                        <td>→</td>
+                        <td>→</td>
+                        <td>→</td>
+                        <td>→</td>
+                    </tr>
+                    <tr>
+                        <td>4.取組2：地域探訪</td>
+                        <td></td>
+                        <td>月1〜2回</td>
+                        <td>→</td>
+                        <td>→</td>
+                        <td>→</td>
+                        <td>→</td>
+                        <td>→</td>
+                    </tr>
+                    <tr>
+                        <td>4.取組3：職場体験</td>
+                        <td></td>
+                        <td></td>
+                        <td>状況に応じて<br>個別実施</td>
+                        <td>→</td>
+                        <td>→</td>
+                        <td>→</td>
+                        <td>→</td>
+                    </tr>
+                    <tr>
+                        <td>5-①.子育て勉強会（保護者等）</td>
+                        <td></td>
+                        <td>第1回</td>
+                        <td>第2回</td>
+                        <td>第3回</td>
+                        <td>第4回</td>
+                        <td>第5回</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>5-②.地域連携会議（隔月）</td>
+                        <td>初回開催</td>
+                        <td></td>
+                        <td>第2回</td>
+                        <td></td>
+                        <td>第3回</td>
+                        <td></td>
+                        <td>第4回</td>
+                    </tr>
+                </tbody>
+            </table>
+
             <p>※スケジュールは、自治会行事等を優先して調整し、変更する場合もあります。</p>
-            
+
         </div>
 
         <div class="section final-section">
@@ -458,7 +595,8 @@
                     <p>経済的に厳しい家庭の子どもへの学習支援や居場所づくりを推進します。</p>
                 </div>
                 <div class="card">
-                    <p><strong><a href="https://alpaca-school.okinawa/250802cocolo.html" target="_blank" rel="noopener noreferrer">COCOLOプラン</a></strong></p>
+                    <p><strong><a href="https://alpaca-school.okinawa/250802cocolo.html" target="_blank"
+                                rel="noopener noreferrer">COCOLOプラン</a></strong></p>
                     <p>不登校の児童生徒に「休養の必要性」を認め、多様な学習の場や支援を提供する国の新しい不登校対策です。</p>
                 </div>
             </div>
@@ -473,7 +611,8 @@
                         本プロジェクトの主な目的は何ですか？
                     </div>
                     <div class="faq-answer">
-                        本プロジェクトは<span class="highlight">「子どもたちが健全な大人に成長するご縁作り」</span>を目的としており、学校に限定されない実践的なキャリア教育を提供します。特に、不登校、問題行動、居場所がないといった課題を抱える小中学生、および進路未決定の中学卒業生を対象としています。<strong>自己肯定感の向上、社会との接点の創出、地域社会との信頼関係構築</strong>を通じて、子どもたちが将来の目標を見つけ、自立した生活を送れるよう支援することを目指しています。
+                        本プロジェクトは<span
+                            class="highlight">「子どもたちが健全な大人に成長するご縁作り」</span>を目的としており、学校に限定されない実践的なキャリア教育を提供します。特に、不登校、問題行動、居場所がないといった課題を抱える小中学生、および進路未決定の中学卒業生を対象としています。<strong>自己肯定感の向上、社会との接点の創出、地域社会との信頼関係構築</strong>を通じて、子どもたちが将来の目標を見つけ、自立した生活を送れるよう支援することを目指しています。
                     </div>
                 </div>
 
@@ -483,7 +622,8 @@
                         どのような子どもたちがこのプログラムの対象となりますか？
                     </div>
                     <div class="faq-answer">
-                        主に<strong>不登校、問題行動、居場所がない小中学生</strong>が対象ですが、進路が未決定の中学卒業生も含まれます。参加人数は<span class="highlight">10名から13名程度</span>を想定しており、少人数のグループに分けることで、子どもたちが安心して参加できる環境を整えます。特に、地域の中で居場所を見失っている子どもたちに焦点を当て、彼らが社会との接点を持ち、自己肯定感を育むことを重視しています。
+                        主に<strong>不登校、問題行動、居場所がない小中学生</strong>が対象ですが、進路が未決定の中学卒業生も含まれます。参加人数は<span
+                            class="highlight">10名から13名程度</span>を想定しており、少人数のグループに分けることで、子どもたちが安心して参加できる環境を整えます。特に、地域の中で居場所を見失っている子どもたちに焦点を当て、彼らが社会との接点を持ち、自己肯定感を育むことを重視しています。
                     </div>
                 </div>
 
@@ -494,9 +634,12 @@
                     </div>
                     <div class="faq-answer">
                         大きく3つの段階的な取り組みが計画されています。<br><br>
-                        <strong>🍽️ 関係構築と学びの場（週1回）:</strong> 大人との信頼関係を築くことを目的とし、公民館で週1回、午前中に実施されます。給食提供を兼ねた「食支援」を行い、地域資源の学習や職業講話を通じて、子どもたちが得意なことを見つけ、コミュニケーション能力を養う機会を提供します。<br><br>
-                        <strong>🚶 地域探訪（月1～2回）:</strong> 関係性が構築された後、子どもたちが地域のスーパー、観光案内所、農協、デイサービスなどを訪問し、様々な職業や社会の仕組みを学びます。これにより、子どもたちの行動範囲と視野を広げ、地域社会への関心を深めます。<br><br>
-                        <strong>💼 職場体験:</strong> 上記の取り組みを通じて、子どもたちの態度や振る舞いに変化が見られたタイミングで、個別の職場体験を実施します。これは、子どもたちが将来の選択肢を具体的に考え、自己実現に向けた一歩を踏み出すための重要なステップとなります。
+                        <strong>🍽️ 関係構築と学びの場（週1回）:</strong>
+                        大人との信頼関係を築くことを目的とし、公民館で週1回、午前中に実施されます。給食提供を兼ねた「食支援」を行い、地域資源の学習や職業講話を通じて、子どもたちが得意なことを見つけ、コミュニケーション能力を養う機会を提供します。<br><br>
+                        <strong>🚶 地域探訪（月1～2回）:</strong>
+                        関係性が構築された後、子どもたちが地域のスーパー、観光案内所、農協、デイサービスなどを訪問し、様々な職業や社会の仕組みを学びます。これにより、子どもたちの行動範囲と視野を広げ、地域社会への関心を深めます。<br><br>
+                        <strong>💼 職場体験:</strong>
+                        上記の取り組みを通じて、子どもたちの態度や振る舞いに変化が見られたタイミングで、個別の職場体験を実施します。これは、子どもたちが将来の選択肢を具体的に考え、自己実現に向けた一歩を踏み出すための重要なステップとなります。
                     </div>
                 </div>
 
@@ -506,7 +649,9 @@
                         保護者や地域住民はどのようにこのプロジェクトに関わることができますか？
                     </div>
                     <div class="faq-answer">
-                        保護者向けには、<span class="highlight">月に1回「子育て勉強会」</span>を開催し、発達特性を持つ子どもたちへの理解を深める機会を提供します。また、地域全体で子どもたちを支える体制を構築するため、<span class="highlight">数ヶ月に1回「地域連携会議」</span>を開催します。この会議には、自治会長、学校、PTA、民生委員、行政、警察、商工会、農協、福祉関係者などが参加し、地域全体で子どもたちの成長を見守り、支援する方法を話し合います。
+                        保護者向けには、<span
+                            class="highlight">月に1回「子育て勉強会」</span>を開催し、発達特性を持つ子どもたちへの理解を深める機会を提供します。また、地域全体で子どもたちを支える体制を構築するため、<span
+                            class="highlight">数ヶ月に1回「地域連携会議」</span>を開催します。この会議には、自治会長、学校、PTA、民生委員、行政、警察、商工会、農協、福祉関係者などが参加し、地域全体で子どもたちの成長を見守り、支援する方法を話し合います。
                     </div>
                 </div>
 
@@ -516,7 +661,8 @@
                         子どもたちの参加を促すための工夫はありますか？
                     </div>
                     <div class="faq-answer">
-                        子どもたちの参加を促すために、いくつかの工夫が凝らされています。まず、週1回の活動では<strong>「食支援」として食事を提供</strong>し、参加への動機付けとします。これは「お腹が空いていなければ、悪いことをしない」という考えに基づいています。また、子どもたちが一人ではなく、<span class="highlight">友達と一緒に参加しやすいよう、数名でのグループ参加を推奨</span>しています。さらに、活動への参加記録を「キャリアパスポート」のような形で残し、子どもたちの努力が認められる仕組みを導入することで、自己肯定感の向上につなげます。
+                        子どもたちの参加を促すために、いくつかの工夫が凝らされています。まず、週1回の活動では<strong>「食支援」として食事を提供</strong>し、参加への動機付けとします。これは「お腹が空いていなければ、悪いことをしない」という考えに基づいています。また、子どもたちが一人ではなく、<span
+                            class="highlight">友達と一緒に参加しやすいよう、数名でのグループ参加を推奨</span>しています。さらに、活動への参加記録を「キャリアパスポート」のような形で残し、子どもたちの努力が認められる仕組みを導入することで、自己肯定感の向上につなげます。
                     </div>
                 </div>
 
@@ -526,7 +672,10 @@
                         資金面と運営体制はどのようになっていますか？
                     </div>
                     <div class="faq-answer">
-                        本プロジェクトの主催は<strong>「喜名自治会」</strong>とし、県内大学・高校・中学・小学校および地域でキャリア教育事業実績のある<a href="https://news.ryukyu-tane.com/about" target="_blank">（株）琉球のタネ</a>が業務提携の形で協力します。予算は<span class="highlight">行政からの支援</span>を基本とし、不足分は<span class="highlight"><a target="_blank" href="https://alpaca-school.okinawa/yomitan_career_education_entry.html">企業からの協賛金</a></span>と参加費収入で補うことを想定しています。企業協賛については、キャリア教育教材に協賛企業の情報を掲載することで、企業側にもメリットを提供します。運営面では、公民館が活動場所を提供し、その他の運営業務は専門家チームが担当することで、役割分担を明確にしています。
+                        本プロジェクトの主催は<strong>「喜名自治会」</strong>とし、県内大学・高校・中学・小学校および地域でキャリア教育事業実績のある<a
+                            href="https://news.ryukyu-tane.com/about" target="_blank">（株）琉球のタネ</a>が業務提携の形で協力します。予算は<span
+                            class="highlight">行政からの支援</span>を基本とし、不足分は<span class="highlight"><a target="_blank"
+                                href="https://alpaca-school.okinawa/yomitan_career_education_entry.html">企業からの協賛金</a></span>と参加費収入で補うことを想定しています。企業協賛については、キャリア教育教材に協賛企業の情報を掲載することで、企業側にもメリットを提供します。運営面では、公民館が活動場所を提供し、その他の運営業務は専門家チームが担当することで、役割分担を明確にしています。
                     </div>
                 </div>
 
@@ -536,7 +685,8 @@
                         不登校の子どもたちが学校の出席扱いとなる可能性はありますか？
                     </div>
                     <div class="faq-answer">
-                        本プロジェクトへの参加が<strong>学校の出席扱いとなるかどうか</strong>が重要な課題として認識されています。現在、学校側との連携を強化し、プロジェクトへの参加が子どもたちの教育活動の一環として認められるよう調整を進めています。子どもたちの活動記録（キャリアパスポートなど）を学校と共有することで、彼らの努力や学びが適切に評価されるよう働きかけます。学校指導課長もこの点に関心を示しており、<span class="highlight">地域の大人たちが子どもたちを「見ている」というメッセージ</span>を学校に伝えることで、出席扱いへの道を模索しています。
+                        本プロジェクトへの参加が<strong>学校の出席扱いとなるかどうか</strong>が重要な課題として認識されています。現在、学校側との連携を強化し、プロジェクトへの参加が子どもたちの教育活動の一環として認められるよう調整を進めています。子どもたちの活動記録（キャリアパスポートなど）を学校と共有することで、彼らの努力や学びが適切に評価されるよう働きかけます。学校指導課長もこの点に関心を示しており、<span
+                            class="highlight">地域の大人たちが子どもたちを「見ている」というメッセージ</span>を学校に伝えることで、出席扱いへの道を模索しています。
                     </div>
                 </div>
 
@@ -546,73 +696,118 @@
                         プロジェクトの成果と将来的な展望は何ですか？
                     </div>
                     <div class="faq-answer">
-                        本プロジェクトの主な成果としては、<strong>子どもたちの社会との接点が増え、孤立感が軽減されること、自己肯定感が回復し、問題行動が減少すること</strong>を目指しています。また、地域全体で子どもたちを育てる文化が醸成されることも期待されています。将来的には、この喜名地区での取り組みをモデルケースとして、<span class="highlight">他の地域や自治体にも展開し、読谷村発の地域モデルとして確立</span>することを目指しています。最終的には、子どもたちが自らの可能性を信じ、将来に向けて努力できるような社会の実現に貢献したいと考えています。
+                        本プロジェクトの主な成果としては、<strong>子どもたちの社会との接点が増え、孤立感が軽減されること、自己肯定感が回復し、問題行動が減少すること</strong>を目指しています。また、地域全体で子どもたちを育てる文化が醸成されることも期待されています。将来的には、この喜名地区での取り組みをモデルケースとして、<span
+                            class="highlight">他の地域や自治体にも展開し、読谷村発の地域モデルとして確立</span>することを目指しています。最終的には、子どもたちが自らの可能性を信じ、将来に向けて努力できるような社会の実現に貢献したいと考えています。
                     </div>
                 </div>
             </div>
 
-        <div class="section">
-        <h2>9. ダウンロード</h2>
-        <p>上記の内容は以下からダウンロードできます。</p>
-        <ul>
-            <li><a href="https://mikata.ryukyu-tane.com/event/250805KCS%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E9%85%8D%E5%B8%83%E8%B3%87%E6%96%99.pdf" target="_blank">250805KCSプロジェクト配布資料.pdf</a></li>
-        </ul>
-        <p>※PDFファイルは、Adobe Acrobat ReaderなどのPDFビューアで開いてください。</p>
-        <p>※ファイルのダウンロードには、インターネット接続が必要です。</p>  
-        
+            <div class="section">
+                <h2>9. ダウンロード</h2>
+                <p>上記の内容は以下からダウンロードできます。</p>
+                <ul>
+                    <li><a href="https://mikata.ryukyu-tane.com/event/250805KCS%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E9%85%8D%E5%B8%83%E8%B3%87%E6%96%99.pdf"
+                            target="_blank">250805KCSプロジェクト配布資料.pdf</a></li>
+                </ul>
+                <p>※PDFファイルは、Adobe Acrobat ReaderなどのPDFビューアで開いてください。</p>
+                <p>※ファイルのダウンロードには、インターネット接続が必要です。</p>
+
+            </div>
+
+
+
+
+
+            <div class="section">
+                <h2>10. 実施記録</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="img/251020-kanna.jpg" alt="実施記録写真1" onclick="openModal(this)">
+                        <p class="gallery-caption">2025年10月20日 漢那 英樹さん講話</p>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="img/251027-namihira.jpeg" alt="実施記録写真2" onclick="openModal(this)">
+                        <p class="gallery-caption">2025年10月27日 波平 冬路さん講話</p>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="img/251114-KCSclass.JPG" alt="実施記録写真3" onclick="openModal(this)">
+                        <p class="gallery-caption">2025年11月14日 KCSクラス授業（ほっぷ）</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <img class="modal-content" id="img01">
+            </div>
+
+            <footer>
+                <hr>
+                <p>🌺<a href="https://news.ryukyu-tane.com" target="_blank">株式会社 琉球のタネ</a> | 地域の子どもたちの未来を応援します 🌺</p>
+                <p>© 2023 Kina Career education School Project. All rights reserved.</p>
+            </footer>
+
         </div>
-        
+        <script>
+            // Add smooth scroll behavior and animation triggers
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
 
-            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationDelay = Math.random() * 0.3 + 's';
+                        entry.target.classList.add('animation-fade-in');
+                    }
+                });
+            }, observerOptions);
 
-    
-    <footer>
-        <hr>
-        <p>🌺<a href="https://news.ryukyu-tane.com" target="_blank">株式会社 琉球のタネ</a> | 地域の子どもたちの未来を応援します 🌺</p>
-        <p>© 2023 Kina Career education School Project. All rights reserved.</p>
-    </footer>
-
-    </div>
-    <script>
-        // Add smooth scroll behavior and animation triggers
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animationDelay = Math.random() * 0.3 + 's';
-                    entry.target.classList.add('animation-fade-in');
-                }
+            document.querySelectorAll('.section, .faq-item').forEach(el => {
+                observer.observe(el);
             });
-        }, observerOptions);
 
-        document.querySelectorAll('.section, .faq-item').forEach(el => {
-            observer.observe(el);
-        });
+            // Add hover effects for better interactivity
+            document.querySelectorAll('.faq-question').forEach(question => {
+                question.addEventListener('click', function () {
+                    const answer = this.nextElementSibling;
+                    const icon = this.querySelector('.faq-icon');
 
-        // Add hover effects for better interactivity
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', function() {
-                const answer = this.nextElementSibling;
-                const icon = this.querySelector('.faq-icon');
-                
-                if (answer.style.display === 'none' || !answer.style.display) {
-                    answer.style.display = 'block';
-                    icon.textContent = icon.textContent.replace('Q', '✓');
-                } else {
-                    answer.style.display = 'none';
-                    icon.textContent = icon.textContent.replace('✓', 'Q');
-                }
+                    if (answer.style.display === 'none' || !answer.style.display) {
+                        answer.style.display = 'block';
+                        icon.textContent = icon.textContent.replace('Q', '✓');
+                    } else {
+                        answer.style.display = 'none';
+                        icon.textContent = icon.textContent.replace('✓', 'Q');
+                    }
+                });
             });
-        });
 
-        // Initially hide answers for a cleaner look
-        document.querySelectorAll('.faq-answer').forEach(answer => {
-            answer.style.display = 'block'; // Keep them visible for better readability
-        });
-    </script>
+            // Initially hide answers for a cleaner look
+            document.querySelectorAll('.faq-answer').forEach(answer => {
+                answer.style.display = 'block'; // Keep them visible for better readability
+            });
+
+            // Modal Image Gallery
+            function openModal(element) {
+                document.getElementById("myModal").style.display = "block";
+                document.getElementById("img01").src = element.src;
+            }
+
+            function closeModal() {
+                document.getElementById("myModal").style.display = "none";
+            }
+
+            // Close modal when clicking outside the image
+            window.onclick = function (event) {
+                const modal = document.getElementById("myModal");
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        </script>
 </body>
+
 </html>
