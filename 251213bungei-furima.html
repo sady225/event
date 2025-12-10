@@ -752,7 +752,7 @@
                 await setDoc(doc(db, 'exhibitors', String(exhibitor.id)), exhibitor);
             } catch (error) {
                 console.error('保存エラー:', error);
-                alert('保存に失敗しました');
+                throw error; // エラーを上位に投げる
             }
         }
 
@@ -1091,9 +1091,13 @@
                 ex.location = document.getElementById(`edit-location-${id}`).value;
                 ex.time = document.getElementById(`edit-time-${id}`).value;
 
-                await saveExhibitor(ex);
-                editingId = null;
-                alert('保存しました!');
+                try {
+                    await saveExhibitor(ex);
+                    editingId = null;
+                    alert('保存しました!');
+                } catch (error) {
+                    alert('保存に失敗しました。Firestoreの設定を確認してください。');
+                }
             }
         }
 
