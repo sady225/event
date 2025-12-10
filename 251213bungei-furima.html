@@ -172,6 +172,12 @@
             box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3);
         }
 
+        .filter-btn.time.active {
+            background: #ea580c;
+            border-color: #ea580c;
+            box-shadow: 0 2px 8px rgba(234, 88, 12, 0.3);
+        }
+
         .count-display {
             text-align: center;
             margin: 16px 0;
@@ -581,6 +587,11 @@
             <div class="filter-buttons" id="locationFilters"></div>
         </div>
 
+        <div class="filter-section" id="timeFilterSection" style="display: none;">
+            <div class="filter-title">時間で絞り込み</div>
+            <div class="filter-buttons" id="timeFilters"></div>
+        </div>
+
         <div class="count-display">
             <span class="count-number" id="countDisplay">0</span> 件の出展
         </div>
@@ -673,6 +684,7 @@
         let isAdminMode = false;
         let selectedCategory = 'all';
         let selectedLocation = 'all';
+        let selectedTime = 'all';
         let editingId = null;
         let selectedExhibitorId = null;
 
@@ -698,6 +710,7 @@
             await loadData();
             renderCategoryFilters();
             renderLocationFilters();
+            renderTimeFilters();
             renderExhibitors();
 
             // リアルタイム更新の監視
@@ -742,6 +755,7 @@
             onSnapshot(collection(db, 'exhibitors'), (snapshot) => {
                 exhibitors = snapshot.docs.map(doc => doc.data());
                 renderLocationFilters();
+                renderTimeFilters();
                 renderExhibitors();
             });
         }
@@ -955,6 +969,45 @@
             renderExhibitors();
         }
 
+        // 時間フィルター
+        function getTimeSlots() {
+            const timeSet = new Set();
+            exhibitors.forEach(ex => {
+                if (ex.time && ex.time.trim()) {
+                    timeSet.add(ex.time.trim());
+                }
+            });
+            return Array.from(timeSet).sort();
+        }
+
+        function renderTimeFilters() {
+            const timeSlots = getTimeSlots();
+            const section = document.getElementById('timeFilterSection');
+            const container = document.getElementById('timeFilters');
+
+            if (timeSlots.length === 0) {
+                section.style.display = 'none';
+                return;
+            }
+
+            section.style.display = 'block';
+            const clockIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+
+            let html = `<button class="filter-btn time ${selectedTime === 'all' ? 'active' : ''}" onclick="selectTime('all')">${clockIcon}<span>全ての時間</span></button>`;
+
+            timeSlots.forEach(time => {
+                html += `<button class="filter-btn time ${selectedTime === time ? 'active' : ''}" onclick="selectTime('${time}')">${clockIcon}<span>${time}</span></button>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function selectTime(time) {
+            selectedTime = time;
+            renderTimeFilters();
+            renderExhibitors();
+        }
+
         // 出展者フィルタリング
         function getFilteredExhibitors() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
@@ -963,7 +1016,8 @@
                     ex.content.toLowerCase().includes(searchTerm);
                 const matchesCategory = selectedCategory === 'all' || ex.category === selectedCategory;
                 const matchesLocation = selectedLocation === 'all' || ex.location === selectedLocation;
-                return matchesSearch && matchesCategory && matchesLocation;
+                const matchesTime = selectedTime === 'all' || ex.time === selectedTime;
+                return matchesSearch && matchesCategory && matchesLocation && matchesTime;
             });
         }
 
@@ -1110,6 +1164,7 @@
         window.submitComment = submitComment;
         window.selectCategory = selectCategory;
         window.selectLocation = selectLocation;
+        window.selectTime = selectTime;
         window.addStamp = addStamp;
         window.startEdit = startEdit;
         window.cancelEdit = cancelEdit;
