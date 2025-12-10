@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>文芸フリマ in 田場公民館</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', sans-serif;
+            background: linear-gradient(to bottom right, #fce7f3, #f3e8ff, #dbeafe);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .header {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 768px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        .header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        h1 {
+            font-size: 20px;
+            font-weight: bold;
+            color: #581c87;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .date-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #4b5563;
+            font-size: 13px;
+        }
+
+        .settings-btn {
+            padding: 8px;
+            border-radius: 8px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: #9333ea;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .settings-btn:active {
+            background: #f3e8ff;
+        }
+
+        .admin-badge {
+            margin-top: 12px;
+            padding: 8px 12px;
+            background: #f3e8ff;
+            border: 1px solid #d8b4fe;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #6b21a8;
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 768px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            border: 2px solid #e9d5ff;
+            border-radius: 8px;
+            font-size: 15px;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #c084fc;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+        }
+
+        .filter-section {
+            margin-bottom: 16px;
+        }
+
+        .filter-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .filter-buttons::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid #e5e7eb;
+            background: white;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .filter-btn.active {
+            background: #9333ea;
+            color: white;
+            border-color: #9333ea;
+            box-shadow: 0 2px 8px rgba(147, 51, 234, 0.3);
+        }
+
+        .filter-btn.location.active {
+            background: #16a34a;
+            border-color: #16a34a;
+            box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3);
+        }
+
+        .count-display {
+            text-align: center;
+            margin: 16px 0;
+            color: #4b5563;
+            font-size: 14px;
+        }
+
+        .count-number {
+            font-weight: bold;
+            color: #7c3aed;
+            font-size: 20px;
+        }
+
+        .exhibitor-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 16px;
+            margin-bottom: 12px;
+            border-left: 4px solid #c084fc;
+            transition: box-shadow 0.2s;
+        }
+
+        .exhibitor-card:active {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .card-content {
+            flex: 1;
+        }
+
+        .exhibitor-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .exhibitor-description {
+            font-size: 14px;
+            color: #374151;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #4b5563;
+            margin-bottom: 4px;
+        }
+
+        .info-row.location {
+            font-weight: 600;
+        }
+
+        .type-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            border: 1px solid;
+            margin-top: 4px;
+        }
+
+        .type-badge.art {
+            background: #f3e8ff;
+            color: #7c3aed;
+            border-color: #e9d5ff;
+        }
+
+        .type-badge.food {
+            background: #fed7aa;
+            color: #c2410c;
+            border-color: #fdba74;
+        }
+
+        .type-badge.stage {
+            background: #dbeafe;
+            color: #1e40af;
+            border-color: #bfdbfe;
+        }
+
+        .edit-btn {
+            padding: 4px 12px;
+            background: #9333ea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .interaction-row {
+            display: flex;
+            gap: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e5e7eb;
+            margin-top: 12px;
+        }
+
+        .stamp-btn,
+        .comment-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 2px solid #e5e7eb;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .stamp-btn.active {
+            background: #dcfce7;
+            color: #16a34a;
+            border-color: #86efac;
+        }
+
+        .comment-btn {
+            border-color: #e5e7eb;
+            color: #374151;
+        }
+
+        .comments-section {
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .comment-card {
+            background: #f3e8ff;
+            border: 1px solid #e9d5ff;
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        .comment-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .comment-author {
+            font-size: 11px;
+            font-weight: 600;
+            color: #6b21a8;
+        }
+
+        .comment-text {
+            font-size: 13px;
+            color: #374151;
+            line-height: 1.4;
+        }
+
+        .edit-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .edit-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .edit-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .save-btn,
+        .cancel-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .save-btn {
+            background: #16a34a;
+            color: white;
+        }
+
+        .cancel-btn {
+            background: #6b7280;
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 400px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        .modal-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 15px;
+            margin-bottom: 16px;
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .modal-btn.primary {
+            background: #9333ea;
+            color: white;
+        }
+
+        .modal-btn.primary:disabled {
+            background: #9ca3af;
+        }
+
+        .modal-btn.secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .footer {
+            margin-top: 48px;
+            padding-bottom: 32px;
+            text-align: center;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .info-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #6b21a8;
+            margin-bottom: 12px;
+        }
+
+        .info-text {
+            color: #374151;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .footer-text {
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 48px 16px;
+            color: #6b7280;
+            font-size: 15px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 48px 16px;
+            color: #6b7280;
+            font-size: 15px;
+        }
+
+        @media (max-width: 390px) {
+            h1 {
+                font-size: 18px;
+            }
+
+            .filter-btn {
+                font-size: 13px;
+                padding: 6px 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="header-flex">
+                <div style="flex: 1;">
+                    <h1>文芸フリマ in 田場公民館</h1>
+                    <div class="date-info">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                            <circle cx="12" cy="10" r="3" />
+                        </svg>
+                        <span>2025年12月13日開催</span>
+                    </div>
+                </div>
+                <button class="settings-btn" onclick="showPasswordModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                        <circle cx="12" cy="12" r="3" />
+                    </svg>
+                </button>
+            </div>
+            <div id="adminBadge" style="display: none;" class="admin-badge">
+                👑 管理者モード
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="search-box">
+            <svg xmlns="http://www.w3.org/2000/svg" class="search-icon" width="18" height="18" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input type="text" class="search-input" id="searchInput" placeholder="出展者名や内容で検索...">
+        </div>
+
+        <div class="filter-section">
+            <div class="filter-title">カテゴリで絞り込み</div>
+            <div class="filter-buttons" id="categoryFilters"></div>
+        </div>
+
+        <div class="filter-section" id="locationFilterSection" style="display: none;">
+            <div class="filter-title">場所で絞り込み</div>
+            <div class="filter-buttons" id="locationFilters"></div>
+        </div>
+
+        <div class="count-display">
+            <span class="count-number" id="countDisplay">0</span> 件の出展
+        </div>
+
+        <div id="exhibitorList">
+            <div class="loading">読み込み中...</div>
+        </div>
+
+        <div class="footer">
+            <div class="info-card">
+                <div class="info-title">イベント情報</div>
+                <div class="info-text">📅 日時: 2025年12月13日</div>
+                <div class="info-text">📍 場所: 田場公民館</div>
+                <div class="info-text" id="totalCount">🎨 総出展数: 20組</div>
+            </div>
+            <div class="footer-text">素敵な作品との出会いをお楽しみください!</div>
+        </div>
+    </div>
+
+    <!-- パスワードモーダル -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">管理者ログイン</div>
+            <input type="password" class="modal-input" id="passwordInput" placeholder="パスワードを入力">
+            <div class="modal-actions">
+                <button class="modal-btn primary" onclick="handleAdminLogin()">ログイン</button>
+                <button class="modal-btn secondary" onclick="hidePasswordModal()">キャンセル</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- コメントモーダル -->
+    <div id="commentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">良かったこと・感動したことをシェア!</div>
+            <input type="text" class="modal-input" id="userNameInput" placeholder="お名前(省略可)">
+            <textarea class="modal-textarea" id="commentInput" placeholder="ポジティブなコメントをお願いします✨"></textarea>
+            <div class="modal-actions">
+                <button class="modal-btn primary" id="submitCommentBtn" onclick="submitComment()">投稿する</button>
+                <button class="modal-btn secondary" onclick="hideCommentModal()">キャンセル</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, doc, getDoc, getDocs, setDoc, updateDoc, onSnapshot, arrayUnion, arrayRemove } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        // Firebase設定
+        const firebaseConfig = {
+            apiKey: "AIzaSyBj4ubC2YCFzzSFcBmVNyTFNi6lnNDVxtY",
+            authDomain: "bungeifurima.firebaseapp.com",
+            projectId: "bungeifurima",
+            storageBucket: "bungeifurima.firebasestorage.app",
+            messagingSenderId: "1084109790336",
+            appId: "1:1084109790336:web:9a5a53f33fac9c83a95a65",
+            measurementId: "G-HLKQ196YY3"
+        };
+
+        // Firebase初期化
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // 初期出展者データ
+        const initialExhibitors = [
+            { id: 1, name: '木の子まき', content: '絵画・オリジナルグッズ販売', category: 'art', type: '大人販売', location: '', time: '' },
+            { id: 2, name: '福島太郎', content: '文学作品', category: 'art', type: '特別展示', location: '', time: '' },
+            { id: 3, name: 'さささりん&ボブリ', content: 'イラスト・オリジナルグッズ販売', category: 'art', type: '大人販売', location: '', time: '' },
+            { id: 4, name: 'モモ', content: '缶バッチワークショップ', category: 'art', type: '子ども販売', location: '', time: '' },
+            { id: 5, name: 'nekozukitati🐱', content: '動物ブローチ販売', category: 'art', type: '子ども販売', location: '', time: '' },
+            { id: 6, name: '大城うた', content: 'イラスト展示', category: 'art', type: '子ども展示', location: '', time: '' },
+            { id: 7, name: 'mimamorineko & CheePluss', content: '宝石石鹸・編み物グッズ', category: 'art', type: '大人販売', location: '', time: '' },
+            { id: 8, name: 'りつ(ももやま食堂)', content: '絵画作品展示', category: 'art', type: '大人展示', location: '', time: '' },
+            { id: 9, name: '中学生(中部地区)', content: '作品展示(小説・イラスト・折り紙)', category: 'art', type: '子ども展示', location: '', time: '' },
+            { id: 10, name: '戦跡紹介', content: 'ポスター展示・発表', category: 'art', type: '子ども展示', location: '', time: '' },
+            { id: 11, name: 'エイサーcar', content: '作品展示', category: 'art', type: '子ども展示', location: '', time: '' },
+            { id: 12, name: '具志川東中(郁海さん)', content: '作品展示', category: 'art', type: '子ども展示', location: '', time: '' },
+            { id: 13, name: 'やどかり喫茶店(前原)', content: 'ケーキ・コーヒー(ホール内出店)', category: 'food', type: '飲食', location: '', time: '' },
+            { id: 14, name: '深川めし(藤澤利沙)', content: 'あさりの炊き込みご飯', category: 'food', type: '飲食', location: '', time: '' },
+            { id: 15, name: 'パナマ原人', content: '肉巻きおにぎり・ジャークチキン・ポテト・スイーツ', category: 'food', type: '飲食', location: '', time: '' },
+            { id: 16, name: '焼鳥たまりば', content: '焼き鳥', category: 'food', type: '飲食', location: '', time: '' },
+            { id: 17, name: 'kametas\'br', content: 'ブラジル料理', category: 'food', type: '飲食', location: '', time: '' },
+            { id: 18, name: 'LOVELY ZIPPER', content: '高校生ダンスチーム', category: 'stage', type: '舞台', location: '', time: '' },
+            { id: 19, name: '田場小金管バンド(金城あすみ先生)', content: '楽器演奏', category: 'stage', type: '舞台', location: '', time: '' },
+            { id: 20, name: 'バーチャル花火', content: '中部農林高校・石川駿さん', category: 'stage', type: '舞台', location: '', time: '' }
+        ];
+
+        let exhibitors = [];
+        let isAdminMode = false;
+        let selectedCategory = 'all';
+        let selectedLocation = 'all';
+        let editingId = null;
+        let selectedExhibitorId = null;
+
+        const categories = [
+            { id: 'all', name: '全て', icon: 'store' },
+            { id: 'art', name: 'アート・販売', icon: 'palette' },
+            { id: 'food', name: '飲食', icon: 'utensils' },
+            { id: 'stage', name: '舞台', icon: 'music' }
+        ];
+
+        // ユーザーID取得
+        function getUserId() {
+            let userId = localStorage.getItem('furima_user_id');
+            if (!userId) {
+                userId = 'user_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('furima_user_id', userId);
+            }
+            return userId;
+        }
+
+        // 初期化
+        async function init() {
+            await loadData();
+            renderCategoryFilters();
+            renderLocationFilters();
+            renderExhibitors();
+
+            // リアルタイム更新の監視
+            setupRealtimeListeners();
+
+            document.getElementById('searchInput').addEventListener('input', renderExhibitors);
+            document.getElementById('passwordInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleAdminLogin();
+            });
+            document.getElementById('commentInput').addEventListener('input', () => {
+                const btn = document.getElementById('submitCommentBtn');
+                btn.disabled = !document.getElementById('commentInput').value.trim();
+            });
+        }
+
+        // データ読み込み
+        async function loadData() {
+            try {
+                const exhibitorsRef = collection(db, 'exhibitors');
+                const snapshot = await getDocs(exhibitorsRef);
+
+                if (snapshot.empty) {
+                    // 初回: 初期データをFirestoreに保存
+                    console.log('初期データを作成中...');
+                    for (const ex of initialExhibitors) {
+                        await setDoc(doc(db, 'exhibitors', String(ex.id)), ex);
+                    }
+                    exhibitors = initialExhibitors;
+                } else {
+                    // データ取得
+                    exhibitors = snapshot.docs.map(doc => doc.data());
+                }
+            } catch (error) {
+                console.error('データ読み込みエラー:', error);
+                exhibitors = initialExhibitors;
+            }
+        }
+
+        // リアルタイム更新の監視
+        function setupRealtimeListeners() {
+            // 出展者データの監視
+            onSnapshot(collection(db, 'exhibitors'), (snapshot) => {
+                exhibitors = snapshot.docs.map(doc => doc.data());
+                renderLocationFilters();
+                renderExhibitors();
+            });
+        }
+
+        // 出展者データ保存
+        async function saveExhibitor(exhibitor) {
+            try {
+                await setDoc(doc(db, 'exhibitors', String(exhibitor.id)), exhibitor);
+            } catch (error) {
+                console.error('保存エラー:', error);
+                alert('保存に失敗しました');
+            }
+        }
+
+        // スタンプ追加
+        async function addStamp(exhibitorId) {
+            const userId = getUserId();
+            const stampRef = doc(db, 'stamps', String(exhibitorId));
+
+            try {
+                const stampDoc = await getDoc(stampRef);
+
+                if (stampDoc.exists()) {
+                    const stamps = stampDoc.data().users || [];
+                    if (!stamps.includes(userId)) {
+                        await updateDoc(stampRef, {
+                            users: arrayUnion(userId)
+                        });
+                    }
+                } else {
+                    await setDoc(stampRef, {
+                        users: [userId]
+                    });
+                }
+                renderExhibitors();
+            } catch (error) {
+                console.error('スタンプエラー:', error);
+            }
+        }
+
+        // スタンプ数取得
+        async function getStampCount(exhibitorId) {
+            try {
+                const stampDoc = await getDoc(doc(db, 'stamps', String(exhibitorId)));
+                if (stampDoc.exists()) {
+                    return (stampDoc.data().users || []).length;
+                }
+                return 0;
+            } catch (error) {
+                return 0;
+            }
+        }
+
+        // ユーザーがスタンプ済みか確認
+        async function hasUserStamped(exhibitorId) {
+            const userId = getUserId();
+            try {
+                const stampDoc = await getDoc(doc(db, 'stamps', String(exhibitorId)));
+                if (stampDoc.exists()) {
+                    return (stampDoc.data().users || []).includes(userId);
+                }
+                return false;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        // コメント投稿
+        async function submitComment() {
+            const userName = document.getElementById('userNameInput').value.trim() || '匿名';
+            const commentText = document.getElementById('commentInput').value.trim();
+
+            if (!commentText) return;
+
+            const comment = {
+                id: Date.now(),
+                userId: getUserId(),
+                userName: userName,
+                text: commentText,
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                const commentRef = doc(db, 'comments', String(selectedExhibitorId));
+                const commentDoc = await getDoc(commentRef);
+
+                if (commentDoc.exists()) {
+                    await updateDoc(commentRef, {
+                        comments: arrayUnion(comment)
+                    });
+                } else {
+                    await setDoc(commentRef, {
+                        comments: [comment]
+                    });
+                }
+
+                hideCommentModal();
+                renderExhibitors();
+            } catch (error) {
+                console.error('コメント投稿エラー:', error);
+                alert('コメントの投稿に失敗しました');
+            }
+        }
+
+        // コメント取得
+        async function getComments(exhibitorId) {
+            try {
+                const commentDoc = await getDoc(doc(db, 'comments', String(exhibitorId)));
+                if (commentDoc.exists()) {
+                    return commentDoc.data().comments || [];
+                }
+                return [];
+            } catch (error) {
+                return [];
+            }
+        }
+
+        // パスワードモーダル
+        function showPasswordModal() {
+            document.getElementById('passwordModal').classList.add('show');
+        }
+
+        function hidePasswordModal() {
+            document.getElementById('passwordModal').classList.remove('show');
+            document.getElementById('passwordInput').value = '';
+        }
+
+        function handleAdminLogin() {
+            const password = document.getElementById('passwordInput').value;
+            if (password === 'furima2024') {
+                isAdminMode = true;
+                document.getElementById('adminBadge').style.display = 'block';
+                hidePasswordModal();
+                renderExhibitors();
+            } else {
+                alert('パスワードが違います');
+            }
+        }
+
+        // コメントモーダル
+        function showCommentModal(exhibitorId) {
+            selectedExhibitorId = exhibitorId;
+            document.getElementById('commentModal').classList.add('show');
+            document.getElementById('commentInput').focus();
+        }
+
+        function hideCommentModal() {
+            document.getElementById('commentModal').classList.remove('show');
+            document.getElementById('userNameInput').value = '';
+            document.getElementById('commentInput').value = '';
+            selectedExhibitorId = null;
+        }
+
+        // カテゴリフィルター
+        function renderCategoryFilters() {
+            const container = document.getElementById('categoryFilters');
+            const icons = {
+                'all': '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"/><path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9"/><path d="M12 3v6"/></svg>',
+                'art': '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>',
+                'food': '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>',
+                'stage': '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>'
+            };
+
+            container.innerHTML = categories.map(cat =>
+                `<button class="filter-btn ${selectedCategory === cat.id ? 'active' : ''}" onclick="selectCategory('${cat.id}')">${icons[cat.id]}<span>${cat.name}</span></button>`
+            ).join('');
+        }
+
+        function selectCategory(categoryId) {
+            selectedCategory = categoryId;
+            renderCategoryFilters();
+            renderExhibitors();
+        }
+
+        // 場所フィルター
+        function getLocations() {
+            const locationSet = new Set();
+            exhibitors.forEach(ex => {
+                if (ex.location && ex.location.trim()) {
+                    locationSet.add(ex.location.trim());
+                }
+            });
+            return Array.from(locationSet).sort();
+        }
+
+        function renderLocationFilters() {
+            const locations = getLocations();
+            const section = document.getElementById('locationFilterSection');
+            const container = document.getElementById('locationFilters');
+
+            if (locations.length === 0) {
+                section.style.display = 'none';
+                return;
+            }
+
+            section.style.display = 'block';
+            const mapPinIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>';
+
+            let html = `<button class="filter-btn location ${selectedLocation === 'all' ? 'active' : ''}" onclick="selectLocation('all')">${mapPinIcon}<span>全ての場所</span></button>`;
+
+            locations.forEach(loc => {
+                html += `<button class="filter-btn location ${selectedLocation === loc ? 'active' : ''}" onclick="selectLocation('${loc}')">${mapPinIcon}<span>${loc}</span></button>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function selectLocation(location) {
+            selectedLocation = location;
+            renderLocationFilters();
+            renderExhibitors();
+        }
+
+        // 出展者フィルタリング
+        function getFilteredExhibitors() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            return exhibitors.filter(ex => {
+                const matchesSearch = ex.name.toLowerCase().includes(searchTerm) ||
+                    ex.content.toLowerCase().includes(searchTerm);
+                const matchesCategory = selectedCategory === 'all' || ex.category === selectedCategory;
+                const matchesLocation = selectedLocation === 'all' || ex.location === selectedLocation;
+                return matchesSearch && matchesCategory && matchesLocation;
+            });
+        }
+
+        // 出展者表示
+        async function renderExhibitors() {
+            const filtered = getFilteredExhibitors();
+            const container = document.getElementById('exhibitorList');
+            document.getElementById('countDisplay').textContent = filtered.length;
+            document.getElementById('totalCount').textContent = `🎨 総出展数: ${exhibitors.length}組`;
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="no-results">該当する出展者が見つかりませんでした</div>';
+                return;
+            }
+
+            const cards = await Promise.all(filtered.map(async ex => {
+                if (editingId === ex.id) {
+                    return renderEditForm(ex);
+                }
+                return await renderExhibitorCard(ex);
+            }));
+
+            container.innerHTML = cards.join('');
+        }
+
+        // 編集フォーム
+        function renderEditForm(ex) {
+            const saveIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>';
+            const xIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+
+            return `
+                <div class="exhibitor-card">
+                    <div class="edit-form">
+                        <input type="text" class="edit-input" id="edit-name-${ex.id}" value="${ex.name}" placeholder="名前">
+                        <input type="text" class="edit-input" id="edit-content-${ex.id}" value="${ex.content}" placeholder="内容">
+                        <input type="text" class="edit-input" id="edit-location-${ex.id}" value="${ex.location}" placeholder="場所(例:1階ホール、A-12ブース)">
+                        <input type="text" class="edit-input" id="edit-time-${ex.id}" value="${ex.time}" placeholder="時間(例:10:00-16:00)">
+                        <div class="edit-actions">
+                            <button class="save-btn" onclick="saveEdit(${ex.id})">${saveIcon} 保存</button>
+                            <button class="cancel-btn" onclick="cancelEdit()">${xIcon} キャンセル</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 出展者カード
+        async function renderExhibitorCard(ex) {
+            const stampCount = await getStampCount(ex.id);
+            const hasStamped = await hasUserStamped(ex.id);
+            const exhibitorComments = await getComments(ex.id);
+            const recentComments = exhibitorComments.slice(-3);
+
+            const mapPinIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>';
+            const clockIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+            const messageIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
+            const heartIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #9333ea;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+
+            let html = '<div class="exhibitor-card">';
+            html += '<div class="card-header">';
+            html += '<div class="card-content">';
+            html += `<div class="exhibitor-name">${ex.name}</div>`;
+            html += `<div class="exhibitor-description">${ex.content}</div>`;
+
+            if (ex.location) {
+                html += `<div class="info-row location">${mapPinIcon}<span>${ex.location}</span></div>`;
+            }
+
+            if (ex.time) {
+                html += `<div class="info-row">${clockIcon}<span>${ex.time}</span></div>`;
+            }
+
+            html += `<span class="type-badge ${ex.category}">${ex.type}</span>`;
+            html += '</div>';
+
+            if (isAdminMode) {
+                html += `<button class="edit-btn" onclick="startEdit(${ex.id})">編集</button>`;
+            }
+
+            html += '</div>';
+            html += '<div class="interaction-row">';
+            html += `<button class="stamp-btn ${hasStamped ? 'active' : ''}" onclick="addStamp(${ex.id})">`;
+            html += `<span style="font-size: 18px;">🍀</span><span>${stampCount}</span>`;
+            html += '</button>';
+            html += `<button class="comment-btn" onclick="showCommentModal(${ex.id})">`;
+            html += `${messageIcon}<span>${exhibitorComments.length}</span>`;
+            html += '</button>';
+            html += '</div>';
+
+            if (recentComments.length > 0) {
+                html += '<div class="comments-section">';
+                recentComments.forEach(comment => {
+                    html += '<div class="comment-card">';
+                    html += '<div class="comment-header">';
+                    html += `${heartIcon}<span class="comment-author">${comment.userName}</span>`;
+                    html += '</div>';
+                    html += `<div class="comment-text">${comment.text}</div>`;
+                    html += '</div>';
+                });
+                html += '</div>';
+            }
+
+            html += '</div>';
+            return html;
+        }
+
+        // 編集開始
+        function startEdit(id) {
+            editingId = id;
+            renderExhibitors();
+        }
+
+        // 編集キャンセル
+        function cancelEdit() {
+            editingId = null;
+            renderExhibitors();
+        }
+
+        // 編集保存
+        async function saveEdit(id) {
+            const ex = exhibitors.find(e => e.id === id);
+            if (ex) {
+                ex.name = document.getElementById(`edit-name-${id}`).value;
+                ex.content = document.getElementById(`edit-content-${id}`).value;
+                ex.location = document.getElementById(`edit-location-${id}`).value;
+                ex.time = document.getElementById(`edit-time-${id}`).value;
+
+                await saveExhibitor(ex);
+                editingId = null;
+                alert('保存しました!');
+            }
+        }
+
+        // グローバル関数として公開
+        window.showPasswordModal = showPasswordModal;
+        window.hidePasswordModal = hidePasswordModal;
+        window.handleAdminLogin = handleAdminLogin;
+        window.showCommentModal = showCommentModal;
+        window.hideCommentModal = hideCommentModal;
+        window.submitComment = submitComment;
+        window.selectCategory = selectCategory;
+        window.selectLocation = selectLocation;
+        window.addStamp = addStamp;
+        window.startEdit = startEdit;
+        window.cancelEdit = cancelEdit;
+        window.saveEdit = saveEdit;
+
+        // 初期化実行
+        init();
+    </script>
+</body>
+
+</html>
