@@ -279,6 +279,20 @@
             margin-bottom: 8px;
         }
 
+        .exhibitor-image {
+            width: 100%;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .exhibitor-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
         .exhibitor-description {
             font-size: 14px;
             color: #374151;
@@ -831,6 +845,7 @@
             <input type="text" class="modal-input" id="newExhibitorType" placeholder="タイプ(例:大人販売、子ども展示)">
             <input type="text" class="modal-input" id="newExhibitorLocation" placeholder="場所(省略可)">
             <input type="text" class="modal-input" id="newExhibitorTime" placeholder="時間(省略可)">
+            <input type="text" class="modal-input" id="newExhibitorImageUrl" placeholder="画像URL（省略可）">
             <div class="modal-actions">
                 <button class="modal-btn primary" onclick="createExhibitor()">追加する</button>
                 <button class="modal-btn secondary" onclick="hideAddExhibitorModal()">キャンセル</button>
@@ -1145,6 +1160,7 @@
             document.getElementById('newExhibitorType').value = '';
             document.getElementById('newExhibitorLocation').value = '';
             document.getElementById('newExhibitorTime').value = '';
+            document.getElementById('newExhibitorImageUrl').value = '';
         }
 
         // 新しい出展者を作成
@@ -1155,6 +1171,7 @@
             const type = document.getElementById('newExhibitorType').value.trim();
             const location = document.getElementById('newExhibitorLocation').value.trim();
             const time = document.getElementById('newExhibitorTime').value.trim();
+            const imageUrl = document.getElementById('newExhibitorImageUrl').value.trim();
 
             if (!name || !content || !type) {
                 alert('出展者名、内容、タイプは必須です');
@@ -1170,7 +1187,8 @@
                 category: category,
                 type: type,
                 location: location,
-                time: time
+                time: time,
+                imageUrl: imageUrl
             };
 
             try {
@@ -1357,8 +1375,15 @@
                     <div class="edit-form">
                         <input type="text" class="edit-input" id="edit-name-${ex.id}" value="${ex.name}" placeholder="名前">
                         <input type="text" class="edit-input" id="edit-content-${ex.id}" value="${ex.content}" placeholder="内容">
+                        <select class="edit-input" id="edit-category-${ex.id}">
+                            <option value="art" ${ex.category === 'art' ? 'selected' : ''}>アート・販売</option>
+                            <option value="food" ${ex.category === 'food' ? 'selected' : ''}>飲食</option>
+                            <option value="workshop" ${ex.category === 'workshop' ? 'selected' : ''}>ワークショップ</option>
+                            <option value="stage" ${ex.category === 'stage' ? 'selected' : ''}>舞台</option>
+                        </select>
                         <input type="text" class="edit-input" id="edit-location-${ex.id}" value="${ex.location}" placeholder="場所(例:1階ホール、A-12ブース)">
                         <input type="text" class="edit-input" id="edit-time-${ex.id}" value="${ex.time}" placeholder="時間(例:10:00-16:00)">
+                        <input type="text" class="edit-input" id="edit-imageUrl-${ex.id}" value="${ex.imageUrl || ''}" placeholder="画像URL(省略可)">
                         <div class="edit-actions">
                             <button class="save-btn" onclick="saveEdit(${ex.id})">${saveIcon} 保存</button>
                             <button class="cancel-btn" onclick="cancelEdit()">${xIcon} キャンセル</button>
@@ -1385,6 +1410,12 @@
             html += '<div class="card-header">';
             html += '<div class="card-content">';
             html += `<div class="exhibitor-name">${ex.name}</div>`;
+
+            // 画像がある場合は表示
+            if (ex.imageUrl) {
+                html += `<div class="exhibitor-image"><img src="${ex.imageUrl}" alt="${ex.name}" onerror="this.parentElement.style.display='none'"></div>`;
+            }
+
             html += `<div class="exhibitor-description">${ex.content}</div>`;
 
             if (ex.location) {
@@ -1447,8 +1478,10 @@
             if (ex) {
                 ex.name = document.getElementById(`edit-name-${id}`).value;
                 ex.content = document.getElementById(`edit-content-${id}`).value;
+                ex.category = document.getElementById(`edit-category-${id}`).value;
                 ex.location = document.getElementById(`edit-location-${id}`).value;
                 ex.time = document.getElementById(`edit-time-${id}`).value;
+                ex.imageUrl = document.getElementById(`edit-imageUrl-${id}`).value;
 
                 try {
                     await saveExhibitor(ex);
