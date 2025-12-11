@@ -826,7 +826,7 @@
             }
         }
 
-        // スタンプ追加
+        // スタンプ追加/解除(トグル)
         async function addStamp(exhibitorId) {
             const userId = getUserId();
             const stampRef = doc(db, 'stamps', String(exhibitorId));
@@ -836,12 +836,19 @@
 
                 if (stampDoc.exists()) {
                     const stamps = stampDoc.data().users || [];
-                    if (!stamps.includes(userId)) {
+                    if (stamps.includes(userId)) {
+                        // 既にスタンプ済み → 解除
+                        await updateDoc(stampRef, {
+                            users: arrayRemove(userId)
+                        });
+                    } else {
+                        // 未スタンプ → 追加
                         await updateDoc(stampRef, {
                             users: arrayUnion(userId)
                         });
                     }
                 } else {
+                    // 初回スタンプ → 追加
                     await setDoc(stampRef, {
                         users: [userId]
                     });
