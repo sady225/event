@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap" rel="stylesheet">
     <title>沖縄文芸フリマ in 田場公民館</title>
     <style>
         * {
@@ -46,7 +49,7 @@
             font-weight: 700;
             color: #8b4513;
             margin: 0 0 8px 0;
-            font-family: 'Klee One', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+            font-family: 'RocknRoll One', 'Klee One', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
             letter-spacing: 0.05em;
             line-height: 1.4;
         }
@@ -59,14 +62,101 @@
             font-size: 13px;
         }
 
-        .settings-btn {
-            padding: 8px;
-            border-radius: 8px;
-            background: transparent;
+        .header-links {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .header-link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: #9333ea;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
             border: none;
             cursor: pointer;
-            color: #9333ea;
-            transition: background 0.2s;
+        }
+
+        .header-link-btn:hover {
+            background: #7c3aed;
+            transform: translateY(-1px);
+        }
+
+        .header-link-btn:active {
+            transform: translateY(0);
+        }
+
+        .schedule-btn {
+            background: #0ea5e9;
+        }
+
+        .schedule-btn:hover {
+            background: #0284c7;
+        }
+
+        .venue-btn {
+            background: #9333ea;
+        }
+
+        .schedule-list {
+            margin-top: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .schedule-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .schedule-item:last-child {
+            border-bottom: none;
+        }
+
+        .schedule-icon {
+            font-size: 20px;
+            width: 32px;
+            text-align: center;
+        }
+
+        .schedule-detail {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .schedule-time {
+            font-size: 13px;
+            font-weight: 700;
+            color: #6b21a8;
+        }
+
+        .schedule-desc {
+            font-size: 14px;
+            color: #374151;
+        }
+
+
+
+        .settings-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid #e9d5ff;
+            background: white;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -681,6 +771,10 @@
                         </svg>
                         <span>2025年12月13日開催</span>
                     </div>
+                    <line x1="9" y1="21" x2="9" y2="9" />
+                    </svg>
+                    <span>会場レイアウト</span>
+                    </a>
                 </div>
                 <button class="settings-btn" onclick="showPasswordModal()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -838,12 +932,23 @@
             <div class="modal-title">新しい出展者を追加</div>
             <input type="text" class="modal-input" id="newExhibitorName" placeholder="出展者名">
             <input type="text" class="modal-input" id="newExhibitorContent" placeholder="内容">
-            <select class="modal-input" id="newExhibitorCategory">
-                <option value="art">アート・販売</option>
-                <option value="food">飲食</option>
-                <option value="workshop">ワークショップ</option>
-                <option value="stage">舞台</option>
-            </select>
+            <div style="margin-bottom: 8px;">
+                <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">カテゴリ (複数選択可)</label>
+                <div class="category-checkboxes" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+                    <label style="display: inline-flex; align-items: center; gap: 4px; font-size: 13px;">
+                        <input type="checkbox" name="newExhibitorCategory" value="art" checked> アート・販売
+                    </label>
+                    <label style="display: inline-flex; align-items: center; gap: 4px; font-size: 13px;">
+                        <input type="checkbox" name="newExhibitorCategory" value="food"> 飲食
+                    </label>
+                    <label style="display: inline-flex; align-items: center; gap: 4px; font-size: 13px;">
+                        <input type="checkbox" name="newExhibitorCategory" value="workshop"> ワークショップ
+                    </label>
+                    <label style="display: inline-flex; align-items: center; gap: 4px; font-size: 13px;">
+                        <input type="checkbox" name="newExhibitorCategory" value="stage"> 舞台
+                    </label>
+                </div>
+            </div>
             <input type="text" class="modal-input" id="newExhibitorType" placeholder="タイプ(例:大人販売、子ども展示)">
             <input type="text" class="modal-input" id="newExhibitorLocation" placeholder="場所(省略可)">
             <input type="text" class="modal-input" id="newExhibitorTime" placeholder="時間(省略可)">
@@ -851,6 +956,67 @@
             <div class="modal-actions">
                 <button class="modal-btn primary" onclick="createExhibitor()">追加する</button>
                 <button class="modal-btn secondary" onclick="hideAddExhibitorModal()">キャンセル</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- タイムスケジュールモーダル -->
+    <div id="scheduleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">タイムスケジュール</div>
+            <div class="schedule-list">
+                <div class="schedule-item">
+                    <span class="schedule-icon">📦</span>
+                    <div class="schedule-detail">
+                        <span class="schedule-time">10:00 - 12:00</span>
+                        <span class="schedule-desc">搬入 （2時間）</span>
+                    </div>
+                </div>
+                <div class="schedule-item">
+                    <span class="schedule-icon">🎪</span>
+                    <div class="schedule-detail">
+                        <span class="schedule-time">12:00</span>
+                        <span class="schedule-desc">開演</span>
+                    </div>
+                </div>
+                <div class="schedule-item">
+                    <span class="schedule-icon">🎷</span>
+                    <div class="schedule-detail">
+                        <span class="schedule-time">15:00</span>
+                        <span class="schedule-desc">田場小金管バンド</span>
+                    </div>
+                </div>
+                <div class="schedule-item">
+                    <span class="schedule-icon">💃</span>
+                    <div class="schedule-detail">
+                        <span class="schedule-time">15:30</span>
+                        <span class="schedule-desc">高校生ダンス</span>
+                    </div>
+                </div>
+                <div class="schedule-item">
+                    <span class="schedule-icon">🍰</span>
+                    <div class="schedule-detail">
+                        <span class="schedule-time">16:00</span>
+                        <span class="schedule-desc">出店ブース終了</span>
+                    </div>
+                </div>
+                <div class="schedule-item">
+                    <span class="schedule-icon">🎆</span>
+                    <div class="schedule-detail">
+                        <span class="schedule-time">16:45</span>
+                        <span class="schedule-desc">VR花火</span>
+                    </div>
+                </div>
+                <div class="schedule-item">
+                    <span class="schedule-icon">🧹</span>
+                    <div class="schedule-detail">
+                        <span class="schedule-time">17:20</span>
+                        <span class="schedule-desc">片付け</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn secondary" onclick="hideScheduleModal()">閉じる</button>
             </div>
         </div>
     </div>
@@ -877,26 +1043,26 @@
 
         // 初期出展者データ
         const initialExhibitors = [
-            { id: 1, name: '木の子まき', content: '絵画・オリジナルグッズ販売', category: 'art', type: '大人販売', location: '', time: '' },
-            { id: 2, name: '福島太郎', content: '文学作品', category: 'art', type: '特別展示', location: '', time: '' },
-            { id: 3, name: 'さささりん&ボブリ', content: 'イラスト・オリジナルグッズ販売', category: 'art', type: '大人販売', location: '', time: '' },
-            { id: 4, name: 'モモ', content: '缶バッチワークショップ', category: 'art', type: '子ども販売', location: '', time: '' },
-            { id: 5, name: 'nekozukitati🐱', content: '動物ブローチ販売', category: 'art', type: '子ども販売', location: '', time: '' },
-            { id: 6, name: '大城うた', content: 'イラスト展示', category: 'art', type: '子ども展示', location: '', time: '' },
-            { id: 7, name: 'mimamorineko & CheePluss', content: '宝石石鹸・編み物グッズ', category: 'art', type: '大人販売', location: '', time: '' },
-            { id: 8, name: 'りつ(ももやま食堂)', content: '絵画作品展示', category: 'art', type: '大人展示', location: '', time: '' },
-            { id: 9, name: '中学生(中部地区)', content: '作品展示(小説・イラスト・折り紙)', category: 'art', type: '子ども展示', location: '', time: '' },
-            { id: 10, name: '戦跡紹介', content: 'ポスター展示・発表', category: 'art', type: '子ども展示', location: '', time: '' },
-            { id: 11, name: 'エイサーcar', content: '作品展示', category: 'art', type: '子ども展示', location: '', time: '' },
-            { id: 12, name: '具志川東中(郁海さん)', content: '作品展示', category: 'art', type: '子ども展示', location: '', time: '' },
-            { id: 13, name: 'やどかり喫茶店(前原)', content: 'ケーキ・コーヒー(ホール内出店)', category: 'food', type: '飲食', location: '', time: '' },
-            { id: 14, name: '深川めし(藤澤利沙)', content: 'あさりの炊き込みご飯', category: 'food', type: '飲食', location: '', time: '' },
-            { id: 15, name: 'パナマ原人', content: '肉巻きおにぎり・ジャークチキン・ポテト・スイーツ', category: 'food', type: '飲食', location: '', time: '' },
-            { id: 16, name: '焼鳥たまりば', content: '焼き鳥', category: 'food', type: '飲食', location: '', time: '' },
-            { id: 17, name: 'kametas\'br', content: 'ブラジル料理', category: 'food', type: '飲食', location: '', time: '' },
-            { id: 18, name: 'LOVELY ZIPPER', content: '高校生ダンスチーム', category: 'stage', type: '舞台', location: '', time: '' },
-            { id: 19, name: '田場小金管バンド(金城あすみ先生)', content: '楽器演奏', category: 'stage', type: '舞台', location: '', time: '' },
-            { id: 20, name: 'バーチャル花火', content: '中部農林高校・石川駿さん', category: 'stage', type: '舞台', location: '', time: '' }
+            { id: 1, name: '木の子まき', content: '絵画・オリジナルグッズ販売', category: ['art'], type: '大人販売', location: '', time: '' },
+            { id: 2, name: '福島太郎', content: '文学作品', category: ['art'], type: '特別展示', location: '', time: '' },
+            { id: 3, name: 'さささりん&ボブリ', content: 'イラスト・オリジナルグッズ販売', category: ['art'], type: '大人販売', location: '', time: '' },
+            { id: 4, name: 'モモ', content: '缶バッチワークショップ', category: ['art', 'workshop'], type: '子ども販売', location: '', time: '' },
+            { id: 5, name: 'nekozukitati🐱', content: '動物ブローチ販売', category: ['art'], type: '子ども販売', location: '', time: '' },
+            { id: 6, name: '大城うた', content: 'イラスト展示', category: ['art'], type: '子ども展示', location: '', time: '' },
+            { id: 7, name: 'mimamorineko & CheePluss', content: '宝石石鹸・編み物グッズ', category: ['art', 'workshop'], type: '大人販売', location: '', time: '' },
+            { id: 8, name: 'りつ(ももやま食堂)', content: '絵画作品展示', category: ['art'], type: '大人展示', location: '', time: '' },
+            { id: 9, name: '中学生(中部地区)', content: '作品展示(小説・イラスト・折り紙)', category: ['art'], type: '子ども展示', location: '', time: '' },
+            { id: 10, name: '戦跡紹介', content: 'ポスター展示・発表', category: ['art'], type: '子ども展示', location: '', time: '' },
+            { id: 11, name: 'エイサーcar', content: '作品展示', category: ['art'], type: '子ども展示', location: '', time: '' },
+            { id: 12, name: '具志川東中(郁海さん)', content: '作品展示', category: ['art'], type: '子ども展示', location: '', time: '' },
+            { id: 13, name: 'やどかり喫茶店(前原)', content: 'ケーキ・コーヒー(ホール内出店)', category: ['food'], type: '飲食', location: '', time: '' },
+            { id: 14, name: '深川めし(藤澤利沙)', content: 'あさりの炊き込みご飯', category: ['food'], type: '飲食', location: '', time: '' },
+            { id: 15, name: 'パナマ原人', content: '肉巻きおにぎり・ジャークチキン・ポテト・スイーツ', category: ['food'], type: '飲食', location: '', time: '' },
+            { id: 16, name: '焼鳥たまりば', content: '焼き鳥', category: ['food'], type: '飲食', location: '', time: '' },
+            { id: 17, name: 'kametas\'br', content: 'ブラジル料理', category: ['food'], type: '飲食', location: '', time: '' },
+            { id: 18, name: 'LOVELY ZIPPER', content: '高校生ダンスチーム', category: ['stage'], type: '舞台', location: '', time: '' },
+            { id: 19, name: '田場小金管バンド(金城あすみ先生)', content: '楽器演奏', category: ['stage'], type: '舞台', location: '', time: '' },
+            { id: 20, name: 'バーチャル花火', content: '中部農林高校・石川駿さん', category: ['stage'], type: '舞台', location: '', time: '' }
         ];
 
         let exhibitors = [];
@@ -962,7 +1128,11 @@
                     exhibitors = initialExhibitors;
                 } else {
                     // データ取得
-                    exhibitors = snapshot.docs.map(doc => doc.data());
+                    exhibitors = snapshot.docs.map(doc => {
+                        const data = doc.data();
+                        if (typeof data.category === 'string') data.category = [data.category];
+                        return data;
+                    });
                 }
             } catch (error) {
                 console.error('データ読み込みエラー:', error);
@@ -974,7 +1144,11 @@
         function setupRealtimeListeners() {
             // 出展者データの監視
             onSnapshot(collection(db, 'exhibitors'), (snapshot) => {
-                exhibitors = snapshot.docs.map(doc => doc.data());
+                exhibitors = snapshot.docs.map(doc => {
+                    const data = doc.data();
+                    if (typeof data.category === 'string') data.category = [data.category];
+                    return data;
+                });
                 renderLocationFilters();
                 renderTimeFilters();
                 renderExhibitors();
@@ -993,6 +1167,10 @@
         // 出展者データ保存
         async function saveExhibitor(exhibitor) {
             try {
+                // カテゴリデータの正規化（文字列 -> 配列）
+                if (typeof exhibitor.category === 'string') {
+                    exhibitor.category = [exhibitor.category];
+                }
                 await setDoc(doc(db, 'exhibitors', String(exhibitor.id)), exhibitor);
             } catch (error) {
                 console.error('保存エラー:', error);
@@ -1158,7 +1336,11 @@
             // フォームをクリア
             document.getElementById('newExhibitorName').value = '';
             document.getElementById('newExhibitorContent').value = '';
-            document.getElementById('newExhibitorCategory').value = 'art';
+            //document.getElementById('newExhibitorCategory').value = 'art';
+            document.querySelectorAll('input[name="newExhibitorCategory"]').forEach(cb => cb.checked = false);
+            // デフォルトでartをチェック
+            const artCb = document.querySelector('input[name="newExhibitorCategory"][value="art"]');
+            if (artCb) artCb.checked = true;
             document.getElementById('newExhibitorType').value = '';
             document.getElementById('newExhibitorLocation').value = '';
             document.getElementById('newExhibitorTime').value = '';
@@ -1169,7 +1351,8 @@
         async function createExhibitor() {
             const name = document.getElementById('newExhibitorName').value.trim();
             const content = document.getElementById('newExhibitorContent').value.trim();
-            const category = document.getElementById('newExhibitorCategory').value;
+            const checkedCategories = Array.from(document.querySelectorAll('input[name="newExhibitorCategory"]:checked')).map(cb => cb.value);
+            //const category = document.getElementById('newExhibitorCategory').value;
             const type = document.getElementById('newExhibitorType').value.trim();
             const location = document.getElementById('newExhibitorLocation').value.trim();
             const time = document.getElementById('newExhibitorTime').value.trim();
@@ -1186,7 +1369,7 @@
                 id: maxId + 1,
                 name: name,
                 content: content,
-                category: category,
+                category: checkedCategories.length > 0 ? checkedCategories : ['art'], // デフォルト
                 type: type,
                 location: location,
                 time: time,
@@ -1337,7 +1520,17 @@
             return exhibitors.filter(ex => {
                 const matchesSearch = ex.name.toLowerCase().includes(searchTerm) ||
                     ex.content.toLowerCase().includes(searchTerm);
-                const matchesCategory = selectedCategory === 'all' || ex.category === selectedCategory;
+
+                // カテゴリマッチング修正（配列対応）
+                let matchesCategory = false;
+                if (selectedCategory === 'all') {
+                    matchesCategory = true;
+                } else if (Array.isArray(ex.category)) {
+                    matchesCategory = ex.category.includes(selectedCategory);
+                } else {
+                    matchesCategory = ex.category === selectedCategory;
+                }
+
                 const matchesLocation = selectedLocation === 'all' || ex.location === selectedLocation;
                 const matchesTime = selectedTime === 'all' || ex.time === selectedTime;
                 return matchesSearch && matchesCategory && matchesLocation && matchesTime;
@@ -1377,12 +1570,18 @@
                     <div class="edit-form">
                         <input type="text" class="edit-input" id="edit-name-${ex.id}" value="${ex.name}" placeholder="名前">
                         <input type="text" class="edit-input" id="edit-content-${ex.id}" value="${ex.content}" placeholder="内容">
-                        <select class="edit-input" id="edit-category-${ex.id}">
-                            <option value="art" ${ex.category === 'art' ? 'selected' : ''}>アート・販売</option>
-                            <option value="food" ${ex.category === 'food' ? 'selected' : ''}>飲食</option>
-                            <option value="workshop" ${ex.category === 'workshop' ? 'selected' : ''}>ワークショップ</option>
-                            <option value="stage" ${ex.category === 'stage' ? 'selected' : ''}>舞台</option>
-                        </select>
+                        <div style="margin-bottom: 8px;">
+                            <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">カテゴリ (複数選択可)</label>
+                            <div class="category-checkboxes" style="display: flex; flex-wrap: wrap; gap: 8px;">
+                                ${categories.filter(c => c.id !== 'all').map(c => `
+                                    <label style="display: inline-flex; align-items: center; gap: 4px; font-size: 13px;">
+                                        <input type="checkbox" name="edit-category-${ex.id}" value="${c.id}" 
+                                            ${(Array.isArray(ex.category) ? ex.category.includes(c.id) : ex.category === c.id) ? 'checked' : ''}>
+                                        ${c.name}
+                                    </label>
+                                `).join('')}
+                            </div>
+                        </div>
                         <input type="text" class="edit-input" id="edit-location-${ex.id}" value="${ex.location}" placeholder="場所(例:1階ホール、A-12ブース)">
                         <input type="text" class="edit-input" id="edit-time-${ex.id}" value="${ex.time}" placeholder="時間(例:10:00-16:00)">
                         <input type="text" class="edit-input" id="edit-imageUrl-${ex.id}" value="${ex.imageUrl || ''}" placeholder="画像URL(省略可)">
@@ -1428,7 +1627,9 @@
                 html += `<div class="info-row">${clockIcon}<span>${ex.time}</span></div>`;
             }
 
-            html += `<span class="type-badge ${ex.category}">${ex.type}</span>`;
+            // 配列の最初のカテゴリをバッジの色に使用
+            const badgeCategory = Array.isArray(ex.category) ? ex.category[0] : ex.category;
+            html += `<span class="type-badge ${badgeCategory}">${ex.type}</span>`;
             html += '</div>';
 
             if (isAdminMode) {
@@ -1480,7 +1681,8 @@
             if (ex) {
                 ex.name = document.getElementById(`edit-name-${id}`).value;
                 ex.content = document.getElementById(`edit-content-${id}`).value;
-                ex.category = document.getElementById(`edit-category-${id}`).value;
+                const checkedCategories = Array.from(document.querySelectorAll(`input[name="edit-category-${id}"]:checked`)).map(cb => cb.value);
+                ex.category = checkedCategories.length > 0 ? checkedCategories : ['art']; // デフォルト設定
                 ex.location = document.getElementById(`edit-location-${id}`).value;
                 ex.time = document.getElementById(`edit-time-${id}`).value;
                 ex.imageUrl = document.getElementById(`edit-imageUrl-${id}`).value;
@@ -1513,6 +1715,15 @@
             }
         }
 
+        // タイムスケジュールモーダル制御
+        function showScheduleModal() {
+            document.getElementById('scheduleModal').classList.add('show');
+        }
+
+        function hideScheduleModal() {
+            document.getElementById('scheduleModal').classList.remove('show');
+        }
+
         // グローバル関数として公開
         window.showPasswordModal = showPasswordModal;
         window.hidePasswordModal = hidePasswordModal;
@@ -1531,6 +1742,8 @@
         window.cancelEdit = cancelEdit;
         window.saveEdit = saveEdit;
         window.deleteExhibitor = deleteExhibitor;
+        window.showScheduleModal = showScheduleModal;
+        window.hideScheduleModal = hideScheduleModal;
 
         // 初期化実行
         init();
