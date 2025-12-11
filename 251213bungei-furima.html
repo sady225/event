@@ -372,8 +372,7 @@
         }
 
         .exhibitor-image {
-            width: 100%;
-            margin-bottom: 12px;
+            margin: 8px 0;
             border-radius: 8px;
             overflow: hidden;
         }
@@ -381,8 +380,9 @@
         .exhibitor-image img {
             width: 100%;
             height: auto;
-            display: block;
+            max-height: 300px;
             object-fit: cover;
+            display: block;
         }
 
         .exhibitor-description {
@@ -927,6 +927,13 @@
                 <button class="modal-btn primary" onclick="handleAdminLogin()">ログイン</button>
                 <button class="modal-btn secondary" onclick="hidePasswordModal()">キャンセル</button>
             </div>
+            <div style="margin-top: 20px; text-align: center;">
+                <button id="resetDataBtn" class="modal-btn secondary"
+                    style="display: none; background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; width: 100%;"
+                    onclick="resetToInitialData()">
+                    ⚠️ データを初期化する
+                </button>
+            </div>
         </div>
     </div>
 
@@ -1078,15 +1085,15 @@
             { id: 9, name: '中学生(中部地区)', content: '作品展示(小説・イラスト・折り紙)', category: ['art'], type: '子ども展示', location: '', time: '' },
             { id: 10, name: '戦跡紹介', content: 'ポスター展示・発表', category: ['art'], type: '子ども展示', location: '', time: '' },
             { id: 11, name: 'エイサーcar', content: '作品展示', category: ['art'], type: '子ども展示', location: '', time: '' },
-            { id: 12, name: '具志川東中(郁海さん)', content: '作品展示', category: ['art'], type: '子ども展示', location: '', time: '' },
-            { id: 13, name: 'やどかり喫茶店(前原)', content: 'ケーキ・コーヒー(ホール内出店)', category: ['food'], type: '飲食', location: '', time: '' },
-            { id: 14, name: '深川めし(藤澤利沙)', content: 'あさりの炊き込みご飯', category: ['food'], type: '飲食', location: '', time: '' },
+            { id: 12, name: '具志川東中', content: '作品展示', category: ['art'], type: '子ども展示', location: '', time: '' },
+            { id: 13, name: 'やどかり喫茶店', content: 'ケーキ・コーヒー(ホール内出店)', category: ['food'], type: '飲食', location: '', time: '' },
+            { id: 14, name: '深川めし', content: 'あさりの炊き込みご飯', category: ['food'], type: '飲食', location: '', time: '' },
             { id: 15, name: 'パナマ原人', content: '肉巻きおにぎり・ジャークチキン・ポテト・スイーツ', category: ['food'], type: '飲食', location: '', time: '' },
             { id: 16, name: '焼鳥たまりば', content: '焼き鳥', category: ['food'], type: '飲食', location: '', time: '' },
             { id: 17, name: 'kametas\'br', content: 'ブラジル料理', category: ['food'], type: '飲食', location: '', time: '' },
             { id: 18, name: 'LOVELY ZIPPER', content: '高校生ダンスチーム', category: ['stage'], type: '舞台', location: '', time: '' },
-            { id: 19, name: '田場小金管バンド(金城あすみ先生)', content: '楽器演奏', category: ['stage'], type: '舞台', location: '', time: '' },
-            { id: 20, name: 'バーチャル花火', content: '中部農林高校・石川駿さん', category: ['stage'], type: '舞台', location: '', time: '' }
+            { id: 19, name: '田場小金管バンド', content: '楽器演奏', category: ['stage'], type: '舞台', location: '', time: '' },
+            { id: 20, name: 'バーチャル花火', content: '高校生', category: ['stage'], type: '舞台', location: '', time: '' }
         ];
 
         let exhibitors = [];
@@ -1328,10 +1335,38 @@
                 isAdminMode = true;
                 document.getElementById('adminBadge').style.display = 'block';
                 document.getElementById('addExhibitorBtn').style.display = 'flex';
+                document.getElementById('resetDataBtn').style.display = 'block'; // リセットボタン表示
                 hidePasswordModal();
                 renderExhibitors();
             } else {
                 alert('パスワードが違います');
+            }
+        }
+
+        async function resetToInitialData() {
+            if (!isAdminMode) return;
+            const confirmed = confirm('【警告】\n現在のデータを全て削除し、初期データに戻しますか？\nこの操作は取り消せません。');
+            if (!confirmed) return;
+
+            try {
+                // 既存のデータを全削除
+                const snapshot = await getDocs(collection(db, 'exhibitors'));
+                const deletePromises = snapshot.docs.map(doc => deleteDoc(doc.ref));
+                await Promise.all(deletePromises);
+
+                // 初期データを投入
+                for (const ex of initialExhibitors) {
+                    await setDoc(doc(db, 'exhibitors', String(ex.id)), ex);
+                }
+
+                // メモリ上のデータも更新
+                exhibitors = [...initialExhibitors];
+
+                alert('データをリセットしました。');
+                renderExhibitors();
+            } catch (error) {
+                console.error('リセットエラー:', error);
+                alert('リセットに失敗しました');
             }
         }
 
@@ -1766,6 +1801,7 @@
         window.cancelEdit = cancelEdit;
         window.saveEdit = saveEdit;
         window.deleteExhibitor = deleteExhibitor;
+        window.resetToInitialData = resetToInitialData;
         window.showScheduleModal = showScheduleModal;
         window.hideScheduleModal = hideScheduleModal;
 
