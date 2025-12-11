@@ -567,6 +567,37 @@
             margin-bottom: 4px;
         }
 
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f3f4f6;
+            color: #6b7280;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background: #9333ea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .social-link:active {
+            transform: translateY(0);
+        }
+
         .footer-text {
             color: #6b7280;
             font-size: 13px;
@@ -694,6 +725,46 @@
                 <div class="info-text">📅 日時: 2025年12月13日</div>
                 <div class="info-text">📍 場所: 田場公民館</div>
                 <div class="info-text" id="totalCount">🎨 総出展数: 20組</div>
+                <div class="social-links">
+                    <a href="https://furima.ryukyu-tane.com/" target="_blank" rel="noopener noreferrer"
+                        class="social-link" title="公式HP">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="2" y1="12" x2="22" y2="12" />
+                            <path
+                                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                        </svg>
+                    </a>
+                    <a href="https://www.instagram.com/bungei.oki/" target="_blank" rel="noopener noreferrer"
+                        class="social-link" title="Instagram">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                        </svg>
+                    </a>
+                    <a href="https://note.com/kodomo_no_mikata/m/m17370ab49a80" target="_blank"
+                        rel="noopener noreferrer" class="social-link" title="note">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                            <polyline points="14 2 14 8 20 8" />
+                            <line x1="16" y1="13" x2="8" y2="13" />
+                            <line x1="16" y1="17" x2="8" y2="17" />
+                            <polyline points="10 9 9 9 8 9" />
+                        </svg>
+                    </a>
+                    <a href="https://x.com/bungei_oki" target="_blank" rel="noopener noreferrer" class="social-link"
+                        title="X (Twitter)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                            fill="currentColor">
+                            <path
+                                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                        </svg>
+                    </a>
+                </div>
             </div>
             <div class="footer-text">素敵な作品との出会いをお楽しみください!</div>
         </div>
