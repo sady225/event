@@ -375,13 +375,16 @@
             margin: 8px 0;
             border-radius: 8px;
             overflow: hidden;
+            background-color: #f9fafb;
+            /* 画像がない部分の背景色 */
         }
 
         .exhibitor-image img {
             width: 100%;
-            height: auto;
-            max-height: 300px;
-            object-fit: cover;
+            height: 100px;
+            /* 高さを約1/3に */
+            object-fit: contain;
+            /* 画像全体を表示 */
             display: block;
         }
 
