@@ -85,6 +85,34 @@
             font-weight: 500;
         }
 
+        .add-exhibitor-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #9333ea;
+            color: white;
+            border: none;
+            box-shadow: 0 4px 12px rgba(147, 51, 234, 0.4);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            z-index: 50;
+        }
+
+        .add-exhibitor-btn:hover {
+            background: #7c3aed;
+            transform: scale(1.1);
+        }
+
+        .add-exhibitor-btn:active {
+            transform: scale(0.95);
+        }
+
         .container {
             max-width: 768px;
             margin: 0 auto;
@@ -592,6 +620,14 @@
             <div id="adminBadge" style="display: none;" class="admin-badge">
                 👑 管理者モード
             </div>
+            <button id="addExhibitorBtn" style="display: none;" class="add-exhibitor-btn"
+                onclick="showAddExhibitorModal()" title="出展者を追加">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+            </button>
         </div>
     </div>
 
@@ -678,6 +714,27 @@
             <div class="modal-actions">
                 <button class="modal-btn primary" id="submitCommentBtn" onclick="submitComment()">投稿する</button>
                 <button class="modal-btn secondary" onclick="hideCommentModal()">キャンセル</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 出展者追加モーダル -->
+    <div id="addExhibitorModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">新しい出展者を追加</div>
+            <input type="text" class="modal-input" id="newExhibitorName" placeholder="出展者名">
+            <input type="text" class="modal-input" id="newExhibitorContent" placeholder="内容">
+            <select class="modal-input" id="newExhibitorCategory">
+                <option value="art">アート・販売</option>
+                <option value="food">飲食</option>
+                <option value="stage">舞台</option>
+            </select>
+            <input type="text" class="modal-input" id="newExhibitorType" placeholder="タイプ(例:大人販売、子ども展示)">
+            <input type="text" class="modal-input" id="newExhibitorLocation" placeholder="場所(省略可)">
+            <input type="text" class="modal-input" id="newExhibitorTime" placeholder="時間(省略可)">
+            <div class="modal-actions">
+                <button class="modal-btn primary" onclick="createExhibitor()">追加する</button>
+                <button class="modal-btn secondary" onclick="hideAddExhibitorModal()">キャンセル</button>
             </div>
         </div>
     </div>
@@ -951,6 +1008,7 @@
             if (password === 'furima2024') {
                 isAdminMode = true;
                 document.getElementById('adminBadge').style.display = 'block';
+                document.getElementById('addExhibitorBtn').style.display = 'flex';
                 hidePasswordModal();
                 renderExhibitors();
             } else {
@@ -970,6 +1028,58 @@
             document.getElementById('userNameInput').value = '';
             document.getElementById('commentInput').value = '';
             selectedExhibitorId = null;
+        }
+
+        // 出展者追加モーダル
+        function showAddExhibitorModal() {
+            document.getElementById('addExhibitorModal').classList.add('show');
+            document.getElementById('newExhibitorName').focus();
+        }
+
+        function hideAddExhibitorModal() {
+            document.getElementById('addExhibitorModal').classList.remove('show');
+            // フォームをクリア
+            document.getElementById('newExhibitorName').value = '';
+            document.getElementById('newExhibitorContent').value = '';
+            document.getElementById('newExhibitorCategory').value = 'art';
+            document.getElementById('newExhibitorType').value = '';
+            document.getElementById('newExhibitorLocation').value = '';
+            document.getElementById('newExhibitorTime').value = '';
+        }
+
+        // 新しい出展者を作成
+        async function createExhibitor() {
+            const name = document.getElementById('newExhibitorName').value.trim();
+            const content = document.getElementById('newExhibitorContent').value.trim();
+            const category = document.getElementById('newExhibitorCategory').value;
+            const type = document.getElementById('newExhibitorType').value.trim();
+            const location = document.getElementById('newExhibitorLocation').value.trim();
+            const time = document.getElementById('newExhibitorTime').value.trim();
+
+            if (!name || !content || !type) {
+                alert('出展者名、内容、タイプは必須です');
+                return;
+            }
+
+            // 新しいIDを生成（現在の最大ID + 1）
+            const maxId = Math.max(...exhibitors.map(ex => ex.id), 0);
+            const newExhibitor = {
+                id: maxId + 1,
+                name: name,
+                content: content,
+                category: category,
+                type: type,
+                location: location,
+                time: time
+            };
+
+            try {
+                await saveExhibitor(newExhibitor);
+                hideAddExhibitorModal();
+                alert('出展者を追加しました！');
+            } catch (error) {
+                alert('追加に失敗しました');
+            }
         }
 
         // カテゴリフィルター
@@ -1258,6 +1368,9 @@
         window.selectLocation = selectLocation;
         window.selectTime = selectTime;
         window.addStamp = addStamp;
+        window.showAddExhibitorModal = showAddExhibitorModal;
+        window.hideAddExhibitorModal = hideAddExhibitorModal;
+        window.createExhibitor = createExhibitor;
         window.startEdit = startEdit;
         window.cancelEdit = cancelEdit;
         window.saveEdit = saveEdit;
