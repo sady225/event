@@ -1206,7 +1206,8 @@
                     '管理者用：更新履歴（この画面）の追加',
                     '管理者用：統計情報の「全体集計」表示（通常は自分のみ）',
                     'ヘッダーの動作変更：スクロール時にタイトルのみ固定表示し、他の情報は隠れるように調整',
-                    'フィルタ表示の変更：横スクロールボタン式からプルダウン形式に変更し、視認性を向上'
+                    'フィルタ表示の変更：横スクロールボタン式からプルダウン形式に変更し、視認性を向上',
+                    'プルダウンの表示修正：アイコン文字列（storeなど）を削除し、日本語のみの表示に修正'
                 ]
             },
             {
@@ -2041,9 +2042,10 @@
             select.innerHTML = '<option value="all">全てのカテゴリ</option>';
 
             categories.forEach(cat => {
+                if (cat.id === 'all') return; // 「全て」は既に追加済みなのでスキップ
                 const option = document.createElement('option');
                 option.value = cat.id;
-                option.textContent = cat.icon + ' ' + cat.name;
+                option.textContent = cat.name;
                 if (selectedCategory === cat.id) option.selected = true;
                 select.appendChild(option);
             });
