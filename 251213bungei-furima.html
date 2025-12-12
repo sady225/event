@@ -1133,26 +1133,278 @@
 
         // 初期出展者データ
         const initialExhibitors = [
-            { id: 1, name: '木の子まき', content: '絵画・オリジナルグッズ販売', category: ['art'], type: '大人販売', location: '', time: '' },
-            { id: 2, name: '福島太郎', content: '文学作品', category: ['art'], type: '特別展示', location: '', time: '' },
-            { id: 3, name: 'さささりん&ボブリ', content: 'イラスト・オリジナルグッズ販売', category: ['art'], type: '大人販売', location: '', time: '' },
-            { id: 4, name: 'モモ', content: '缶バッチワークショップ', category: ['art', 'workshop'], type: '子ども販売', location: '', time: '' },
-            { id: 5, name: 'nekozukitati🐱', content: '動物ブローチ販売', category: ['art'], type: '子ども販売', location: '', time: '' },
-            { id: 6, name: '大城うた', content: 'イラスト展示', category: ['art'], type: '子ども展示', location: '', time: '' },
-            { id: 7, name: 'mimamorineko & CheePluss', content: '宝石石鹸・編み物グッズ', category: ['art', 'workshop'], type: '大人販売', location: '', time: '' },
-            { id: 8, name: 'りつ(ももやま食堂)', content: '絵画作品展示', category: ['art'], type: '大人展示', location: '', time: '' },
-            { id: 9, name: '中学生(中部地区)', content: '作品展示(小説・イラスト・折り紙)', category: ['art'], type: '子ども展示', location: '', time: '' },
-            { id: 10, name: '戦跡紹介', content: 'ポスター展示・発表', category: ['art'], type: '子ども展示', location: '', time: '' },
-            { id: 11, name: 'エイサーcar', content: '作品展示', category: ['art'], type: '子ども展示', location: '', time: '' },
-            { id: 12, name: '具志川東中', content: '作品展示', category: ['art'], type: '子ども展示', location: '', time: '' },
-            { id: 13, name: 'やどかり喫茶店', content: 'ケーキ・コーヒー(ホール内出店)', category: ['food'], type: '飲食', location: '', time: '' },
-            { id: 14, name: '深川めし', content: 'あさりの炊き込みご飯', category: ['food'], type: '飲食', location: '', time: '' },
-            { id: 15, name: 'パナマ原人', content: '肉巻きおにぎり・ジャークチキン・ポテト・スイーツ', category: ['food'], type: '飲食', location: '', time: '' },
-            { id: 16, name: '焼鳥たまりば', content: '焼き鳥', category: ['food'], type: '飲食', location: '', time: '' },
-            { id: 17, name: 'kametas\'br', content: 'ブラジル料理', category: ['food'], type: '飲食', location: '', time: '' },
-            { id: 18, name: 'LOVELY ZIPPER', content: '高校生ダンスチーム', category: ['stage'], type: '舞台', location: '', time: '' },
-            { id: 19, name: '田場小金管バンド', content: '楽器演奏', category: ['stage'], type: '舞台', location: '', time: '' },
-            { id: 20, name: 'バーチャル花火', content: '高校生', category: ['stage'], type: '舞台', location: '', time: '' }
+            {
+                "time": "",
+                "category": [
+                    "art"
+                ],
+                "type": "大人販売",
+                "location": "",
+                "id": 1,
+                "name": "木の子まき",
+                "content": "絵画・オリジナルグッズ販売"
+            },
+            {
+                "category": [
+                    "art"
+                ],
+                "name": "平和学習の旅　神田志有",
+                "location": "",
+                "imageUrl": "",
+                "type": "子ども展示",
+                "time": "",
+                "id": 10,
+                "content": "日本中の戦跡について調べたことを紹介いたします。また参考となる資料の閲覧や、執筆もご覧いただけます。"
+            },
+            {
+                "id": 11,
+                "type": "子ども展示",
+                "location": "",
+                "time": "",
+                "name": "エイサーcar",
+                "content": "作品展示",
+                "category": [
+                    "art"
+                ]
+            },
+            {
+                "category": [
+                    "art"
+                ],
+                "location": "",
+                "type": "子ども展示",
+                "time": "",
+                "name": "具志川東中",
+                "id": 12,
+                "content": "作品展示"
+            },
+            {
+                "type": "飲食",
+                "content": "ケーキ・コーヒー(ホール内出店)",
+                "category": [
+                    "food"
+                ],
+                "location": "",
+                "id": 13,
+                "name": "やどかり喫茶店",
+                "time": ""
+            },
+            {
+                "location": "",
+                "id": 14,
+                "content": "あさりの炊き込みご飯",
+                "category": [
+                    "food"
+                ],
+                "name": "深川めし",
+                "type": "飲食",
+                "time": ""
+            },
+            {
+                "category": [
+                    "food"
+                ],
+                "time": "",
+                "type": "飲食",
+                "id": 15,
+                "name": "パナマ原人",
+                "location": "",
+                "content": "肉巻きおにぎり・ジャークチキン・ポテト・スイーツ"
+            },
+            {
+                "category": [
+                    "food"
+                ],
+                "location": "",
+                "time": "",
+                "type": "飲食",
+                "name": "焼鳥たまりば",
+                "content": "焼き鳥",
+                "id": 16
+            },
+            {
+                "name": "kametas'br",
+                "content": "ブラジル料理",
+                "location": "",
+                "category": [
+                    "food"
+                ],
+                "id": 17,
+                "time": "",
+                "type": "飲食"
+            },
+            {
+                "type": "舞台",
+                "id": 18,
+                "content": "高校生ダンスチーム",
+                "category": [
+                    "stage"
+                ],
+                "location": "",
+                "imageUrl": "",
+                "name": "LOVELY ZIPPER",
+                "time": "15:30"
+            },
+            {
+                "name": "田場小金管バンド",
+                "content": "楽器演奏",
+                "imageUrl": "",
+                "id": 19,
+                "type": "舞台",
+                "category": [
+                    "stage"
+                ],
+                "location": "中庭",
+                "time": "15:00"
+            },
+            {
+                "location": "",
+                "name": "福島太郎",
+                "category": [
+                    "art"
+                ],
+                "content": "文学作品",
+                "type": "特別展示",
+                "time": "",
+                "id": 2
+            },
+            {
+                "category": [
+                    "stage"
+                ],
+                "type": "舞台",
+                "name": "バーチャル花火",
+                "content": "高校生",
+                "time": "",
+                "id": 20,
+                "location": ""
+            },
+            {
+                "name": "えたに あやこ",
+                "imageUrl": "",
+                "content": "パステルアート",
+                "type": "大人販売",
+                "time": "",
+                "location": "ホール",
+                "category": [
+                    "workshop"
+                ],
+                "id": 21
+            },
+            {
+                "type": "大人販売",
+                "content": "バターロールパン作り",
+                "location": "調理室",
+                "name": "バッシーのパン作りワークショップ🥐",
+                "category": [
+                    "workshop"
+                ],
+                "time": "13:00",
+                "id": 22
+            },
+            {
+                "time": "",
+                "imageUrl": "",
+                "type": "特別展示",
+                "location": "会議室",
+                "category": [
+                    "art"
+                ],
+                "content": "季節の彩りを感じる",
+                "id": 23,
+                "name": "日本の五節句　阿賀嶺 正子"
+            },
+            {
+                "id": 24,
+                "imageUrl": "",
+                "name": "フライトシミュレーター✈️",
+                "location": "",
+                "content": "飛行機の操縦を体験することができます。",
+                "time": "",
+                "type": "特別展示",
+                "category": [
+                    "workshop"
+                ]
+            },
+            {
+                "time": "",
+                "category": [
+                    "art"
+                ],
+                "name": "さささりん&ボブリ",
+                "type": "大人販売",
+                "content": "イラスト・オリジナルグッズ販売",
+                "location": "",
+                "id": 3
+            },
+            {
+                "category": [
+                    "art",
+                    "workshop"
+                ],
+                "location": "",
+                "content": "缶バッチワークショップ",
+                "time": "",
+                "id": 4,
+                "name": "モモ",
+                "type": "子ども販売"
+            },
+            {
+                "time": "",
+                "category": [
+                    "art"
+                ],
+                "location": "",
+                "id": 5,
+                "content": "動物ブローチ販売",
+                "name": "nekozukitati🐱",
+                "type": "子ども販売"
+            },
+            {
+                "name": "大城うた",
+                "category": [
+                    "art"
+                ],
+                "type": "子ども展示",
+                "content": "イラスト展示",
+                "location": "",
+                "time": "",
+                "id": 6
+            },
+            {
+                "time": "",
+                "name": "mimamorineko & CheePluss",
+                "type": "大人販売",
+                "id": 7,
+                "content": "宝石石鹸・編み物グッズ",
+                "location": "",
+                "category": [
+                    "art",
+                    "workshop"
+                ]
+            },
+            {
+                "type": "大人展示",
+                "category": [
+                    "art"
+                ],
+                "location": "",
+                "content": "絵画作品展示",
+                "name": "りつ(ももやま食堂)",
+                "id": 8,
+                "time": ""
+            },
+            {
+                "location": "",
+                "time": "",
+                "type": "子ども展示",
+                "category": [
+                    "art"
+                ],
+                "name": "中学生(中部地区)",
+                "id": 9,
+                "content": "作品展示(小説・イラスト・折り紙)"
+            }
         ];
 
         let exhibitors = [];
