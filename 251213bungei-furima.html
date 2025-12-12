@@ -345,9 +345,36 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 16px;
             margin-bottom: 12px;
-            border-left: 4px solid #c084fc;
+            border-left: 4px solid #e5e7eb;
+            /* デフォルト色 */
             transition: box-shadow 0.2s;
         }
+
+        .exhibitor-card.border-food {
+            border-left-color: #fca5a5;
+        }
+
+        /* Red/Pink */
+        .exhibitor-card.border-art {
+            border-left-color: #c084fc;
+        }
+
+        /* Purple */
+        .exhibitor-card.border-workshop {
+            border-left-color: #86efac;
+        }
+
+        /* Green */
+        .exhibitor-card.border-stage {
+            border-left-color: #fbbf24;
+        }
+
+        /* Yellow/Orange */
+        .exhibitor-card.border-other {
+            border-left-color: #9ca3af;
+        }
+
+        /* Gray */
 
         .exhibitor-card:active {
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -1007,34 +1034,27 @@
     <div id="addExhibitorModal" class="modal">
         <div class="modal-content">
             <div class="modal-title">新しい出展者を追加</div>
-            <input type="text" class="modal-input" id="newExhibitorName" placeholder="出展者名">
-            <input type="text" class="modal-input" id="newExhibitorContent" placeholder="内容">
+            <input type="text" class="modal-input" id="add-name" placeholder="出展者名">
+            <input type="text" class="modal-input" id="add-content" placeholder="内容">
             <div style="margin-bottom: 8px;">
                 <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">カテゴリ (複数選択可)</label>
-                <div class="category-checkboxes" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
-                    <label style="display: inline-flex; align-items: center; gap: 4px; font-size: 13px;">
-                        <input type="checkbox" name="newExhibitorCategory" value="art" checked> アート・販売
-                    </label>
-                    <label style="display: inline-flex; align-items: center; gap: 4px; font-size: 13px;">
-                        <input type="checkbox" name="newExhibitorCategory" value="food"> 飲食
-                    </label>
-                    <label style="display: inline-flex; align-items: center; gap: 4px; font-size: 13px;">
-                        <input type="checkbox" name="newExhibitorCategory" value="workshop"> ワークショップ
-                    </label>
-                    <label style="display: inline-flex; align-items: center; gap: 4px; font-size: 13px;">
-                        <input type="checkbox" name="newExhibitorCategory" value="stage"> 舞台
-                    </label>
+                <div id="add-category-container" class="checkbox-group"
+                    style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+                    <!-- JSで生成 -->
                 </div>
             </div>
-            <input type="text" class="modal-input" id="newExhibitorType" placeholder="タイプ(例:大人販売、子ども展示)">
-            <input type="text" class="modal-input" id="newExhibitorLocation" placeholder="場所(省略可)">
-            <input type="text" class="modal-input" id="newExhibitorTime" placeholder="時間(省略可)">
-            <input type="text" class="modal-input" id="newExhibitorImageUrl" placeholder="画像URL（省略可）">
+            <textarea class="modal-input" id="add-activity-intro" placeholder="活動紹介文" rows="3"></textarea>
+            <input type="text" class="modal-input" id="add-link-url" placeholder="Webサイト/SNSリンク (URL)">
+            <input type="text" class="modal-input" id="add-type" placeholder="タイプ(例:大人販売、子ども展示)">
+            <input type="text" class="modal-input" id="add-location" placeholder="場所(省略可)">
+            <input type="text" class="modal-input" id="add-time" placeholder="時間(省略可)">
+            <input type="text" class="modal-input" id="add-imageUrl" placeholder="画像URL（省略可）">
             <div style="margin-bottom: 12px;">
                 <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">または画像をアップロード</label>
                 <input type="file" id="newExhibitorImageFile" accept="image/*" class="modal-input"
                     style="padding: 8px;">
-                <div id="newExhibitorImagePreview" style="margin-top: 8px; max-width: 100%; text-align: center;"></div>
+                <div id="newExhibitorImagePreview" style="margin-top: 8px; max-width: 100%; text-align: center;">
+                </div>
             </div>
             <div class="modal-actions">
                 <button class="modal-btn primary" onclick="createExhibitor()">追加する</button>
@@ -1206,7 +1226,7 @@
                 "category": [
                     "food"
                 ],
-                "imageUrl": "https://scontent-fra5-2.cdninstagram.com/v/t51.71878-15/589736357_1240686074552190_4599107608114709999_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&cb=8438d1d6-0aee74db&ig_cache_key=Mzc4MDQ1OTM2NDYzMDEyNjc0Mw%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=keHfZFKRVNUQ7kNvwEjsSAT&_nc_oc=AdlvATG3v5-OTnGyl0KP_9KGn-Vf5UBuEx_KZneptPF6A4XVHZ6C8YEPPLcwyiMw-Dc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra5-2.cdninstagram.com&_nc_gid=qwlTpKc5vpzcmfJsS-FzrA&oh=00_Afk_eqv0pLFEL6mMxACMCPhF-Oyzf1aC5oRTUdErPbthxw&oe=6941AFA7",
+                "imageUrl": "https://scontent-fra5-2.cdninstagram.com/v/t51.71878-15/589736357_1240686074552190_4599107608114709999_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&cb=8438d1d6-0aee74db&ig_cache_key=Mzc4MDQ1OTM2NDYzMDEyNjc0Mw%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=keHfZFKRVNUQ7kNvwEjsSAT&_nc_oc=AdlvATG3v5-OTnGyl0KP_9KGn-Vf5UBuEx_KZneptPF6A4XVHZ6C8YEPPLcwyjMw-Dc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra5-2.cdninstagram.com&_nc_gid=qwlTpKc5vpzcmfJsS-FzrA&oh=00_Afk_eqv0pLFEL6mMxACMCPhF-Oyzf1aC5oRTUdErPbthxw&oe=6941AFA7",
                 "location": "",
                 "time": "",
                 "id": 15,
@@ -1818,6 +1838,14 @@
         // 出展者追加モーダル
         function showAddExhibitorModal() {
             document.getElementById('addExhibitorModal').classList.add('show');
+            // カテゴリチェックボックスを動的に生成
+            const categoryContainer = document.getElementById('add-category-container');
+            categoryContainer.innerHTML = categories.filter(c => c.id !== 'all').map(c => `
+                <label style="display: inline-flex; align-items: center; gap: 4px; font-size: 13px;">
+                    <input type="checkbox" name="add-category" value="${c.id}" ${c.id === 'art' ? 'checked' : ''}> ${c.name}
+                </label>
+            `).join('');
+
             // ファイル入力のリセットとリスナー設定
             const fileInput = document.getElementById('newExhibitorImageFile');
             fileInput.value = '';
@@ -1837,23 +1865,25 @@
                     reader.readAsDataURL(file);
                 }
             };
-            document.getElementById('newExhibitorName').focus();
+            document.getElementById('add-name').focus();
         }
 
         function hideAddExhibitorModal() {
             document.getElementById('addExhibitorModal').classList.remove('show');
             // フォームをクリア
-            document.getElementById('newExhibitorName').value = '';
-            document.getElementById('newExhibitorContent').value = '';
-            //document.getElementById('newExhibitorCategory').value = 'art';
-            document.querySelectorAll('input[name="newExhibitorCategory"]').forEach(cb => cb.checked = false);
+            document.getElementById('add-name').value = '';
+            document.getElementById('add-content').value = '';
+            document.getElementById('add-activity-intro').value = '';
+            document.getElementById('add-link-url').value = '';
+            // カテゴリのリセット
+            document.querySelectorAll('input[name="add-category"]').forEach(cb => cb.checked = false);
             // デフォルトでartをチェック
-            const artCb = document.querySelector('input[name="newExhibitorCategory"][value="art"]');
+            const artCb = document.querySelector('input[name="add-category"][value="art"]');
             if (artCb) artCb.checked = true;
-            document.getElementById('newExhibitorType').value = '';
-            document.getElementById('newExhibitorLocation').value = '';
-            document.getElementById('newExhibitorTime').value = '';
-            document.getElementById('newExhibitorImageUrl').value = '';
+            document.getElementById('add-type').value = '';
+            document.getElementById('add-location').value = '';
+            document.getElementById('add-time').value = '';
+            document.getElementById('add-imageUrl').value = '';
             document.getElementById('newExhibitorImageFile').value = ''; // ファイル入力もクリア
             document.getElementById('newExhibitorImagePreview').innerHTML = ''; // プレビューもクリア
             newExhibitorImageFile = null; // ファイルデータもクリア
@@ -1861,13 +1891,13 @@
 
         // 新しい出展者を作成
         async function createExhibitor() {
-            const name = document.getElementById('newExhibitorName').value.trim();
-            const content = document.getElementById('newExhibitorContent').value.trim();
-            //const category = document.getElementById('newExhibitorCategory').value;
-            const type = document.getElementById('newExhibitorType').value.trim();
-            const location = document.getElementById('newExhibitorLocation').value.trim();
-            const time = document.getElementById('newExhibitorTime').value.trim();
-            //const imageUrl = document.getElementById('newExhibitorImageUrl').value.trim();
+            const name = document.getElementById('add-name').value.trim();
+            const content = document.getElementById('add-content').value.trim();
+            const activity_intro = document.getElementById('add-activity-intro').value.trim();
+            const link_url = document.getElementById('add-link-url').value.trim();
+            const type = document.getElementById('add-type').value.trim();
+            const location = document.getElementById('add-location').value.trim();
+            const time = document.getElementById('add-time').value.trim();
 
             if (!name || !content || !type) {
                 alert('出展者名、内容、タイプは必須です');
@@ -1875,11 +1905,11 @@
             }
 
             // カテゴリ収集（チェックボックス）
-            const checkedCategories = Array.from(document.querySelectorAll('input[name="newExhibitorCategory"]:checked'))
+            const checkedCategories = Array.from(document.querySelectorAll('input[name="add-category"]:checked'))
                 .map(cb => cb.value);
 
             // 画像処理
-            let imageUrl = document.getElementById('newExhibitorImageUrl').value;
+            let imageUrl = document.getElementById('add-imageUrl').value;
             if (newExhibitorImageFile) {
                 try {
                     imageUrl = await handleImageUpload(newExhibitorImageFile);
@@ -1892,12 +1922,14 @@
 
             const newExhibitor = {
                 id: Date.now(),
-                name: document.getElementById('newExhibitorName').value,
-                content: document.getElementById('newExhibitorContent').value,
+                name: name,
+                content: content,
+                activity_intro: activity_intro,
+                link_url: link_url,
                 category: checkedCategories.length > 0 ? checkedCategories : ['art'], // デフォルト
-                type: document.getElementById('newExhibitorType').value,
-                location: document.getElementById('newExhibitorLocation').value,
-                time: document.getElementById('newExhibitorTime').value,
+                type: type,
+                location: location,
+                time: time,
                 imageUrl: imageUrl
             };
 
@@ -2014,27 +2046,30 @@
         // 統計情報の更新
         async function updateStatistics() {
             try {
-                // コメント総数を計算
+                const userId = getUserId();
+
+                // コメント総数を計算 (自分のコメントのみ)
                 const commentsSnapshot = await getDocs(collection(db, 'comments'));
-                let totalComments = 0;
+                let myComments = 0;
                 commentsSnapshot.forEach(doc => {
                     const data = doc.data();
                     if (data.comments) {
-                        totalComments += data.comments.length;
+                        // 自分のIDと一致するものだけカウント
+                        myComments += data.comments.filter(c => c.userId === userId).length;
                     }
                 });
-                document.getElementById('totalComments').textContent = totalComments;
+                document.getElementById('totalComments').textContent = myComments;
 
-                // スタンプ総数を計算
+                // みつけた総数を計算 (自分がスタンプしたもののみ)
                 const stampsSnapshot = await getDocs(collection(db, 'stamps'));
-                let totalStamps = 0;
+                let myStamps = 0;
                 stampsSnapshot.forEach(doc => {
                     const data = doc.data();
-                    if (data.users) {
-                        totalStamps += data.users.length;
+                    if (data.users && data.users.includes(userId)) {
+                        myStamps++;
                     }
                 });
-                document.getElementById('totalStamps').textContent = totalStamps;
+                document.getElementById('totalStamps').textContent = myStamps;
             } catch (error) {
                 console.error('統計情報の更新エラー:', error);
             }
@@ -2095,10 +2130,12 @@
                 <div class="exhibitor-card">
                     <div class="edit-form">
                         <input type="text" class="edit-input" id="edit-name-${ex.id}" value="${ex.name}" placeholder="名前">
-                        <input type="text" class="edit-input" id="edit-content-${ex.id}" value="${ex.content}" placeholder="内容">
+                        <textarea class="edit-input" id="edit-content-${ex.id}" rows="2" placeholder="内容">${ex.content}</textarea>
+                        <textarea class="edit-input" id="edit-activity-intro-${ex.id}" rows="3" placeholder="活動紹介文">${ex.activity_intro || ''}</textarea>
+                        <input type="text" class="edit-input" id="edit-link-url-${ex.id}" value="${ex.link_url || ''}" placeholder="Webサイト/SNSリンク (URL)">
                         <div style="margin-bottom: 8px;">
                             <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">カテゴリ (複数選択可)</label>
-                            <div class="category-checkboxes" style="display: flex; flex-wrap: wrap; gap: 8px;">
+                            <div class="category-checkboxes" id="edit-category-container-${ex.id}" style="display: flex; flex-wrap: wrap; gap: 8px;">
                                 ${categories.filter(c => c.id !== 'all').map(c => `
                                     <label style="display: inline-flex; align-items: center; gap: 4px; font-size: 13px;">
                                         <input type="checkbox" name="edit-category-${ex.id}" value="${c.id}" 
@@ -2141,7 +2178,17 @@
             const messageIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
             const heartIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #9333ea;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
 
-            let html = '<div class="exhibitor-card">';
+            // 配列の最初のカテゴリをバッジの色に使用
+            const badgeCategory = Array.isArray(ex.category) ? ex.category[0] : ex.category;
+
+            // 枠線の色決定
+            let borderClass = 'border-other';
+            if (badgeCategory === 'food') borderClass = 'border-food';
+            else if (badgeCategory === 'art') borderClass = 'border-art';
+            else if (badgeCategory === 'workshop') borderClass = 'border-workshop';
+            else if (badgeCategory === 'stage') borderClass = 'border-stage';
+
+            let html = `<div class="exhibitor-card ${borderClass}">`;
             html += '<div class="card-header">';
             html += '<div class="card-content">';
             html += `<div class="exhibitor-name">${ex.name}</div>`;
@@ -2153,6 +2200,18 @@
 
             html += `<div class="exhibitor-description">${ex.content}</div>`;
 
+            if (ex.activity_intro) {
+                html += `<div class="exhibitor-description" style="white-space: pre-wrap; margin-top: 8px; color: #666; font-size: 0.9em; border-top: 1px dashed #eee; padding-top: 8px;">${ex.activity_intro}</div>`;
+            }
+            if (ex.link_url) {
+                html += `<div style="margin-top: 8px;">
+                    <a href="${ex.link_url}" target="_blank" rel="noopener noreferrer" class="link-btn" style="display: inline-flex; align-items: center; gap: 4px; color: #0284c7; text-decoration: none; font-size: 0.9em; background: #f0f9ff; padding: 4px 8px; border-radius: 4px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                        Link / SNS
+                    </a>
+                </div>`;
+            }
+
             if (ex.location) {
                 html += `<div class="info-row location">${mapPinIcon}<span>${ex.location}</span></div>`;
             }
@@ -2161,8 +2220,6 @@
                 html += `<div class="info-row">${clockIcon}<span>${ex.time}</span></div>`;
             }
 
-            // 配列の最初のカテゴリをバッジの色に使用
-            const badgeCategory = Array.isArray(ex.category) ? ex.category[0] : ex.category;
             html += `<span class="type-badge ${badgeCategory}">${ex.type}</span>`;
             html += '</div>';
 
@@ -2251,6 +2308,8 @@
             const updatedData = {
                 name: document.getElementById(`edit-name-${id}`).value,
                 content: document.getElementById(`edit-content-${id}`).value,
+                activity_intro: document.getElementById(`edit-activity-intro-${id}`).value,
+                link_url: document.getElementById(`edit-link-url-${id}`).value,
                 category: checkedCategories.length > 0 ? checkedCategories : ['art'],
                 type: document.getElementById(`edit-type-${id}`).value,
                 location: document.getElementById(`edit-location-${id}`).value,
