@@ -1176,6 +1176,36 @@
         </div>
     </div>
 
+    <!-- データ管理モーダル -->
+    <div id="dataModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">データ管理</div>
+
+            <div style="margin-bottom: 20px;">
+                <h3 style="font-size:16px; margin-bottom:8px;">バックアップ・復元</h3>
+                <p style="font-size:12px; color:#666; margin-bottom:8px;">
+                    現在のデータをテキストとして保存したり、保存したテキストから復元したりできます。
+                </p>
+                <textarea id="dataInput" placeholder="ここにバックアップデータを貼り付けてください..."
+                    style="width: 100%; height: 100px; margin-bottom: 8px; padding:8px; border:1px solid #ddd; border-radius:4px; font-family:monospace; font-size:12px;"></textarea>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button class="action-btn" onclick="importData()" style="flex:1;">🔄 データを復元</button>
+                    <button class="action-btn secondary" onclick="exportData()" style="flex:1;">📋 データをコピー</button>
+                </div>
+            </div>
+
+            <div style="border-top: 1px dashed #ccc; padding-top: 20px; margin-top:20px;">
+                <h3 style="font-size:16px; margin-bottom:8px;">初期化</h3>
+                <p style="font-size: 12px; color: #d00; margin-bottom: 12px; font-weight:bold;">
+                    注意：これまで編集したすべての内容が消去され、初期状態に戻ります。
+                </p>
+                <button class="delete-btn" onclick="resetToInitial()" style="width:100%;">⚠️ 初期データに戻す</button>
+            </div>
+
+            <button class="modal-btn secondary" onclick="hideDataModal()" style="margin-top: 20px;">閉じる</button>
+        </div>
+    </div>
+
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
@@ -1207,7 +1237,9 @@
                     '管理者用：統計情報の「全体集計」表示（通常は自分のみ）',
                     'ヘッダーの動作変更：スクロール時にタイトルのみ固定表示し、他の情報は隠れるように調整',
                     'フィルタ表示の変更：横スクロールボタン式からプルダウン形式に変更し、視認性を向上',
-                    'プルダウンの表示修正：アイコン文字列（storeなど）を削除し、日本語のみの表示に修正'
+                    'プルダウンの表示修正：アイコン文字列（storeなど）を削除し、日本語のみの表示に修正',
+                    'データ復旧：「木の子まき」様ほか、一部出展者の画像・リンク・紹介文データを復元',
+                    '新機能（管理者）：データ管理機能（バックアップ・復元・初期化）を追加'
                 ]
             },
             {
@@ -1245,295 +1277,270 @@
         const initialExhibitors = [
             {
                 "id": 1,
-                "time": "",
                 "name": "木の子まき",
-                "type": "大人販売",
                 "content": "絵画・オリジナルグッズ販売",
-                "category": [
-                    "art"
-                ],
-                "location": ""
+                "imageUrl": "https://scontent-dus1-1.cdninstagram.com/v/t51.71878-15/588141038_1788240575915321_8603746726061751829_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&cb=8438d1d6-0aee74db&ig_cache_key=Mzc3NjE5MTU2OTI2MDA2MDA2OQ%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=DZT5JFuxrQwQ7kNvwHBMHV3&_nc_oc=AdkFKULlHfQIkKkjG72YccFGzz8MqtcfFhsReR-72hCNT3uW__yqz3_1ueufry0jBWE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-dus1-1.cdninstagram.com&_nc_gid=9LqwPvmlgh8FMSIrixpUKQ&oh=00_Afkhg9wexvy3w4dDyxh7bHBfDA1rJL3U3d_G13c72FkQcQ&oe=6941EB93",
+                "type": "大人販売",
+                "activity_intro": "重曹アートや手描きハット\nポストカードなどをご出展🍄",
+                "category": ["art"],
+                "link_url": "https://www.instagram.com/kinokomaqui/",
+                "location": "",
+                "time": ""
             },
             {
-                "category": [
-                    "art"
-                ],
-                "name": "平和学習の旅　神田志有",
-                "time": "",
                 "id": 10,
-                "content": "日本中の戦跡について調べたことを紹介いたします。また参考となる資料の閲覧や、執筆もご覧いただけます。",
-                "location": "",
+                "name": "平和学習の旅　神田志有",
+                "content": "戦跡記録",
+                "imageUrl": "https://pbs.twimg.com/media/G7-StfMbIAAlyZ2?format=jpg&name=4096x4096",
                 "type": "子ども展示",
-                "imageUrl": ""
+                "activity_intro": "日本中の戦跡について調べたことを紹介いたします。また参考となる資料の閲覧や、執筆もご覧いただけます。\n\n沖縄から北海道まで、日本縦断した「戦跡記録」を一挙大公開。\n\n中学１年生とは思えない情報量の多さは、出会う大人を圧倒します。",
+                "category": ["art"],
+                "link_url": "",
+                "location": "",
+                "time": ""
             },
             {
-                "type": "子ども展示",
-                "time": "",
                 "id": 11,
-                "location": "",
+                "name": "地謡軽トラ",
                 "content": "作品展示",
-                "name": "エイサーcar",
-                "category": [
-                    "art"
-                ]
-            },
-            {
-                "location": "",
-                "time": "",
-                "name": "具志川東中",
+                "imageUrl": "https://pbs.twimg.com/media/G7-R6xbboAAhdA1?format=jpg&name=4096x4096",
                 "type": "子ども展示",
-                "category": [
-                    "art"
-                ],
-                "id": 12,
-                "content": "作品展示"
+                "activity_intro": "沖縄東青年会が好きすぎて、地謡がのる軽トラをつくっちゃいました。\n\n最新作の「版画」出展もお楽しみください。",
+                "category": ["art"],
+                "link_url": "",
+                "location": "",
+                "time": ""
             },
             {
+                "id": 12,
+                "name": "具志川東中",
+                "content": "作品展示",
+                "type": "子ども展示",
+                "category": ["art"],
                 "location": "",
+                "time": ""
+            },
+            {
                 "id": 13,
-                "category": [
-                    "food"
-                ],
-                "type": "飲食",
                 "name": "やどかり喫茶店",
                 "content": "ケーキ・コーヒー(ホール内出店)",
                 "imageUrl": "https://scontent-fra5-1.cdninstagram.com/v/t51.71878-15/588609029_1549581329501347_7843143527333972457_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&cb=8438d1d6-0aee74db&ig_cache_key=Mzc4MzczMDczMjQ2OTQ2MTY1Ng%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=g0QR6N4-G5MQ7kNvwHbtHfH&_nc_oc=AdkGmjzXu-kXFpUijM0amXg1zP2qExwXdh8EAfWkQvAOxjhdsCQxzXm7v4Osed3htWo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra5-1.cdninstagram.com&_nc_gid=Q_T7RdNsQMb00LFf6dLW3g&oh=00_Afn-OhVa4RAY8JERs01lL6SGJcIXQAr7QvQ4qfKy281Kgw&oe=6941B83F",
+                "type": "飲食",
+                "category": ["food"],
+                "location": "",
                 "time": ""
             },
             {
-                "imageUrl": "https://scontent-fra5-1.cdninstagram.com/v/t51.71878-15/590376323_1229904569189189_5856333744498979387_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&cb=8438d1d6-0aee74db&ig_cache_key=Mzc4MjY1NzMxMzgxNjY3MjE4Nw%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=aAsJdxmvrlYQ7kNvwFXawy9&_nc_oc=AdlmB2ziA08HOoD9Bl2MpNl85uGbdiOogmrA8ctDPtQz2iGqRoA_aMTvh3TXhZ_9crI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra5-1.cdninstagram.com&_nc_gid=Q_T7RdNsQMb00LFf6dLW3g&oh=00_Afnk641JeWGnBWLcUA_aQaamflcKgaqV1z1ewbbhLNVbZQ&oe=6941BA0D",
-                "content": "東京都江東区の郷土料理。あさりの炊き込みご飯。",
-                "category": [
-                    "food"
-                ],
-                "location": "",
                 "id": 14,
-                "time": "12:15",
+                "name": "深川めし （限定50食）藤澤利紗 ",
+                "content": "東京都江東区の郷土料理。あさりの炊き込みご飯。",
+                "imageUrl": "https://scontent-fra5-1.cdninstagram.com/v/t51.71878-15/590376323_1229904569189189_5856333744498979387_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&cb=8438d1d6-0aee74db&ig_cache_key=Mzc4MjY1NzMxMzgxNjY3MjE4Nw%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=aAsJdxmvrlYQ7kNvwFXawy9&_nc_oc=AdlmB2ziA08HOoD9Bl2MpNl85uGbdiOogmrA8ctDPtQz2iGqRoA_aMTvh3TXhZ_9crI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra5-1.cdninstagram.com&_nc_gid=Q_T7RdNsQMb00LFf6dLW3g&oh=00_Afnk641JeWGnBWLcUA_aQaamflcKgaqV1z1ewbbhLNVbZQ&oe=6941BA0D",
                 "type": "飲食",
-                "name": "深川めし （限定50食）藤澤利紗 "
+                "category": ["food"],
+                "time": "12:15",
+                "location": ""
             },
             {
-                "category": [
-                    "food"
-                ],
-                "imageUrl": "https://scontent-fra5-2.cdninstagram.com/v/t51.71878-15/589736357_1240686074552190_4599107608114709999_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&cb=8438d1d6-0aee74db&ig_cache_key=Mzc4MDQ1OTM2NDYzMDEyNjc0Mw%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=keHfZFKRVNUQ7kNvwEjsSAT&_nc_oc=AdlvATG3v5-OTnGyl0KP_9KGn-Vf5UBuEx_KZneptPF6A4XVHZ6C8YEPPLcwyjMw-Dc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra5-2.cdninstagram.com&_nc_gid=qwlTpKc5vpzcmfJsS-FzrA&oh=00_Afk_eqv0pLFEL6mMxACMCPhF-Oyzf1aC5oRTUdErPbthxw&oe=6941AFA7",
-                "location": "",
-                "time": "",
                 "id": 15,
                 "name": "パナマ原人",
+                "content": "肉巻きおにぎり・ジャークチキン・ポテト・スイーツ ",
+                "imageUrl": "https://scontent-fra5-2.cdninstagram.com/v/t51.71878-15/589736357_1240686074552190_4599107608114709999_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&cb=8438d1d6-0aee74db&ig_cache_key=Mzc4MDQ1OTM2NDYzMDEyNjc0Mw%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=keHfZFKRVNUQ7kNvwEjsSAT&_nc_oc=AdlvATG3v5-OTnGyl0KP_9KGn-Vf5UBuEx_KZneptPF6A4XVHZ6C8YEPPLcwyjMw-Dc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra5-2.cdninstagram.com&_nc_gid=qwlTpKc5vpzcmfJsS-FzrA&oh=00_Afk_eqv0pLFEL6mMxACMCPhF-Oyzf1aC5oRTUdErPbthxw&oe=6941AFA7",
                 "type": "飲食",
-                "content": "肉巻きおにぎり・ジャークチキン・ポテト・スイーツ ◆パナマ原人さん 子供から大人まで笑顔になれるフードを心掛け、デザートからバーベキュー料理まで幅広く提供させていただいております。 ジャークチキンにかけてるセクシーソースは、当店自慢のオリジナルソースです。  ◆メニュー いちご飴、トルネードポテト、肉巻きおにぎり、ジャークチキン、ジャークチキンオーバーライス。 寒ければクラムチャウダー、暑ければみかんかき氷の予定です。  パナマ原人さん @panama.genjin"
+                "activity_intro": "◆パナマ原人さん 子供から大人まで笑顔になれるフードを心掛け、デザートからバーベキュー料理まで幅広く提供させていただいております。 ジャークチキンにかけてるセクシーソースは、当店自慢のオリジナルソースです。  ◆メニュー いちご飴、トルネードポテト、肉巻きおにぎり、ジャークチキン、ジャークチキンオーバーライス。 寒ければクラムチャウダー、暑ければみかんかき氷の予定です。  パナマ原人さん",
+                "category": ["food"],
+                "link_url": "https://www.instagram.com/panama.genjin",
+                "location": "",
+                "time": ""
             },
             {
-                "category": [
-                    "food"
-                ],
                 "id": 16,
-                "time": "",
+                "name": "焼鳥たまりば",
                 "content": "焼き鳥",
                 "imageUrl": "https://instagram.fitm2-2.fna.fbcdn.net/v/t51.2885-19/361405624_810017604053030_3421417599615922827_n.jpg?efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby45NjguYzIifQ&_nc_ht=instagram.fitm2-2.fna.fbcdn.net&_nc_cat=102&_nc_oc=Q6cZ2QGBO9WeaI42MKMehfzw9OXdZLsDg97t3JDSe7nqttXgNLPd4Q8yPNobLTkBPtLc15q0EdbFFJB5WGaPB8y7OneB&_nc_ohc=ykxpAu0htP4Q7kNvwE1foZE&_nc_gid=a_xKJLNgynx6ir5zU0ZySA&edm=ALGbJPMBAAAA&ccb=7-5&oh=00_AfmCvc7L-VJRyxVf9jCB8P3fdQRPatvf-c4-cOskzgNNZg&oe=6941BBC7&_nc_sid=7d3ac5",
-                "location": "",
                 "type": "飲食",
-                "name": "焼鳥たまりば"
+                "category": ["food"],
+                "location": "",
+                "time": ""
             },
             {
-                "imageUrl": "https://scontent-fra3-1.cdninstagram.com/v/t51.71878-15/588648777_1416066539943649_8193593081574906528_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&cb=8438d1d6-0aee74db&ig_cache_key=Mzc4MzAzNTgzNzk1ODI1NDc5NA%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=3HENTYxpjxsQ7kNvwEx-4_c&_nc_oc=AdlzytJb4sqTt8w9yZo_ab5ubW9lMIxUgaQ_NGGH4jTvKSVk6wXYnvByNIZwPC9vrlg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra3-1.cdninstagram.com&_nc_gid=Q_T7RdNsQMb00LFf6dLW3g&oh=00_AfmTh8jL7ObnzO_vWRNNekGPCjI6ClcEL7jN6Dkp3KVMUw&oe=6941A8E5",
-                "content": "ブラジル料理",
-                "category": [
-                    "food"
-                ],
+                "id": 17,
                 "name": "kametas'br",
-                "time": "",
-                "location": "",
+                "content": "ブラジル料理",
+                "imageUrl": "https://scontent-fra3-1.cdninstagram.com/v/t51.71878-15/588648777_1416066539943649_8193593081574906528_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&cb=8438d1d6-0aee74db&ig_cache_key=Mzc4MzAzNTgzNzk1ODI1NDc5NA%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=3HENTYxpjxsQ7kNvwEx-4_c&_nc_oc=AdlzytJb4sqTt8w9yZo_ab5ubW9lMIxUgaQ_NGGH4jTvKSVk6wXYnvByNIZwPC9vrlg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra3-1.cdninstagram.com&_nc_gid=Q_T7RdNsQMb00LFf6dLW3g&oh=00_AfmTh8jL7ObnzO_vWRNNekGPCjI6ClcEL7jN6Dkp3KVMUw&oe=6941A8E5",
                 "type": "飲食",
-                "id": 17
+                "category": ["food"],
+                "location": "",
+                "time": ""
             },
             {
                 "id": 1765534344366,
-                "type": "特別展示",
-                "category": [
-                    "workshop"
-                ],
+                "name": "Ichimura",
                 "content": "フライトシミュレーター",
                 "imageUrl": "https://scontent-fra3-2.cdninstagram.com/v/t51.71878-15/590413548_1359237839002475_1153889328740698340_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&cb=8438d1d6-0aee74db&ig_cache_key=Mzc4MzA2NTI5NTQ2MTE3OTQ3OA%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=pnpCY7HhTM8Q7kNvwHaibz0&_nc_oc=AdkSWdLk92MJTsWZv4XovmJlbp-M1eIu7iLjtGWaiMJYOb-AHuLzN1Et_7S0T1JYurk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra3-2.cdninstagram.com&_nc_gid=Q_T7RdNsQMb00LFf6dLW3g&oh=00_AflWXE6KjHUqXyfJc80i87ZC5ZQYtl99LZh3Ncn8uGZr8A&oe=6941A6A2",
-                "name": "Ichimura",
+                "type": "特別展示",
+                "activity_intro": "「地球上の地形をまるごと再現する」\nことを目標に開発されたマイクロソフトフライトシミュレーター。\n\n飛行機の操縦を体験することができます。\nあなたもパイロット気分を楽しみませんか？",
+                "category": ["workshop"],
+                "link_url": "",
                 "location": "ホール",
                 "time": ""
             },
             {
-                "type": "舞台",
-                "location": "",
-                "imageUrl": "https://scontent-dus1-1.cdninstagram.com/v/t51.71878-15/589915643_842357685158654_1727063156528902381_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&cb=8438d1d6-0aee74db&ig_cache_key=Mzc4MDAxMzQ0MDA5NTA5NTk2Nw%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=NaJZI_qinJYQ7kNvwFkD_ih&_nc_oc=AdmdtaX7849G8MSHc0bz1sSTLttJyCzcn-I92TYqamkF9Yc7E7j2QbdRvXeV1fkARUs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-dus1-1.cdninstagram.com&_nc_gid=naFycSi6rQK06FESnKL4Tw&oh=00_AfnQugqXMGMVSvVSq2U0SzczgBrPTFbcx9PlYmnlcqvXnQ&oe=6941D523",
-                "time": "15:30",
                 "id": 18,
-                "content": "私たちLOVELY ZIPPERは ダンスが大好きな３人組です。 特に、ラブリーなダンスが好きで いつも動画を見ながら踊っています。  いつかたくさんの人の前で踊ってみたいと話をしていたところ、田場公民館の館長さんよりお話をいただき、舞い上がるほど嬉しくなりました。  自分たちでデザインして作った衣装にも注目です。 最後まで見ていただけたら幸いです。",
                 "name": "LOVELY ZIPPER",
-                "category": [
-                    "stage"
-                ]
+                "content": "私たちは...（省略）",
+                "imageUrl": "https://scontent-dus1-1.cdninstagram.com/v/t51.71878-15/589915643_842357685158654_1727063156528902381_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&cb=8438d1d6-0aee74db&ig_cache_key=Mzc4MDAxMzQ0MDA5NTA5NTk2Nw%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=NaJZI_qinJYQ7kNvwFkD_ih&_nc_oc=AdmdtaX7849G8MSHc0bz1sSTLttJyCzcn-I92TYqamkF9Yc7E7j2QbdRvXeV1fkARUs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-dus1-1.cdninstagram.com&_nc_gid=naFycSi6rQK06FESnKL4Tw&oh=00_AfnQugqXMGMVSvVSq2U0SzczgBrPTFbcx9PlYmnlcqvXnQ&oe=6941D523",
+                "type": "舞台",
+                "category": ["stage"],
+                "time": "15:30",
+                "location": ""
             },
             {
-                "location": "中庭",
-                "imageUrl": "",
+                "id": 19,
                 "name": "田場小金管バンド",
                 "content": "楽器演奏",
-                "category": [
-                    "stage"
-                ],
+                "imageUrl": "https://assets.st-note.com/img/1723596796875-sWLqrxeUwv.jpg?width=1200",
                 "type": "舞台",
-                "id": 19,
+                "activity_intro": "",
+                "category": ["stage"],
+                "location": "中庭",
+                "link_url": "",
                 "time": "15:00"
             },
             {
-                "category": [
-                    "art"
-                ],
-                "content": "文学作品",
-                "type": "特別展示",
-                "location": "",
+                "id": 2,
                 "name": "福島太郎",
-                "time": "",
-                "id": 2
+                "content": "文学作品",
+                "imageUrl": "https://scontent-fra3-1.cdninstagram.com/v/t51.71878-15/588225985_4233353160276342_4285427582063031397_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&cb=8438d1d6-0aee74db&ig_cache_key=Mzc3NjIwMzgyNjc4NjM5MjYzNw%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=LaC_LXbpNKYQ7kNvwFgbBuj&_nc_oc=Adl1UArPb8KwQtHxAz-80MZIc9jkBBToellbuSEgFH2iY4nPecibASEPLQfLo6F1de4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra3-1.cdninstagram.com&_nc_gid=rH5KRflfEe6BpxBAEYEK3Q&oh=00_AfkbfUe_dY3E0LbALUuN3GZLDjLxdD1DwYLQHf42tdv_hg&oe=6941CDEA",
+                "type": "特別展示",
+                "activity_intro": "福島文学の生みの親\n福島太郎さん\n\n公務員の経験を生かした「公務員のタマゴに伝えたい話」を発刊後、福島の凄い人を掘り起こした「人間讃歌」の物語を中心に執筆中。\n\n沖縄のことが大好きで作品中にも随所に沖縄が登場します📗\n\n本屋さんでは手に入らない福島文学\n\nどうぞこの機会にお求めください🍀\n\n",
+                "category": ["art"],
+                "link_url": "https://note.com/tarofukushima",
+                "location": "会議室",
+                "time": ""
             },
             {
-                "type": "舞台",
-                "category": [
-                    "stage"
-                ],
-                "location": "",
-                "content": "高校生",
-                "name": "バーチャル花火",
                 "id": 20,
-                "time": ""
-            },
-            {
-                "imageUrl": "https://scontent-fra3-1.cdninstagram.com/v/t51.71878-15/591159973_2342042522902093_6318062152330017134_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&cb=8438d1d6-0aee74db&ig_cache_key=Mzc4NDk2MDE5ODA4MDMzOTQ1OQ%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMiJ9&_nc_ohc=x7iCAYtox-kQ7kNvwHBNhEk&_nc_oc=Admh2BR7TLjGCGmRCzVLi8iUPG_ElF0v8_rlP2kcQ7CEA5-aJLY37u4n810339wY98E&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra3-1.cdninstagram.com&_nc_gid=Q_T7RdNsQMb00LFf6dLW3g&oh=00_AfkoJAabr8ypky7XMuwCgcj2WqOoucmlj4fEygiN_mdUkA&oe=6941D145",
-                "name": "えたに あやこ",
-                "category": [
-                    "workshop"
-                ],
-                "id": 21,
-                "content": "パステルアート",
+                "name": "バーチャル花火",
+                "content": "高校生",
+                "imageUrl": "https://scontent-dus1-1.cdninstagram.com/v/t39.30808-6/557630425_1339561274835599_6979112432021280984_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&cb=8438d1d6-0aee74db&ig_cache_key=MzczNTA3NDU0NzkzODk5NTM1OQ%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEwODB4MTM1MC5zZHIuQzMifQ%3D%3D&_nc_ohc=TocEmyNUzUkQ7kNvwFdTYiP&_nc_oc=AdnqKAIvehhkFBbUiKqIJ4-9-E0Mj2uRvZxvDszECSMP8VfD0nK_pWQ1xlgfnKPZQm4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-dus1-1.cdninstagram.com&_nc_gid=3cq-hPgNbh21Fvy2IAPnqw&oh=00_AfmULxIvHvWae7w508ddNeGk6R3pxAPkzwC0fsNFGSFe7g&oe=6941E778",
+                "type": "舞台",
+                "category": ["stage"],
+                "activity_intro": "",
                 "location": "ホール",
-                "type": "大人販売",
+                "link_url": "",
                 "time": ""
             },
             {
-                "location": "調理室",
+                "id": 21,
+                "name": "えたに あやこ",
+                "content": "パステルアート",
+                "imageUrl": "https://scontent-fra3-1.cdninstagram.com/v/t51.71878-15/591159973_2342042522902093_6318062152330017134_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&cb=8438d1d6-0aee74db&ig_cache_key=Mzc4NDk2MDE5ODA4MDMzOTQ1OQ%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMiJ9&_nc_ohc=x7iCAYtox-kQ7kNvwHBNhEk&_nc_oc=Admh2BR7TLjGCGmRCzVLi8iUPG_ElF0v8_rlP2kcQ7CEA5-aJLY37u4n810339wY98E&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra3-1.cdninstagram.com&_nc_gid=Q_T7RdNsQMb00LFf6dLW3g&oh=00_AfkoJAabr8ypky7XMuwCgcj2WqOoucmlj4fEygiN_mdUkA&oe=6941D145",
+                "type": "大人販売",
+                "activity_intro": "元美術科教諭、現スクールカウンセラー、時々染織家のアートと心理のアート教室主催。\n「自分らしく生きるサポート&応援団」のもと、\n上手い下手にこだわらず、自分らしい表現をめざしてアートと自分を愉しむ活動を推進しています💕",
+                "category": ["art", "workshop"],
+                "link_url": "",
+                "location": "ホール",
+                "time": ""
+            },
+            {
+                "id": 22,
                 "name": "バッシーのパン作りワークショップ🥐",
-                "category": [
-                    "workshop"
-                ],
-                "time": "13:00",
+                "content": "バターロールパン作り",
                 "imageUrl": "https://scontent-fra3-2.cdninstagram.com/v/t51.71878-15/591165876_900884205811868_2091783877656892319_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&cb=8438d1d6-0aee74db&ig_cache_key=Mzc4MzcyNjk2Njk3NDM2NjE3Ng%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=sYKUS19FhEIQ7kNvwGf-vfa&_nc_oc=AdnMXyixO0GAotzhJiol0Nt4urNnx1jnbQUSGTsP6a7b2frAETNAhopycpOYaL10usw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra3-2.cdninstagram.com&_nc_gid=Q_T7RdNsQMb00LFf6dLW3g&oh=00_AflMljevyTP5nN-iVmOFdUviOtVs-7rxx9Sgi2_Vlb0OsA&oe=6941AAF2",
                 "type": "大人販売",
-                "id": 22,
-                "content": "バターロールパン作り"
+                "category": ["workshop"],
+                "location": "調理室",
+                "time": "13:00"
             },
             {
-                "location": "会議室",
+                "id": 23,
+                "name": "日本の五節句　阿賀嶺 正子",
                 "content": "季節の彩りを感じる",
                 "imageUrl": "",
-                "name": "日本の五節句　阿賀嶺 正子",
-                "id": 23,
                 "type": "特別展示",
-                "time": "",
-                "category": [
-                    "art"
-                ]
-            },
-            {
-                "content": "飛行機の操縦を体験することができます。",
-                "type": "特別展示",
-                "name": "フライトシミュレーター✈️",
-                "time": "",
-                "category": [
-                    "workshop"
-                ],
-                "location": "",
-                "imageUrl": "",
-                "id": 24
-            },
-            {
-                "content": "イラスト・オリジナルグッズ販売",
-                "type": "大人販売",
-                "category": [
-                    "art"
-                ],
-                "time": "",
-                "location": "",
-                "name": "さささりん&ボブリ",
-                "id": 3
-            },
-            {
-                "imageUrl": "https://scontent-fra5-2.cdninstagram.com/v/t51.71878-15/590404062_870729688977189_7443547700361578666_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&cb=8438d1d6-0aee74db&ig_cache_key=Mzc4MzA1NTAyMTIxMTU3OTM1MA%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=8d1Z8gel_yMQ7kNvwG-nSOm&_nc_oc=AdkfIGPYBWT2YJAxouYNiWVCjTO0KIbIe_DOJBsCYZM8cmnmOZgByNDXo3oyrtyOPTY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra5-2.cdninstagram.com&_nc_gid=Q_T7RdNsQMb00LFf6dLW3g&oh=00_Afn_xFmNdcaxhWK48Xc6NNnZZBpb9XFl0xGvixTvSTi2iA&oe=6941C95D",
-                "content": "缶バッチワークショップ",
-                "category": [
-                    "art",
-                    "workshop"
-                ],
-                "location": "",
-                "id": 4,
-                "name": "モモ",
-                "time": "",
-                "type": "子ども販売"
-            },
-            {
-                "content": "動物ブローチ販売",
-                "type": "子ども販売",
-                "category": [
-                    "art"
-                ],
-                "id": 5,
-                "location": "",
-                "name": "nekozukitati🐱",
+                "category": ["art"],
+                "location": "会議室",
                 "time": ""
             },
             {
-                "category": [
-                    "art"
-                ],
-                "location": "",
-                "time": "",
-                "id": 6,
-                "type": "子ども展示",
-                "name": "大城うた",
-                "content": "イラスト展示"
-            },
-            {
-                "name": "mimamorineko & CheePluss 宝石石鹸・編み物グッズ",
+                "id": 3,
+                "name": "さささりん&ボブリ",
+                "content": "イラスト・オリジナルグッズ販売",
+                "imageUrl": "https://scontent-fra5-1.cdninstagram.com/v/t51.71878-15/589825613_2926751227508145_6503039651316328030_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&cb=8438d1d6-0aee74db&ig_cache_key=Mzc3OTAyNzgyNjQxOTkzMjA4MA%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=071l8vS1XZMQ7kNvwFvPBPz&_nc_oc=AdljG2k5UMKsoTUFBr0c_fEBIgd7rYYrRqWbWvy-QsHtI8RlFdkZvOe42Kqlxp_27WM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra5-1.cdninstagram.com&_nc_gid=81uiloyoaa-4dBBC2RPZFQ&oh=00_AfkbP4AwNtgh24Bh56L4oPPHB8_S9rCdhWIKrTfFyEUtKQ&oe=69420135",
                 "type": "大人販売",
-                "content": "mimamorineko GEM SOAP は、あなたを癒し本来の素敵なあなたらしさに導きます。 水晶powder配合 水晶は浄化、開運、潜在能力を高める、健康、生命力を意味します。 お守り‡プレゼントとしてどうぞ✨ あなたらしい素敵な毎日をおくれますように✨ @mim.amorineko  CheePluss chie 三児のママです。日頃モクモクと編み物しています。 時々、実家の庭いじりも...作った作品を見て頂けたら嬉しいです★ @cheepluss",
-                "location": "ホール",
-                "imageUrl": "https://scontent-dus1-1.cdninstagram.com/v/t51.71878-15/588616818_843750855234356_7780632271618642507_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&cb=8438d1d6-0aee74db&ig_cache_key=Mzc3OTMwNjEyMzQzMTE1NjY3MQ%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM4LnNkci5DMyJ9&_nc_ohc=bE3RYU0tZRkQ7kNvwG20W4b&_nc_oc=AdkdTraKOF3d-ssHuW2Upcwjhp0qn2wOakTIzSm357NvjxfqpvlwLFNT2ZO97i3RPFk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-dus1-1.cdninstagram.com&_nc_gid=Jhtxxjx9rCTqqng0mZyXpA&oh=00_AflZV4t6qY2kKrN7vlZBSHaRa_Uxceup2B8Xr1WrK6suBg&oe=6941CA82",
-                "id": 7,
-                "time": "",
-                "category": [
-                    "art"
-                ]
+                "activity_intro": "高校生イラストレーター\n\nオリジナルイラスト\nにじさんじファンアート\nなどを出展します。",
+                "category": ["art"],
+                "link_url": "",
+                "location": "",
+                "time": ""
             },
             {
-                "location": "",
+                "id": 4,
+                "name": "モモ",
+                "content": "缶バッチワークショップ",
+                "imageUrl": "https://scontent-fra5-2.cdninstagram.com/v/t51.71878-15/590404062_870729688977189_7443547700361578666_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&cb=8438d1d6-0aee74db&ig_cache_key=Mzc4MzA1NTAyMTIxMTU3OTM1MA%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=8d1Z8gel_yMQ7kNvwG-nSOm&_nc_oc=AdkfIGPYBWT2YJAxouYNiWVCjTO0KIbIe_DOJBsCYZM8cmnmOZgByNDXo3oyrtyOPTY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra5-2.cdninstagram.com&_nc_gid=Q_T7RdNsQMb00LFf6dLW3g&oh=00_Afn_xFmNdcaxhWK48Xc6NNnZZBpb9XFl0xGvixTvSTi2iA&oe=6941C95D",
+                "type": "子ども販売",
+                "category": ["art", "workshop"],
                 "time": "",
-                "category": [
-                    "art"
-                ],
-                "type": "大人展示",
-                "imageUrl": "https://scontent-ber1-1.cdninstagram.com/v/t51.71878-15/588375518_1382514463470355_4111485297693787861_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=Obr659POQNsQ7kNvwGidsko&_nc_oc=AdmE8f5C0wsDqTxrUBrNctQqL30vujr_1X28P4KiOWSxKeM-DD0-KokIRCMzyaBWAW0&_nc_zt=23&_nc_ht=scontent-ber1-1.cdninstagram.com&_nc_gid=e_e1-hG5Rd1xJcrnweNoqg&oh=00_AflZYacUcWGhQUqMv5zE8uVEMuXYgMnpJJ-cO7NXyH77Iw&oe=6941A330",
-                "content": "絵画作品展示",
-                "name": "りつ(ももやま食堂)",
-                "id": 8
+                "location": ""
             },
             {
-                "location": "",
+                "id": 5,
+                "name": "nekozukitati🐱",
+                "content": "動物ブローチ販売",
+                "imageUrl": "https://scontent-ham3-1.cdninstagram.com/v/t51.71878-15/587009695_872064358649074_3784524735952367883_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&cb=8438d1d6-0aee74db&ig_cache_key=Mzc3NzI1MjA2MzYyNjU0MzM2Mg%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=Letd8Ta6TCoQ7kNvwGYg8U6&_nc_oc=AdmULNR-v1b_LnFL3tHOOX64m9DAy-9yB-H3rdLrftd5g8RolCrn0dIZdHCZmjpC3A0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ham3-1.cdninstagram.com&_nc_gid=BB0US8xWT4v9Kzj5AqMuYA&oh=00_AfktPFVms47dsDbTQWeV2zNS7BPvZRNarKrAifDaYCZs2g&oe=6941D73D",
+                "type": "子ども販売",
+                "category": ["art"],
+                "activity_intro": "ゆるかわ動物ブローチと小物たち。\n布のふんわり感がかわいい手作りアクセ、ひとつひとつ表情が違って見てるだけで癒される作品です♪",
+                "link_url": "",
                 "time": "",
-                "content": "作品展示(小説・イラスト・折り紙)",
-                "category": [
-                    "art"
-                ],
+                "location": ""
+            },
+            {
+                "id": 6,
+                "name": "大城うた",
+                "content": "イラスト展示",
+                "imageUrl": "https://scontent-ber1-1.cdninstagram.com/v/t51.71878-15/588219510_1344046156945250_982639533216825612_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&cb=8438d1d6-0aee74db&ig_cache_key=Mzc3OTI5MTMxMTI0NjU2ODg2MA%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=Qk4C1ckwLusQ7kNvwHhZ5V4&_nc_oc=AdlDe_t4GQHej9Z2QPgX8tL1NdW4z03XUuIjb1-HeVIwrYoajgpwLfi8A6b1JWM_Eec&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ber1-1.cdninstagram.com&_nc_gid=QhMJL1jgUHUCH94AQP5UhA&oh=00_AfnrPk0Mo9StevL7Ss92tGHc-xPRspwrkeO-WBE8jO1ppg&oe=6941DB59",
                 "type": "子ども展示",
+                "category": ["art"],
+                "activity_intro": "小学一年生の頃からアニメの絵を描くようになり、チェンソーマンやダンダダン、ジョジョの奇妙な物語、進撃の巨人、呪術廻戦などを描き始めると何時間でも集中して描きすすめています",
+                "link_url": "",
+                "location": "",
+                "time": ""
+            },
+            {
+                "id": 7,
+                "name": "mimamorineko & CheePluss",
+                "content": "宝石石鹸・編み物グッズ",
+                "imageUrl": "https://scontent-dus1-1.cdninstagram.com/v/t51.71878-15/588616818_843750855234356_7780632271618642507_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&cb=8438d1d6-0aee74db&ig_cache_key=Mzc3OTMwNjEyMzQzMTE1NjY3MQ%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM4LnNkci5DMyJ9&_nc_ohc=bE3RYU0tZRkQ7kNvwG20W4b&_nc_oc=AdkdTraKOF3d-ssHuW2Upcwjhp0qn2wOakTIzSm357NvjxfqpvlwLFNT2ZO97i3RPFk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-dus1-1.cdninstagram.com&_nc_gid=Jhtxxjx9rCTqqng0mZyXpA&oh=00_AflZV4t6qY2kKrN7vlZBSHaRa_Uxceup2B8Xr1WrK6suBg&oe=6941CA82",
+                "type": "大人販売",
+                "activity_intro": "mimamorineko GEM SOAP は、あなたを癒し本来の素敵なあなたらしさに導きます。 水晶powder配合 水晶は浄化、開運、潜在能力を高める、健康、生命力を意味します。 お守り‡プレゼントとしてどうぞ✨ あなたらしい素敵な毎日をおくれますように✨ @mim.amorineko  CheePluss chie 三児のママです。日頃モクモクと編み物しています。 時々、実家の庭いじりも...作った作品を見て頂けたら嬉しいです★ @cheepluss",
+                "category": ["art"],
+                "link_url": "",
+                "location": "ホール",
+                "time": ""
+            },
+            {
+                "id": 8,
+                "name": "りつ(ももやま食堂)",
+                "content": "絵画作品展示",
+                "imageUrl": "https://scontent-ber1-1.cdninstagram.com/v/t51.71878-15/588375518_1382514463470355_4111485297693787861_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=Obr659POQNsQ7kNvwGidsko&_nc_oc=AdmE8f5C0wsDqTxrUBrNctQqL30vujr_1X28P4KiOWSxKeM-DD0-KokIRCMzyaBWAW0&_nc_zt=23&_nc_ht=scontent-ber1-1.cdninstagram.com&_nc_gid=e_e1-hG5Rd1xJcrnweNoqg&oh=00_AflZYacUcWGhQUqMv5zE8uVEMuXYgMnpJJ-cO7NXyH77Iw&oe=6941A330",
+                "type": "大人展示",
+                "category": ["art"],
+                "location": "",
+                "time": ""
+            },
+            {
+                "id": 9,
                 "name": "中学生(中部地区)",
-                "id": 9
+                "content": "作品展示(小説・イラスト・折り紙)",
+                "imageUrl": "https://pbs.twimg.com/media/G7-RU1VagAM2Wd_?format=jpg&name=4096x4096",
+                "type": "子ども展示",
+                "activity_intro": "イラスト・小説・折り紙など\n創作作品を展示\n\n感想のお礼にサンタの指輪を作成",
+                "category": ["art"],
+                "link_url": "",
+                "location": "会議室",
+                "time": ""
             }
         ];
 
@@ -1780,10 +1787,18 @@
             if (password === 'furima2024') {
                 isAdminMode = true;
                 document.getElementById('adminBadge').style.display = 'block';
-                document.getElementById('addExhibitorBtn').style.display = 'flex';
-                document.getElementById('resetDataBtn').style.display = 'block'; // リセットボタン表示
-                document.getElementById('exportDataBtn').style.display = 'block'; // 書き出しボタン表示
-                document.getElementById('changelogBtn').style.display = 'block'; // 履歴ボタン表示
+
+                // 管理者メニュー構築
+                const menu = document.getElementById('adminMenu');
+                menu.innerHTML = `
+                    <div style="font-weight:bold; margin-bottom:10px;">管理者メニュー</div>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+                        <button onclick="showAddExhibitorModal()" style="padding:8px; background:#4ade80; color:white; border:none; border-radius:4px;">＋ 出展者追加</button>
+                        <button onclick="showDataModal()" style="padding:8px; background:#f97316; color:white; border:none; border-radius:4px;">📊 データ管理</button>
+                        <button onclick="showChangelogModal()" style="padding:8px; background:#6b7280; color:white; border:none; border-radius:4px; grid-column: span 2;">📝 更新履歴</button>
+                    </div>
+                `;
+                menu.style.display = 'block';
                 hidePasswordModal();
                 updateStatistics(); // 統計情報を更新（管理者用：全体表示）
                 renderExhibitors();
@@ -1792,44 +1807,93 @@
             }
         }
 
-        async function resetToInitialData() {
-            if (!isAdminMode) return;
-            const confirmed = confirm('【警告】\n現在のデータを全て削除し、初期データに戻しますか？\nこの操作は取り消せません。');
-            if (!confirmed) return;
+        // データ管理モーダル表示
+        function showDataModal() {
+            document.getElementById('dataInput').value = '';
+            document.getElementById('dataModal').classList.add('show');
+        }
+
+        function hideDataModal() {
+            document.getElementById('dataModal').classList.remove('show');
+        }
+
+        // データをエクスポート（コピー）
+        async function exportData() {
+            try {
+                const json = JSON.stringify(exhibitors, null, 4);
+                const textarea = document.getElementById('dataInput');
+                textarea.value = json;
+                textarea.select();
+                await navigator.clipboard.writeText(json);
+                alert('データをコピーしました！\n（テキストエリアにも表示されています）');
+            } catch (err) {
+                console.error('コピー失敗:', err);
+                alert('コピーに失敗しました。');
+            }
+        }
+
+        // データをインポート（復元）
+        async function importData() {
+            const jsonText = document.getElementById('dataInput').value;
+            if (!jsonText) {
+                alert('データを貼り付けてください');
+                return;
+            }
 
             try {
-                // 既存のデータを全削除
+                const importedData = JSON.parse(jsonText);
+                if (!Array.isArray(importedData)) {
+                    throw new Error('データ形式が不正です（配列ではありません）');
+                }
+
+                if (!confirm('【確認】\n現在のデータを上書きして復元しますか？\n（この操作は取り消せません）')) {
+                    return;
+                }
+
+                // 既存データ削除
                 const snapshot = await getDocs(collection(db, 'exhibitors'));
                 const deletePromises = snapshot.docs.map(doc => deleteDoc(doc.ref));
                 await Promise.all(deletePromises);
 
-                // 初期データを投入
+                // インポートデータ登録
+                for (const ex of importedData) {
+                    await setDoc(doc(db, 'exhibitors', String(ex.id)), ex);
+                }
+
+                exhibitors = importedData;
+                alert('復元が完了しました！');
+                renderExhibitors();
+                hideDataModal();
+            } catch (err) {
+                console.error('インポートエラー:', err);
+                alert('復元に失敗しました：' + err.message);
+            }
+        }
+
+        // 初期データにリセット
+        async function resetToInitial() {
+            if (!confirm('【警告】\n本当に初期データに戻しますか？\nこれまでの編集内容はすべて消えます！！')) {
+                return;
+            }
+
+            try {
+                // 全削除
+                const snapshot = await getDocs(collection(db, 'exhibitors'));
+                const deletePromises = snapshot.docs.map(doc => deleteDoc(doc.ref));
+                await Promise.all(deletePromises);
+
+                // 初期データ投入
                 for (const ex of initialExhibitors) {
                     await setDoc(doc(db, 'exhibitors', String(ex.id)), ex);
                 }
 
-                // メモリ上のデータも更新
-                exhibitors = [...initialExhibitors];
-
-                alert('データをリセットしました。');
+                exhibitors = [...initialExhibitors]; // メモリも更新
+                alert('初期データにリセットしました！');
                 renderExhibitors();
-            } catch (error) {
-                console.error('リセットエラー:', error);
-                alert('リセットに失敗しました');
-            }
-        }
-
-        async function exportDataToClipboard() {
-            if (!isAdminMode) return;
-            try {
-                // 現在のデータを整形してJSON文字列化
-                const json = JSON.stringify(exhibitors, null, 4);
-                // クリップボードにコピー
-                await navigator.clipboard.writeText(json);
-                alert('現在のデータをコピーしました！\nチャット欄に貼り付けて送信してください。');
+                hideDataModal();
             } catch (err) {
-                console.error('コピー失敗:', err);
-                alert('コピーに失敗しました。');
+                console.error('リセットエラー:', err);
+                alert('リセットに失敗しました');
             }
         }
 
@@ -2474,6 +2538,7 @@
 
         // 更新履歴モーダル表示
         function showChangelogModal() {
+
             const container = document.getElementById('changelogContent');
             container.innerHTML = changelog.map(log => `
                 <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
@@ -2509,10 +2574,15 @@
         window.cancelEdit = cancelEdit;
         window.saveEdit = saveEdit;
         window.deleteExhibitor = deleteExhibitor;
-        window.resetToInitialData = resetToInitialData;
-        window.exportDataToClipboard = exportDataToClipboard;
+        window.showDataModal = showDataModal;
+        window.hideDataModal = hideDataModal;
+        window.importData = importData;
+        window.exportData = exportData;
+        window.resetToInitial = resetToInitial;
         window.showScheduleModal = showScheduleModal;
         window.hideScheduleModal = hideScheduleModal;
+        window.showChangelogModal = showChangelogModal;
+        window.hideChangelogModal = hideChangelogModal;
 
         // 初期化実行
         init();
