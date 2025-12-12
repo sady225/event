@@ -288,18 +288,27 @@
             margin-bottom: 8px;
         }
 
-        .filter-buttons {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 8px;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
+        .filter-select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #e9d5ff;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: white;
+            color: #374151;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b21a8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            cursor: pointer;
         }
 
-        .filter-buttons::-webkit-scrollbar {
-            display: none;
+        .filter-select:focus {
+            outline: none;
+            border-color: #9333ea;
         }
+
+
 
         .filter-btn {
             display: flex;
@@ -930,17 +939,23 @@
 
         <div class="filter-section">
             <div class="filter-title">カテゴリで絞り込み</div>
-            <div class="filter-buttons" id="categoryFilters"></div>
+            <select id="categorySelect" class="filter-select" onchange="selectCategory(this.value)">
+                <option value="all">全てのカテゴリ</option>
+            </select>
         </div>
 
         <div class="filter-section" id="locationFilterSection" style="display: none;">
             <div class="filter-title">場所で絞り込み</div>
-            <div class="filter-buttons" id="locationFilters"></div>
+            <select id="locationSelect" class="filter-select" onchange="selectLocation(this.value)">
+                <option value="all">全ての場所</option>
+            </select>
         </div>
 
         <div class="filter-section" id="timeFilterSection" style="display: none;">
             <div class="filter-title">時間で絞り込み</div>
-            <div class="filter-buttons" id="timeFilters"></div>
+            <select id="timeSelect" class="filter-select" onchange="selectTime(this.value)">
+                <option value="all">全ての時間</option>
+            </select>
         </div>
 
         <div class="count-display">
@@ -1190,7 +1205,8 @@
                     '背景色を温かみのあるクリーム色(#fef9e3)に変更',
                     '管理者用：更新履歴（この画面）の追加',
                     '管理者用：統計情報の「全体集計」表示（通常は自分のみ）',
-                    'ヘッダーの動作変更：スクロール時にタイトルのみ固定表示し、他の情報は隠れるように調整'
+                    'ヘッダーの動作変更：スクロール時にタイトルのみ固定表示し、他の情報は隠れるように調整',
+                    'フィルタ表示の変更：横スクロールボタン式からプルダウン形式に変更し、視認性を向上'
                 ]
             },
             {
@@ -2020,41 +2036,38 @@
 
         // カテゴリフィルター
         function renderCategoryFilters() {
-            const container = document.getElementById('categoryFilters');
-            const icons = {
-                'all': '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"/><path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9"/><path d="M12 3v6"/></svg>',
-                'art': '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>',
-                'food': '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>',
-                'workshop': '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>',
-                'stage': '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>'
-            };
+            const select = document.getElementById('categorySelect');
+            // 既存のオプションをクリア（最初の「全て」以外）
+            select.innerHTML = '<option value="all">全てのカテゴリ</option>';
 
-            container.innerHTML = categories.map(cat =>
-                `<button class="filter-btn ${selectedCategory === cat.id ? 'active' : ''}" onclick="selectCategory('${cat.id}')">${icons[cat.id]}<span>${cat.name}</span></button>`
-            ).join('');
+            categories.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat.id;
+                option.textContent = cat.icon + ' ' + cat.name;
+                if (selectedCategory === cat.id) option.selected = true;
+                select.appendChild(option);
+            });
         }
 
         function selectCategory(categoryId) {
             selectedCategory = categoryId;
-            renderCategoryFilters();
             renderExhibitors();
         }
 
-        // 場所フィルター
         function getLocations() {
-            const locationSet = new Set();
+            const locations = new Set();
             exhibitors.forEach(ex => {
                 if (ex.location && ex.location.trim()) {
-                    locationSet.add(ex.location.trim());
+                    locations.add(ex.location.trim());
                 }
             });
-            return Array.from(locationSet).sort();
+            return Array.from(locations).sort();
         }
 
         function renderLocationFilters() {
             const locations = getLocations();
             const section = document.getElementById('locationFilterSection');
-            const container = document.getElementById('locationFilters');
+            const select = document.getElementById('locationSelect');
 
             if (locations.length === 0) {
                 section.style.display = 'none';
@@ -2062,24 +2075,24 @@
             }
 
             section.style.display = 'block';
-            const mapPinIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>';
 
-            let html = `<button class="filter-btn location ${selectedLocation === 'all' ? 'active' : ''}" onclick="selectLocation('all')">${mapPinIcon}<span>全ての場所</span></button>`;
+            // 既存オプションクリア
+            select.innerHTML = '<option value="all">全ての場所</option>';
 
             locations.forEach(loc => {
-                html += `<button class="filter-btn location ${selectedLocation === loc ? 'active' : ''}" onclick="selectLocation('${loc}')">${mapPinIcon}<span>${loc}</span></button>`;
+                const option = document.createElement('option');
+                option.value = loc;
+                option.textContent = loc;
+                if (selectedLocation === loc) option.selected = true;
+                select.appendChild(option);
             });
-
-            container.innerHTML = html;
         }
 
         function selectLocation(location) {
             selectedLocation = location;
-            renderLocationFilters();
             renderExhibitors();
         }
 
-        // 時間フィルター
         function getTimeSlots() {
             const timeSet = new Set();
             exhibitors.forEach(ex => {
@@ -2093,7 +2106,7 @@
         function renderTimeFilters() {
             const timeSlots = getTimeSlots();
             const section = document.getElementById('timeFilterSection');
-            const container = document.getElementById('timeFilters');
+            const select = document.getElementById('timeSelect');
 
             if (timeSlots.length === 0) {
                 section.style.display = 'none';
@@ -2101,20 +2114,21 @@
             }
 
             section.style.display = 'block';
-            const clockIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
 
-            let html = `<button class="filter-btn time ${selectedTime === 'all' ? 'active' : ''}" onclick="selectTime('all')">${clockIcon}<span>全ての時間</span></button>`;
+            // 既存オプションクリア
+            select.innerHTML = '<option value="all">全ての時間</option>';
 
             timeSlots.forEach(time => {
-                html += `<button class="filter-btn time ${selectedTime === time ? 'active' : ''}" onclick="selectTime('${time}')">${clockIcon}<span>${time}</span></button>`;
+                const option = document.createElement('option');
+                option.value = time;
+                option.textContent = time;
+                if (selectedTime === time) option.selected = true;
+                select.appendChild(option);
             });
-
-            container.innerHTML = html;
         }
 
         function selectTime(time) {
             selectedTime = time;
-            renderTimeFilters();
             renderExhibitors();
         }
 
