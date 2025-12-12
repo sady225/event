@@ -1694,6 +1694,7 @@
                 document.getElementById('resetDataBtn').style.display = 'block'; // リセットボタン表示
                 document.getElementById('exportDataBtn').style.display = 'block'; // 書き出しボタン表示
                 hidePasswordModal();
+                updateStatistics(); // 統計情報を更新（管理者用：全体表示）
                 renderExhibitors();
             } else {
                 alert('パスワードが違います');
@@ -2047,29 +2048,47 @@
         async function updateStatistics() {
             try {
                 const userId = getUserId();
-
-                // コメント総数を計算 (自分のコメントのみ)
                 const commentsSnapshot = await getDocs(collection(db, 'comments'));
-                let myComments = 0;
-                commentsSnapshot.forEach(doc => {
-                    const data = doc.data();
-                    if (data.comments) {
-                        // 自分のIDと一致するものだけカウント
-                        myComments += data.comments.filter(c => c.userId === userId).length;
-                    }
-                });
-                document.getElementById('totalComments').textContent = myComments;
-
-                // みつけた総数を計算 (自分がスタンプしたもののみ)
                 const stampsSnapshot = await getDocs(collection(db, 'stamps'));
-                let myStamps = 0;
-                stampsSnapshot.forEach(doc => {
-                    const data = doc.data();
-                    if (data.users && data.users.includes(userId)) {
-                        myStamps++;
-                    }
-                });
-                document.getElementById('totalStamps').textContent = myStamps;
+
+                let displayedComments = 0;
+                let displayedStamps = 0;
+
+                if (isAdminMode) {
+                    // 管理者モード: 全体の総数を計算
+                    commentsSnapshot.forEach(doc => {
+                        const data = doc.data();
+                        if (data.comments) {
+                            displayedComments += data.comments.length;
+                        }
+                    });
+
+                    stampsSnapshot.forEach(doc => {
+                        const data = doc.data();
+                        if (data.users) {
+                            displayedStamps += data.users.length;
+                        }
+                    });
+                } else {
+                    // 通常モード: 自分のアクションのみ計算
+                    commentsSnapshot.forEach(doc => {
+                        const data = doc.data();
+                        if (data.comments) {
+                            displayedComments += data.comments.filter(c => c.userId === userId).length;
+                        }
+                    });
+
+                    stampsSnapshot.forEach(doc => {
+                        const data = doc.data();
+                        if (data.users && data.users.includes(userId)) {
+                            displayedStamps++;
+                        }
+                    });
+                }
+
+                document.getElementById('totalComments').textContent = displayedComments;
+                document.getElementById('totalStamps').textContent = displayedStamps;
+
             } catch (error) {
                 console.error('統計情報の更新エラー:', error);
             }
