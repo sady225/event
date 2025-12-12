@@ -898,14 +898,10 @@
             <div id="adminBadge" style="display: none;" class="admin-badge">
                 👑 管理者モード
             </div>
-            <button id="addExhibitorBtn" style="display: none;" class="add-exhibitor-btn"
-                onclick="showAddExhibitorModal()" title="出展者を追加">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="12" y1="5" x2="12" y2="19" />
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                </svg>
-            </button>
+            <!-- 管理者メニュー (JSで中身を表示) -->
+            <div id="adminMenu"
+                style="display: none; background: #fff; padding: 10px; margin-top: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            </div>
         </div>
     </div>
 
@@ -1000,7 +996,6 @@
                             <polyline points="14 2 14 8 20 8" />
                             <line x1="16" y1="13" x2="8" y2="13" />
                             <line x1="16" y1="17" x2="8" y2="17" />
-                            <polyline points="10 9 9 9 8 9" />
                         </svg>
                     </a>
                     <a href="https://x.com/bungei_oki" target="_blank" rel="noopener noreferrer" class="social-link"
@@ -1013,7 +1008,25 @@
                     </a>
                 </div>
             </div>
-            <div class="footer-text">素敵な作品との出会いをお楽しみください!</div>
+            <div style="text-align: center; margin-top: 40px; margin-bottom: 20px;">
+                <div style="font-size: 14px; color: #4b5563; margin-bottom: 8px;">
+                    運営: 一般社団法人喜名地域協育振興プロジェクト
+                    <div style="margin-top: 4px;">
+                        <a href="https://www.instagram.com/kinaproject/" target="_blank"
+                            style="color: #9333ea; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                            </svg>
+                            Instagram
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-text">素敵な作品との出会いをお楽しみください!</div>
+            </div>
         </div>
     </div>
 
@@ -1026,26 +1039,9 @@
                 <button class="modal-btn primary" onclick="handleAdminLogin()">ログイン</button>
                 <button class="modal-btn secondary" onclick="hidePasswordModal()">キャンセル</button>
             </div>
-            <button id="resetDataBtn" class="modal-btn secondary"
-                style="display: none; background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; width: 100%;"
-                onclick="resetToInitialData()">
-                ⚠️ データを初期化する
-            </button>
-            <div style="height: 10px;"></div>
-            <button id="exportDataBtn" class="modal-btn secondary"
-                style="display: none; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; width: 100%;"
-                onclick="exportDataToClipboard()">
-                📋 データをJSON書き出し (バックアップ用)
-            </button>
-            <div style="height: 10px;"></div>
-            <button id="changelogBtn" class="modal-btn secondary"
-                style="display: none; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; width: 100%;"
-                onclick="showChangelogModal()">
-                📜 更新履歴を見る
-            </button>
         </div>
     </div>
-    </div>
+
 
     <!-- コメントモーダル -->
     <div id="commentModal" class="modal">
@@ -1772,13 +1768,26 @@
             }
         }
 
-        // パスワードモーダル
+        // --- モーダル共通処理 ---
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.add('show');
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+        // --- 個別モーダル制御 ---
+
+        // 新規追加モーダル
+        // 管理者ログインモーダル
         function showPasswordModal() {
-            document.getElementById('passwordModal').classList.add('show');
+            showModal('passwordModal');
+            document.getElementById('passwordInput').focus();
         }
 
         function hidePasswordModal() {
-            document.getElementById('passwordModal').classList.remove('show');
+            hideModal('passwordModal');
             document.getElementById('passwordInput').value = '';
         }
 
@@ -1807,14 +1816,14 @@
             }
         }
 
-        // データ管理モーダル表示
+        // データ管理モーダル
         function showDataModal() {
             document.getElementById('dataInput').value = '';
-            document.getElementById('dataModal').classList.add('show');
+            showModal('dataModal');
         }
 
         function hideDataModal() {
-            document.getElementById('dataModal').classList.remove('show');
+            hideModal('dataModal');
         }
 
         // データをエクスポート（コピー）
@@ -1900,7 +1909,7 @@
         // コメントモーダル
         async function showCommentModal(exhibitorId) {
             selectedExhibitorId = exhibitorId;
-            document.getElementById('commentModal').classList.add('show');
+            showModal('commentModal');
             document.getElementById('commentInput').focus();
             await renderCommentHistory(exhibitorId);
         }
@@ -1993,7 +2002,8 @@
 
         // 出展者追加モーダル
         function showAddExhibitorModal() {
-            document.getElementById('addExhibitorModal').classList.add('show');
+            if (!isAdminMode) return;
+            showModal('addExhibitorModal');
             // カテゴリチェックボックスを動的に生成
             const categoryContainer = document.getElementById('add-category-container');
             categoryContainer.innerHTML = categories.filter(c => c.id !== 'all').map(c => `
@@ -2025,7 +2035,7 @@
         }
 
         function hideAddExhibitorModal() {
-            document.getElementById('addExhibitorModal').classList.remove('show');
+            hideModal('addExhibitorModal');
             // フォームをクリア
             document.getElementById('add-name').value = '';
             document.getElementById('add-content').value = '';
@@ -2527,18 +2537,17 @@
             }
         }
 
-        // タイムスケジュールモーダル制御
+        // タイムスケジュールモーダル
         function showScheduleModal() {
-            document.getElementById('scheduleModal').classList.add('show');
+            showModal('scheduleModal');
         }
 
         function hideScheduleModal() {
-            document.getElementById('scheduleModal').classList.remove('show');
+            hideModal('scheduleModal');
         }
 
-        // 更新履歴モーダル表示
+        // 更新履歴モーダル
         function showChangelogModal() {
-
             const container = document.getElementById('changelogContent');
             container.innerHTML = changelog.map(log => `
                 <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
@@ -2549,11 +2558,11 @@
                     </ul>
                 </div>
             `).join('');
-            document.getElementById('changelogModal').classList.add('show');
+            showModal('changelogModal');
         }
 
         function hideChangelogModal() {
-            document.getElementById('changelogModal').classList.remove('show');
+            hideModal('changelogModal');
         }
 
         // グローバル関数として公開
