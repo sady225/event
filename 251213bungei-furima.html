@@ -976,12 +976,6 @@
                 onclick="resetToInitialData()">
                 ⚠️ データを初期化する
             </button>
-            <div style="height: 10px;"></div>
-            <button id="exportDataBtn" class="modal-btn secondary"
-                style="display: none; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; width: 100%;"
-                onclick="exportDataToClipboard()">
-                📋 現在のデータをコピー (開発用)
-            </button>
         </div>
     </div>
     </div>
@@ -1652,7 +1646,6 @@
                 document.getElementById('adminBadge').style.display = 'block';
                 document.getElementById('addExhibitorBtn').style.display = 'flex';
                 document.getElementById('resetDataBtn').style.display = 'block'; // リセットボタン表示
-                document.getElementById('exportDataBtn').style.display = 'block'; // 書き出しボタン表示
                 hidePasswordModal();
                 renderExhibitors();
             } else {
@@ -1684,20 +1677,6 @@
             } catch (error) {
                 console.error('リセットエラー:', error);
                 alert('リセットに失敗しました');
-            }
-        }
-
-        async function exportDataToClipboard() {
-            if (!isAdminMode) return;
-            try {
-                // 現在のデータを整形してJSON文字列化
-                const json = JSON.stringify(exhibitors, null, 4);
-                // クリップボードにコピー
-                await navigator.clipboard.writeText(json);
-                alert('現在のデータをコピーしました！\nチャット欄に貼り付けて送信してください。');
-            } catch (err) {
-                console.error('コピー失敗:', err);
-                alert('コピーに失敗しました。');
             }
         }
 
@@ -2303,7 +2282,6 @@
         window.saveEdit = saveEdit;
         window.deleteExhibitor = deleteExhibitor;
         window.resetToInitialData = resetToInitialData;
-        window.exportDataToClipboard = exportDataToClipboard;
         window.showScheduleModal = showScheduleModal;
         window.hideScheduleModal = hideScheduleModal;
 
