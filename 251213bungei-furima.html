@@ -24,24 +24,34 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        .header {
+        .sticky-header {
             background: white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            /* 軽い影 */
             position: sticky;
             top: 0;
             z-index: 100;
+            padding: 12px 16px;
+        }
+
+        .scroll-header {
+            background: white;
+            padding: 0 16px 16px 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            /* 下部の影 */
         }
 
         .header-content {
             max-width: 768px;
             margin: 0 auto;
-            padding: 16px;
         }
 
         .header-flex {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
+            /* 中央揃えに変更 */
         }
 
         h1 {
@@ -829,41 +839,12 @@
 </head>
 
 <body>
-    <div class="header">
+    <div class="sticky-header">
         <div class="header-content">
             <div class="header-flex">
-                <div style="flex: 1;">
-                    <h1><span style="color: #4cb7b9;">沖縄</span><span style="color: #e769a1;">文芸フリマ</span> in 田場公民館</h1>
-                    <div class="date-info">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-                            <circle cx="12" cy="10" r="3" />
-                        </svg>
-                        <span>2025年12月13日開催</span>
-                    </div>
-                    <div class="header-links">
-                        <button onclick="showScheduleModal()" class="header-link-btn schedule-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10" />
-                                <polyline points="12 6 12 12 16 14" />
-                            </svg>
-                            <span>タイムスケジュール</span>
-                        </button>
-                        <a href="https://250215ainoie.my.canva.site/12-13" target="_blank" rel="noopener noreferrer"
-                            class="header-link-btn venue-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-                                <circle cx="12" cy="10" r="3" />
-                            </svg>
-                            <span>会場レイアウト</span>
-                        </a>
-                    </div>
-                </div>
+                <h1 style="margin: 0; font-size: 20px;">
+                    <span style="color: #4cb7b9;">沖縄</span><span style="color: #e769a1;">文芸フリマ</span> in 田場公民館
+                </h1>
                 <button class="settings-btn" onclick="showPasswordModal()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -872,6 +853,38 @@
                         <circle cx="12" cy="12" r="3" />
                     </svg>
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="scroll-header">
+        <div class="header-content">
+            <div class="date-info">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                    <circle cx="12" cy="10" r="3" />
+                </svg>
+                <span>2025年12月13日開催</span>
+            </div>
+            <div class="header-links">
+                <button onclick="showScheduleModal()" class="header-link-btn schedule-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    <span>タイムスケジュール</span>
+                </button>
+                <a href="https://250215ainoie.my.canva.site/12-13" target="_blank" rel="noopener noreferrer"
+                    class="header-link-btn venue-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                        <circle cx="12" cy="10" r="3" />
+                    </svg>
+                    <span>会場レイアウト</span>
+                </a>
             </div>
             <div id="adminBadge" style="display: none;" class="admin-badge">
                 👑 管理者モード
@@ -1176,7 +1189,8 @@
                 details: [
                     '背景色を温かみのあるクリーム色(#fef9e3)に変更',
                     '管理者用：更新履歴（この画面）の追加',
-                    '管理者用：統計情報の「全体集計」表示（通常は自分のみ）'
+                    '管理者用：統計情報の「全体集計」表示（通常は自分のみ）',
+                    'ヘッダーの動作変更：スクロール時にタイトルのみ固定表示し、他の情報は隠れるように調整'
                 ]
             },
             {
