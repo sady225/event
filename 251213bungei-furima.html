@@ -1025,6 +1025,12 @@
             <input type="text" class="modal-input" id="newExhibitorLocation" placeholder="場所(省略可)">
             <input type="text" class="modal-input" id="newExhibitorTime" placeholder="時間(省略可)">
             <input type="text" class="modal-input" id="newExhibitorImageUrl" placeholder="画像URL（省略可）">
+            <div style="margin-bottom: 12px;">
+                <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">または画像をアップロード</label>
+                <input type="file" id="newExhibitorImageFile" accept="image/*" class="modal-input"
+                    style="padding: 8px;">
+                <div id="newExhibitorImagePreview" style="margin-top: 8px; max-width: 100%; text-align: center;"></div>
+            </div>
             <div class="modal-actions">
                 <button class="modal-btn primary" onclick="createExhibitor()">追加する</button>
                 <button class="modal-btn secondary" onclick="hideAddExhibitorModal()">キャンセル</button>
@@ -1472,9 +1478,73 @@
             selectedExhibitorId = null;
         }
 
+        // 画像アップロード処理 (Base64変換 & リサイズ)
+        function handleImageUpload(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+
+                        // 最大サイズ設定
+                        const MAX_WIDTH = 800;
+                        const MAX_HEIGHT = 800;
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > height) {
+                            if (width > MAX_WIDTH) {
+                                height *= MAX_WIDTH / width;
+                                width = MAX_WIDTH;
+                            }
+                        } else {
+                            if (height > MAX_HEIGHT) {
+                                width *= MAX_HEIGHT / height;
+                                height = MAX_HEIGHT;
+                            }
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        // JPEG形式で圧縮率0.7で出力
+                        resolve(canvas.toDataURL('image/jpeg', 0.7));
+                    };
+                    img.src = e.target.result;
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        let newExhibitorImageFile = null;
+        let editExhibitorImageFile = null;
+
         // 出展者追加モーダル
         function showAddExhibitorModal() {
             document.getElementById('addExhibitorModal').classList.add('show');
+            // ファイル入力のリセットとリスナー設定
+            const fileInput = document.getElementById('newExhibitorImageFile');
+            fileInput.value = '';
+            newExhibitorImageFile = null;
+            document.getElementById('newExhibitorImagePreview').innerHTML = '';
+
+            fileInput.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    newExhibitorImageFile = file;
+                    // プレビュー表示
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        document.getElementById('newExhibitorImagePreview').innerHTML =
+                            `<img src="${e.target.result}" style="max-height: 100px; max-width: 100%; border-radius: 4px;">`;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
             document.getElementById('newExhibitorName').focus();
         }
 
@@ -1492,42 +1562,59 @@
             document.getElementById('newExhibitorLocation').value = '';
             document.getElementById('newExhibitorTime').value = '';
             document.getElementById('newExhibitorImageUrl').value = '';
+            document.getElementById('newExhibitorImageFile').value = ''; // ファイル入力もクリア
+            document.getElementById('newExhibitorImagePreview').innerHTML = ''; // プレビューもクリア
+            newExhibitorImageFile = null; // ファイルデータもクリア
         }
 
         // 新しい出展者を作成
         async function createExhibitor() {
             const name = document.getElementById('newExhibitorName').value.trim();
             const content = document.getElementById('newExhibitorContent').value.trim();
-            const checkedCategories = Array.from(document.querySelectorAll('input[name="newExhibitorCategory"]:checked')).map(cb => cb.value);
             //const category = document.getElementById('newExhibitorCategory').value;
             const type = document.getElementById('newExhibitorType').value.trim();
             const location = document.getElementById('newExhibitorLocation').value.trim();
             const time = document.getElementById('newExhibitorTime').value.trim();
-            const imageUrl = document.getElementById('newExhibitorImageUrl').value.trim();
+            //const imageUrl = document.getElementById('newExhibitorImageUrl').value.trim();
 
             if (!name || !content || !type) {
                 alert('出展者名、内容、タイプは必須です');
                 return;
             }
 
-            // 新しいIDを生成（現在の最大ID + 1）
-            const maxId = Math.max(...exhibitors.map(ex => ex.id), 0);
+            // カテゴリ収集（チェックボックス）
+            const checkedCategories = Array.from(document.querySelectorAll('input[name="newExhibitorCategory"]:checked'))
+                .map(cb => cb.value);
+
+            // 画像処理
+            let imageUrl = document.getElementById('newExhibitorImageUrl').value;
+            if (newExhibitorImageFile) {
+                try {
+                    imageUrl = await handleImageUpload(newExhibitorImageFile);
+                } catch (e) {
+                    console.error('画像処理エラー', e);
+                    alert('画像の処理に失敗しました');
+                    return;
+                }
+            }
+
             const newExhibitor = {
-                id: maxId + 1,
-                name: name,
-                content: content,
+                id: Date.now(),
+                name: document.getElementById('newExhibitorName').value,
+                content: document.getElementById('newExhibitorContent').value,
                 category: checkedCategories.length > 0 ? checkedCategories : ['art'], // デフォルト
-                type: type,
-                location: location,
-                time: time,
+                type: document.getElementById('newExhibitorType').value,
+                location: document.getElementById('newExhibitorLocation').value,
+                time: document.getElementById('newExhibitorTime').value,
                 imageUrl: imageUrl
             };
 
             try {
-                await saveExhibitor(newExhibitor);
+                await setDoc(doc(db, 'exhibitors', String(newExhibitor.id)), newExhibitor);
                 hideAddExhibitorModal();
-                alert('出展者を追加しました！');
+                renderExhibitors();
             } catch (error) {
+                console.error('追加エラー:', error);
                 alert('追加に失敗しました');
             }
         }
@@ -1729,9 +1816,17 @@
                                 `).join('')}
                             </div>
                         </div>
+                        <input type="text" class="edit-input" id="edit-type-${ex.id}" value="${ex.type}" placeholder="タイプ(例:展示、販売、体験)">
                         <input type="text" class="edit-input" id="edit-location-${ex.id}" value="${ex.location}" placeholder="場所(例:1階ホール、A-12ブース)">
                         <input type="text" class="edit-input" id="edit-time-${ex.id}" value="${ex.time}" placeholder="時間(例:10:00-16:00)">
                         <input type="text" class="edit-input" id="edit-imageUrl-${ex.id}" value="${ex.imageUrl || ''}" placeholder="画像URL(省略可)">
+                        <div style="margin-bottom: 12px;">
+                            <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">または画像をアップロード</label>
+                            <input type="file" id="edit-imageFile-${ex.id}" accept="image/*" class="edit-input" style="padding: 8px;">
+                            <div id="edit-imagePreview-${ex.id}" style="margin-top: 8px; max-width: 100%; text-align: center;">
+                                ${ex.imageUrl ? `<img src="${ex.imageUrl}" style="max-height: 100px; max-width: 100%; border-radius: 4px;">` : ''}
+                            </div>
+                        </div>
                         <div class="edit-actions">
                             <button class="save-btn" onclick="saveEdit(${ex.id})">${saveIcon} 保存</button>
                             <button class="cancel-btn" onclick="cancelEdit()">${xIcon} キャンセル</button>
@@ -1786,7 +1881,7 @@
             html += '</div>';
             html += '<div class="interaction-row">';
             html += `<button class="stamp-btn ${hasStamped ? 'active' : ''}" onclick="addStamp(${ex.id})">`;
-            html += `<span style="font-size: 18px;">みつけた🍀</span><span>${stampCount}</span>`;
+            html += `<span style="font-size: 18px;">みつけた❤️</span><span>${stampCount}</span>`;
             html += '</button>';
             html += `<button class="comment-btn" onclick="showCommentModal(${ex.id})">`;
             html += `${messageIcon}<span>${exhibitorComments.length}</span>`;
@@ -1813,34 +1908,80 @@
         // 編集開始
         function startEdit(id) {
             editingId = id;
+            editExhibitorImageFile = null; // リセット
             renderExhibitors();
+            // ファイル入力リスナーの設定
+            setTimeout(() => {
+                const fileInput = document.getElementById(`edit-imageFile-${id}`);
+                if (fileInput) {
+                    fileInput.onchange = (e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                            editExhibitorImageFile = file;
+                            // プレビュー表示
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                document.getElementById(`edit-imagePreview-${id}`).innerHTML =
+                                    `<img src="${e.target.result}" style="max-height: 100px; max-width: 100%; border-radius: 4px;">`;
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    };
+                }
+            }, 100);
         }
 
         // 編集キャンセル
         function cancelEdit() {
             editingId = null;
+            editExhibitorImageFile = null; // リセット
             renderExhibitors();
         }
 
         // 編集保存
         async function saveEdit(id) {
-            const ex = exhibitors.find(e => e.id === id);
-            if (ex) {
-                ex.name = document.getElementById(`edit-name-${id}`).value;
-                ex.content = document.getElementById(`edit-content-${id}`).value;
-                const checkedCategories = Array.from(document.querySelectorAll(`input[name="edit-category-${id}"]:checked`)).map(cb => cb.value);
-                ex.category = checkedCategories.length > 0 ? checkedCategories : ['art']; // デフォルト設定
-                ex.location = document.getElementById(`edit-location-${id}`).value;
-                ex.time = document.getElementById(`edit-time-${id}`).value;
-                ex.imageUrl = document.getElementById(`edit-imageUrl-${id}`).value;
+            // カテゴリ収集
+            const checkedCategories = Array.from(document.querySelectorAll(`input[name="edit-category-${id}"]:checked`))
+                .map(cb => cb.value);
 
+            // 画像処理
+            let imageUrl = document.getElementById(`edit-imageUrl-${id}`).value;
+            if (editExhibitorImageFile) {
                 try {
-                    await saveExhibitor(ex);
-                    editingId = null;
-                    alert('保存しました!');
-                } catch (error) {
-                    alert('保存に失敗しました。Firestoreの設定を確認してください。');
+                    imageUrl = await handleImageUpload(editExhibitorImageFile);
+                } catch (e) {
+                    console.error('画像処理エラー', e);
+                    alert('画像の処理に失敗しました');
+                    return;
                 }
+            }
+
+            const updatedData = {
+                name: document.getElementById(`edit-name-${id}`).value,
+                content: document.getElementById(`edit-content-${id}`).value,
+                category: checkedCategories.length > 0 ? checkedCategories : ['art'],
+                type: document.getElementById(`edit-type-${id}`).value,
+                location: document.getElementById(`edit-location-${id}`).value,
+                time: document.getElementById(`edit-time-${id}`).value,
+                imageUrl: imageUrl
+            };
+
+            try {
+                const exhibitorRef = doc(db, 'exhibitors', String(id));
+                await updateDoc(exhibitorRef, updatedData);
+
+                // メモリ上のデータも更新
+                const index = exhibitors.findIndex(ex => ex.id === id);
+                if (index !== -1) {
+                    exhibitors[index] = { ...exhibitors[index], ...updatedData };
+                }
+
+                editingId = null;
+                editExhibitorImageFile = null; // リセット
+                renderExhibitors();
+            } catch (error) {
+                console.error('保存エラー:', error);
+                alert('保存に失敗しました');
             }
         }
 
