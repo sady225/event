@@ -633,6 +633,130 @@
             background: #b91c1c;
         }
 
+        /* ビュー切り替え */
+        .view-controls {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .view-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 9999px;
+            border: 1px solid #e9d5ff;
+            background: white;
+            color: #6b21a8;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .view-btn.active {
+            background: #9333ea;
+            color: white;
+            border-color: #9333ea;
+            box-shadow: 0 4px 12px rgba(147, 51, 234, 0.2);
+        }
+
+        /* 出展者テーブル (一覧ビュー) */
+        .exhibitor-table-container {
+            width: 100%;
+            overflow-x: auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e9d5ff;
+            margin-bottom: 30px;
+        }
+
+        .exhibitor-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            min-width: 600px;
+        }
+
+        .exhibitor-table th {
+            background: #fdf4ff;
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 700;
+            color: #7c3aed;
+            border-bottom: 2px solid #e9d5ff;
+            white-space: nowrap;
+        }
+
+        .exhibitor-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #f3e8ff;
+            vertical-align: middle;
+            color: #4b5563;
+        }
+
+        .exhibitor-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .exhibitor-table tr:hover {
+            background: #faf5ff;
+        }
+
+        .table-exhibitor-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .table-thumb {
+            width: 48px;
+            height: 48px;
+            border-radius: 6px;
+            object-fit: cover;
+            border: 1px solid #e5e7eb;
+        }
+
+        .table-exhibitor-name {
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .table-exhibitor-content {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 2px;
+        }
+
+        .table-type-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            background: #f3e8ff;
+            color: #6b21a8;
+        }
+
+        .table-location {
+            font-weight: 600;
+            color: #16a34a;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        @media (max-width: 640px) {
+
+            .exhibitor-table th:nth-child(4),
+            .exhibitor-table td:nth-child(4) {
+                display: none;
+            }
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -952,6 +1076,31 @@
             <select id="timeSelect" class="filter-select" onchange="selectTime(this.value)">
                 <option value="all">全ての時間</option>
             </select>
+        </div>
+
+        <div class="view-controls">
+            <button class="view-btn active" id="btnViewCard" onclick="changeView('card')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7" />
+                    <rect x="14" y="3" width="7" height="7" />
+                    <rect x="14" y="14" width="7" height="7" />
+                    <rect x="3" y="14" width="7" height="7" />
+                </svg>
+                <span>カード</span>
+            </button>
+            <button class="view-btn" id="btnViewList" onclick="changeView('list')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="8" y1="6" x2="21" y2="6" />
+                    <line x1="8" y1="12" x2="21" y2="12" />
+                    <line x1="8" y1="18" x2="21" y2="18" />
+                    <line x1="3" y1="6" x2="3.01" y2="6" />
+                    <line x1="3" y1="12" x2="3.01" y2="12" />
+                    <line x1="3" y1="18" x2="3.01" y2="18" />
+                </svg>
+                <span>リスト</span>
+            </button>
         </div>
 
         <div class="count-display">
@@ -1532,6 +1681,7 @@
         let selectedCategory = 'all';
         let selectedLocation = 'all';
         let selectedTime = 'all';
+        let viewMode = 'card';
         let editingId = null;
         let selectedExhibitorId = null;
 
@@ -2268,6 +2418,66 @@
             });
         }
 
+        // ビュー切り替え
+        function changeView(mode) {
+            viewMode = mode;
+            document.getElementById('btnViewCard').classList.toggle('active', mode === 'card');
+            document.getElementById('btnViewList').classList.toggle('active', mode === 'list');
+            renderExhibitors();
+        }
+
+        async function renderExhibitorTable(filtered) {
+            const mapPinIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>';
+
+            const rows = filtered.map(ex => `
+                <tr onclick="showCommentModal(${ex.id})" style="cursor: pointer;">
+                    <td>
+                        <div class="table-exhibitor-info">
+                            ${ex.imageUrl ? `<img src="${ex.imageUrl}" class="table-thumb" alt="${ex.name}">` : '<div class="table-thumb" style="background:#f3f4f6; display:flex; align-items:center; justify-content:center; color:#9ca3af;">No Image</div>'}
+                            <div>
+                                <div class="table-exhibitor-name">${ex.name}</div>
+                                <div class="table-exhibitor-content">${ex.content}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="table-type-badge">${ex.type}</div>
+                    </td>
+                    <td>
+                        ${ex.location ? `
+                            <div class="table-location">
+                                ${mapPinIcon}
+                                <span>${ex.location}</span>
+                            </div>
+                        ` : '-'}
+                    </td>
+                    <td>
+                        <div style="font-size: 13px; color: #6b7280; max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                            ${ex.activity_intro || '-'}
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+
+            return `
+                <div class="exhibitor-table-container">
+                    <table class="exhibitor-table">
+                        <thead>
+                            <tr>
+                                <th>出展者</th>
+                                <th>タイプ</th>
+                                <th>場所</th>
+                                <th>紹介</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${rows}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
         // 出展者表示
         async function renderExhibitors() {
             const filtered = getFilteredExhibitors();
@@ -2277,6 +2487,11 @@
 
             if (filtered.length === 0) {
                 container.innerHTML = '<div class="no-results">該当する出展者が見つかりませんでした</div>';
+                return;
+            }
+
+            if (viewMode === 'list') {
+                container.innerHTML = await renderExhibitorTable(filtered);
                 return;
             }
 
