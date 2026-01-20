@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
             min-height: 100vh;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
         }
+
         .container {
             display: flex;
             align-items: center;
@@ -18,6 +20,7 @@
             min-height: 100vh;
             padding: 1rem;
         }
+
         .app-card {
             background: white;
             border-radius: 1.5rem;
@@ -26,6 +29,7 @@
             width: 100%;
             max-width: 42rem;
         }
+
         .title {
             font-size: 2.25rem;
             font-weight: bold;
@@ -33,6 +37,7 @@
             margin-bottom: 0.5rem;
             text-align: center;
         }
+
         .stats {
             display: flex;
             justify-content: center;
@@ -40,14 +45,17 @@
             font-size: 0.875rem;
             margin-bottom: 2rem;
         }
+
         .score {
             color: #059669;
             font-weight: 600;
         }
+
         .progress {
             color: #2563eb;
             font-weight: 600;
         }
+
         .hiragana-display {
             font-size: 5rem;
             font-weight: bold;
@@ -55,6 +63,7 @@
             text-align: center;
             margin-bottom: 2rem;
         }
+
         .hint-box {
             font-size: 1.125rem;
             color: #4338ca;
@@ -65,6 +74,7 @@
             text-align: center;
             display: none;
         }
+
         .input-field {
             width: 100%;
             max-width: 24rem;
@@ -79,17 +89,21 @@
             margin: 0 auto 1.5rem;
             display: block;
         }
+
         .input-field:focus {
             border-color: #6366f1;
         }
+
         .input-field.correct {
             border-color: #10b981;
             background-color: #ecfdf5;
         }
+
         .input-field.incorrect {
             border-color: #ef4444;
             background-color: #fef2f2;
         }
+
         .error-message {
             text-align: center;
             color: #dc2626;
@@ -97,6 +111,7 @@
             margin-bottom: 1.5rem;
             display: none;
         }
+
         .success-message {
             text-align: center;
             color: #059669;
@@ -105,12 +120,14 @@
             margin-bottom: 1.5rem;
             display: none;
         }
+
         .button-group {
             display: flex;
             justify-content: center;
             gap: 1rem;
             flex-wrap: wrap;
         }
+
         .btn {
             padding: 0.75rem 1.5rem;
             border-radius: 0.5rem;
@@ -119,27 +136,34 @@
             cursor: pointer;
             transition: background-color 0.2s;
         }
+
         .btn-hint {
             background-color: #eab308;
             color: white;
         }
+
         .btn-hint:hover {
             background-color: #ca8a04;
         }
+
         .btn-skip {
             background-color: #f97316;
             color: white;
         }
+
         .btn-skip:hover {
             background-color: #ea580c;
         }
+
         .btn-reset {
             background-color: #6b7280;
             color: white;
         }
+
         .btn-reset:hover {
             background-color: #4b5563;
         }
+
         .instructions {
             margin-top: 2rem;
             text-align: center;
@@ -148,6 +172,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="app-card">
@@ -223,9 +248,9 @@
             { hiragana: 'ず', romaji: ['zu'] },
             { hiragana: 'ぜ', romaji: ['ze'] },
             { hiragana: 'ぞ', romaji: ['zo'] },
-            { hiragana: 'じゃ', romaji: ['ja', 'jya'] },
-            { hiragana: 'じゅ', romaji: ['ju', 'jyu'] },
-            { hiragana: 'じょ', romaji: ['jo', 'jyo'] },
+            { hiragana: 'じゃ', romaji: ['ja', 'zya'] },
+            { hiragana: 'じゅ', romaji: ['ju', 'zyu'] },
+            { hiragana: 'じょ', romaji: ['jo', 'zyo'] },
             { hiragana: 'た', romaji: ['ta'] },
             { hiragana: 'ち', romaji: ['chi', 'ti'] },
             { hiragana: 'つ', romaji: ['tsu', 'tu'] },
@@ -325,10 +350,10 @@
                 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
                 const oscillator = audioContext.createOscillator();
                 const gainNode = audioContext.createGain();
-                
+
                 oscillator.connect(gainNode);
                 gainNode.connect(audioContext.destination);
-                
+
                 if (isSuccess) {
                     oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime);
                     oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1);
@@ -337,11 +362,11 @@
                     oscillator.frequency.setValueAtTime(220, audioContext.currentTime);
                     oscillator.frequency.setValueAtTime(196, audioContext.currentTime + 0.1);
                 }
-                
+
                 oscillator.type = 'sine';
                 gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
                 gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-                
+
                 oscillator.start(audioContext.currentTime);
                 oscillator.stop(audioContext.currentTime + 0.5);
             } catch (e) {
@@ -354,12 +379,12 @@
             if (usedIndices.size >= romajiData.length) {
                 usedIndices = new Set();
             }
-            
+
             let nextIndex;
             do {
                 nextIndex = Math.floor(Math.random() * romajiData.length);
             } while (usedIndices.has(nextIndex));
-            
+
             return nextIndex;
         }
 
@@ -371,15 +396,15 @@
             hintRomaji.textContent = currentProblem.romaji[0];
             scoreSpan.textContent = score;
             completedSpan.textContent = completedCount;
-            
+
             // 入力フィールドをリセット
             inputField.value = '';
             inputField.className = 'input-field';
-            
+
             // メッセージを隠す
             errorMessage.style.display = 'none';
             successMessage.style.display = 'none';
-            
+
             // ヒントの表示/非表示
             hintBox.style.display = showHint ? 'block' : 'none';
         }
@@ -397,7 +422,7 @@
             const input = e.target.value.toLowerCase();
             const currentProblem = romajiData[currentIndex];
             const possibleRomaji = currentProblem.romaji;
-            
+
             if (input.length === 0) {
                 inputField.className = 'input-field';
                 errorMessage.style.display = 'none';
@@ -420,7 +445,7 @@
                     successMessage.style.display = 'block';
                     scoreSpan.textContent = score;
                     completedSpan.textContent = completedCount;
-                    
+
                     inputField.disabled = true;
                     setTimeout(() => {
                         setNewProblem();
@@ -476,4 +501,5 @@
         initialize();
     </script>
 </body>
+
 </html>
