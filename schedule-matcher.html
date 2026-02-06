@@ -472,23 +472,56 @@
             margin-bottom: 16px;
         }
 
-        .share-data-box {
+        .share-url-box {
             background: #f5f5f5;
             border-radius: 8px;
             padding: 12px;
             margin-bottom: 16px;
+            text-align: left;
         }
 
-        .share-data-box textarea {
+        .share-url-box label {
+            display: block;
+            font-size: 0.75rem;
+            color: #666;
+            margin-bottom: 6px;
+        }
+
+        .share-url-box input {
             width: 100%;
-            height: 80px;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 6px;
-            font-family: monospace;
+            font-size: 0.8rem;
+            background: white;
+        }
+
+        .template-message-box {
+            background: #fff8e1;
+            border: 1px solid #ffcc80;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .template-message-box label {
+            display: block;
             font-size: 0.75rem;
+            color: #e65100;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .template-message-box textarea {
+            width: 100%;
+            height: 140px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.85rem;
             resize: none;
-            margin-bottom: 8px;
+            line-height: 1.6;
         }
 
         .share-actions {
@@ -510,23 +543,13 @@
             width: 100%;
         }
 
-        .share-btn-email {
-            background: #1976d2;
+        .share-btn-copy {
+            background: linear-gradient(135deg, #d4a574 0%, #c4956a 100%);
             color: white;
         }
 
-        .share-btn-email:active {
-            background: #1565c0;
-        }
-
-        .share-btn-copy {
-            background: #f5f5f5;
-            border: 1px solid #ddd;
-            color: #333;
-        }
-
         .share-btn-copy:active {
-            background: #e5e5e5;
+            background: #b8845a;
         }
 
         .share-btn-back {
@@ -536,64 +559,7 @@
             margin-top: 8px;
         }
 
-        /* メール入力画面 */
-        .email-screen {
-            display: none;
-            padding: 20px;
-            background: white;
-            border-radius: 12px;
-            border: 1px solid #e5e5e5;
-        }
-
-        .email-screen.show {
-            display: block;
-        }
-
-        .email-screen h2 {
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .email-screen p {
-            font-size: 0.85rem;
-            color: #666;
-            margin-bottom: 16px;
-        }
-
-        .email-input-group {
-            margin-bottom: 16px;
-        }
-
-        .email-input-group label {
-            display: block;
-            font-size: 0.8rem;
-            color: #666;
-            margin-bottom: 6px;
-        }
-
-        .email-input-group input {
-            width: 100%;
-            padding: 14px 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            -webkit-appearance: none;
-        }
-
-        .email-input-group input:focus {
-            outline: none;
-            border-color: #1976d2;
-        }
-
-        .email-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
+        /* 参加者インポートエリア（手動用、非表示デフォルト） */
         .import-area {
             margin-bottom: 16px;
             padding: 12px;
@@ -637,6 +603,42 @@
 
         .import-status.show {
             display: block;
+        }
+
+        /* 参加者ウェルカム画面 */
+        .participant-welcome {
+            display: none;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e5e5e5;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .participant-welcome.show {
+            display: block;
+        }
+
+        .participant-welcome h2 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: #1565c0;
+        }
+
+        .participant-welcome p {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .participant-welcome .slot-info {
+            background: #e3f2fd;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #1565c0;
+            display: inline-block;
         }
 
         .legend {
@@ -745,16 +747,11 @@
         <div class="step-line" id="stepLine1"></div>
         <div class="step" id="step2">
             <div class="step-number">2</div>
-            <div class="step-label">確認</div>
-        </div>
-        <div class="step-line" id="stepLine2"></div>
-        <div class="step" id="step3">
-            <div class="step-number">3</div>
-            <div class="step-label">送信</div>
+            <div class="step-label">リンク生成</div>
         </div>
     </div>
 
-    <div class="mode-toggle">
+    <div class="mode-toggle" id="modeToggle">
         <button class="mode-btn active" data-mode="host" onclick="setMode('host')">
             🗓️ 空き時間を設定
         </button>
@@ -807,19 +804,17 @@
     <!-- 主催者: 完了画面 -->
     <div class="completion-screen" id="completionScreen">
         <div class="completion-icon">✓</div>
-        <h2>空き時間の設定完了！</h2>
-        <p>参加者に共有してください</p>
+        <h2>リンクが生成されました！</h2>
+        <p>以下のメッセージをコピーして参加者に送ってください</p>
 
-        <div class="share-data-box">
-            <textarea id="shareData" readonly placeholder="共有データ"></textarea>
+        <div class="template-message-box">
+            <label>📋 テンプレートメッセージ</label>
+            <textarea id="templateMessage" readonly></textarea>
         </div>
 
         <div class="share-actions">
-            <button class="share-btn share-btn-email" onclick="showEmailScreen()">
-                📧 メールで送る
-            </button>
-            <button class="share-btn share-btn-copy" onclick="copyToClipboard()">
-                📋 データをコピー
+            <button class="share-btn share-btn-copy" onclick="copyTemplateMessage()">
+                📋 メッセージをコピー
             </button>
             <button class="share-btn share-btn-back" onclick="backToSelection()">
                 ← 選択画面に戻る
@@ -827,23 +822,16 @@
         </div>
     </div>
 
-    <!-- 主催者: メール入力画面 -->
-    <div class="email-screen" id="emailScreen">
-        <h2>📧 メールで送信</h2>
-        <p>参加者のメールアドレスを入力してください</p>
-
-        <div class="email-input-group">
-            <label>メールアドレス</label>
-            <input type="email" id="emailInput" placeholder="example@email.com" inputmode="email">
-        </div>
-
-        <div class="email-actions">
-            <button class="btn btn-primary" onclick="sendEmail()">メールアプリを開く</button>
-            <button class="btn btn-secondary" onclick="backToCompletion()">← 戻る</button>
+    <!-- 参加者: ウェルカム画面（URL経由で開いた場合） -->
+    <div class="participant-welcome" id="participantWelcome">
+        <h2>📅 日程調整</h2>
+        <p>主催者の空き時間から、希望の日時を選択してください</p>
+        <div class="slot-info">
+            選択可能: <span id="availableSlotCount">0</span>件
         </div>
     </div>
 
-    <!-- 参加者: インポート画面 -->
+    <!-- 参加者: インポート画面（手動用） -->
     <div class="import-area" id="importArea">
         <h3>📥 主催者のデータを貼り付け</h3>
         <textarea id="importData" placeholder="ここにデータを貼り付け..."></textarea>
@@ -875,6 +863,9 @@
     <div class="toast" id="toast"></div>
 
     <script>
+        // 設定
+        const BASE_URL = 'https://mikata.ryukyu-tane.com/event/schedule-matcher.html';
+
         // State
         let currentMode = 'host';
         let currentWeek = 0;
@@ -882,7 +873,7 @@
         let availableSlots = {};
         let selectedSlots = {};
         let hostData = null;
-        let generatedShareData = '';
+        let generatedShareUrl = '';
         let currentStep = 1;
 
         const timeSlots = [
@@ -895,10 +886,63 @@
         const dayNames = ['日', '月', '火', '水', '木', '金', '土'];
 
         function init() {
-            renderCalendar();
-            updateWeekNav();
-            updateSelectionCount();
+            // URLパラメータをチェック
+            const urlParams = new URLSearchParams(window.location.search);
+            const dataParam = urlParams.get('data');
+
+            if (dataParam) {
+                // 参加者モードで自動読み込み
+                loadFromUrlParam(dataParam);
+            } else {
+                renderCalendar();
+                updateWeekNav();
+                updateSelectionCount();
+            }
+
             document.addEventListener('keydown', handleKeydown);
+        }
+
+        // URLパラメータからデータを読み込み（参加者モード）
+        function loadFromUrlParam(dataParam) {
+            try {
+                const decoded = JSON.parse(decodeURIComponent(escape(atob(dataParam))));
+                if (decoded.type !== 'schedule-matcher') throw new Error('Invalid');
+
+                hostData = decoded;
+                selectedSlots = {};
+
+                // 参加者モードに切り替え
+                currentMode = 'participant';
+
+                // UI更新
+                document.getElementById('modeToggle').classList.add('hidden');
+                document.getElementById('stepIndicator').classList.add('hidden');
+                document.getElementById('hostFooter').classList.add('hidden');
+                document.getElementById('participantFooter').classList.remove('hidden');
+                document.getElementById('calendar').classList.add('participant-mode');
+                document.getElementById('hostScreen').classList.remove('hidden');
+                document.getElementById('participantWelcome').classList.add('show');
+                document.getElementById('availableSlotCount').textContent = decoded.slots.length;
+                document.getElementById('calendarLink').classList.add('hidden');
+
+                updateLegend();
+                updateSelectionCount();
+                renderCalendar();
+                updateWeekNav();
+
+                // 少し遅延させてトースト表示
+                setTimeout(() => {
+                    showToast('希望時間を選択してください');
+                }, 500);
+
+            } catch (e) {
+                console.error('データの読み込みに失敗:', e);
+                // 通常モードで開始
+                renderCalendar();
+                updateWeekNav();
+                updateSelectionCount();
+                showToast('データの読み込みに失敗しました');
+            }
         }
 
         function handleKeydown(e) {
@@ -910,7 +954,7 @@
         // ステップ更新
         function updateStep(step) {
             currentStep = step;
-            for (let i = 1; i <= 3; i++) {
+            for (let i = 1; i <= 2; i++) {
                 const stepEl = document.getElementById('step' + i);
                 const lineEl = document.getElementById('stepLine' + (i - 1));
 
@@ -956,12 +1000,13 @@
             document.getElementById('stepIndicator').classList.toggle('hidden', mode === 'participant');
             document.getElementById('hostScreen').classList.toggle('hidden', mode === 'participant');
             document.getElementById('completionScreen').classList.remove('show');
-            document.getElementById('emailScreen').classList.remove('show');
             document.getElementById('importArea').classList.toggle('show', mode === 'participant');
+            document.getElementById('participantWelcome').classList.remove('show');
             document.getElementById('resultScreen').classList.remove('show');
             document.getElementById('hostFooter').classList.toggle('hidden', mode === 'participant');
             document.getElementById('participantFooter').classList.toggle('hidden', mode === 'host');
             document.getElementById('calendar').classList.toggle('participant-mode', mode === 'participant');
+            document.getElementById('calendarLink').classList.toggle('hidden', mode === 'participant');
 
             if (mode === 'host') {
                 updateStep(1);
@@ -1100,8 +1145,19 @@
                 slots: slots
             };
 
-            generatedShareData = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
-            document.getElementById('shareData').value = generatedShareData;
+            const encodedData = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+            generatedShareUrl = `${BASE_URL}?data=${encodedData}`;
+
+            // テンプレートメッセージを生成
+            const templateMessage = `日程調整のお願いです。
+
+以下のリンクから、ご都合の良い日時を選択してください。
+
+${generatedShareUrl}
+
+よろしくお願いいたします。`;
+
+            document.getElementById('templateMessage').value = templateMessage;
 
             // 画面切り替え
             document.getElementById('hostScreen').classList.add('hidden');
@@ -1109,7 +1165,7 @@
             document.getElementById('completionScreen').classList.add('show');
             updateStep(2);
 
-            showToast('設定が完了しました！');
+            showToast('リンクが生成されました！');
         }
 
         // 完了画面から選択画面に戻る
@@ -1120,58 +1176,25 @@
             updateStep(1);
         }
 
-        // メール入力画面を表示
-        function showEmailScreen() {
-            document.getElementById('completionScreen').classList.remove('show');
-            document.getElementById('emailScreen').classList.add('show');
-            document.getElementById('emailInput').focus();
-            updateStep(3);
-        }
+        // テンプレートメッセージをコピー
+        function copyTemplateMessage() {
+            const textarea = document.getElementById('templateMessage');
+            textarea.select();
+            textarea.setSelectionRange(0, 99999);
 
-        // メール画面から戻る
-        function backToCompletion() {
-            document.getElementById('emailScreen').classList.remove('show');
-            document.getElementById('completionScreen').classList.add('show');
-            updateStep(2);
-        }
-
-        // メール送信
-        function sendEmail() {
-            const email = document.getElementById('emailInput').value.trim();
-            if (!email) {
-                showToast('メールアドレスを入力してください');
-                return;
+            try {
+                document.execCommand('copy');
+                showToast('コピーしました！');
+            } catch (e) {
+                navigator.clipboard.writeText(textarea.value).then(() => {
+                    showToast('コピーしました！');
+                }).catch(() => {
+                    showToast('コピーに失敗しました');
+                });
             }
-            if (!email.includes('@')) {
-                showToast('有効なメールアドレスを入力してください');
-                return;
-            }
-
-            const subject = '日程調整のお願い';
-            const body = `日程調整アプリからのご連絡です。
-
-以下のデータをコピーして、日程調整アプリの「参加者」モードで読み込んでください。
-
-────────────────
-${generatedShareData}
-────────────────
-
-【使い方】
-1. 日程調整アプリを開く
-2. 「参加者」をタップ
-3. 上記のデータを貼り付けて「データを読み込む」
-4. 希望の日時を選択して「選択を確定」`;
-
-            // mailtoリンクを作成
-            const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-            // 新しいウィンドウで開く
-            window.location.href = mailtoUrl;
-
-            showToast('メールアプリを起動します');
         }
 
-        // 参加者: データ読み込み
+        // 参加者: データ読み込み（手動）
         function importHostData() {
             try {
                 const input = document.getElementById('importData').value.trim();
@@ -1222,6 +1245,7 @@ ${generatedShareData}
 
             document.getElementById('resultData').value = result;
             document.getElementById('hostScreen').classList.add('hidden');
+            document.getElementById('participantWelcome').classList.remove('show');
             document.getElementById('participantFooter').classList.add('hidden');
             document.getElementById('resultScreen').classList.add('show');
 
@@ -1232,6 +1256,9 @@ ${generatedShareData}
             document.getElementById('resultScreen').classList.remove('show');
             document.getElementById('hostScreen').classList.remove('hidden');
             document.getElementById('participantFooter').classList.remove('hidden');
+            if (hostData) {
+                document.getElementById('participantWelcome').classList.add('show');
+            }
         }
 
         function clearAll() {
@@ -1246,24 +1273,6 @@ ${generatedShareData}
             updateSelectionCount();
             renderCalendar();
             showToast('クリアしました');
-        }
-
-        function copyToClipboard() {
-            const textarea = document.getElementById('shareData');
-            textarea.select();
-            textarea.setSelectionRange(0, 99999);
-
-            try {
-                document.execCommand('copy');
-                showToast('コピーしました！');
-            } catch (e) {
-                // フォールバック: Clipboard API
-                navigator.clipboard.writeText(textarea.value).then(() => {
-                    showToast('コピーしました！');
-                }).catch(() => {
-                    showToast('コピーに失敗しました');
-                });
-            }
         }
 
         function copyResult() {
