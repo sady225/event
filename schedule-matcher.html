@@ -1236,12 +1236,13 @@ ${generatedShareUrl}
                 evening: '夜（18:00-21:00）'
             };
 
-            let result = '【希望日時】\n';
+            let result = '日程調整ありがとうございます！\n\n以下の日時を希望します。\n\n';
             selected.sort().forEach(slot => {
                 const [date, time] = slot.split('_');
                 const d = new Date(date);
                 result += `・${d.getMonth() + 1}/${d.getDate()}(${dayNames[d.getDay()]}) ${timeLabels[time]}\n`;
             });
+            result += '\nご都合が合えば嬉しいです。\nどうぞよろしくお願いいたします！';
 
             document.getElementById('resultData').value = result;
             document.getElementById('hostScreen').classList.add('hidden');
