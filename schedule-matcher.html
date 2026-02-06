@@ -1114,6 +1114,18 @@
             Googleカレンダーを確認
         </a>
 
+        <!-- 参加者: ウェルカム画面（URL経由で開いた場合） -->
+        <div class="participant-welcome" id="participantWelcome">
+            <div class="event-title-display" id="eventTitleDisplay" style="display: none;">
+                <span id="displayEventTitle"></span>
+            </div>
+            <h2>📅 日程調整</h2>
+            <p>設定された空き時間から、希望の日時を選択してください</p>
+            <div class="slot-info">
+                選択可能: <span id="availableSlotCount">0</span>件
+            </div>
+        </div>
+
         <div class="week-nav">
             <button class="week-arrow" id="prevWeek" onclick="prevWeek()">＜</button>
             <div class="week-info">
@@ -1161,18 +1173,6 @@
             <button class="share-btn share-btn-back" onclick="backToSelection()">
                 ← 選択画面に戻る
             </button>
-        </div>
-    </div>
-
-    <!-- 参加者: ウェルカム画面（URL経由で開いた場合） -->
-    <div class="participant-welcome" id="participantWelcome">
-        <div class="event-title-display" id="eventTitleDisplay" style="display: none;">
-            <span id="displayEventTitle"></span>
-        </div>
-        <h2>📅 日程調整</h2>
-        <p>設定された空き時間から、希望の日時を選択してください</p>
-        <div class="slot-info">
-            選択可能: <span id="availableSlotCount">0</span>件
         </div>
     </div>
 
