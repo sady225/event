@@ -857,9 +857,10 @@
         }
 
         .participant-welcome h2 {
-            font-size: 1.1rem;
-            margin-bottom: 8px;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
             color: var(--text-accent);
+            line-height: 1.4;
         }
 
         .participant-welcome p {
@@ -1021,20 +1022,6 @@
             margin-top: 10px;
         }
 
-        /* 参加者用タイトル表示 */
-        .event-title-display {
-            background: linear-gradient(135deg, var(--accent-gradient-start) 0%, var(--accent-gradient-end) 100%);
-            border: none;
-            border-radius: 20px;
-            padding: 12px 16px;
-            margin-bottom: 12px;
-            text-align: center;
-        }
-
-        .event-title-display span {
-            font-weight: 600;
-            color: var(--slot-text);
-        }
     </style>
 </head>
 <body>
@@ -1063,8 +1050,8 @@
         </div>
     </div>
 
-    <h1 onclick="location.href=location.pathname" style="cursor: pointer;">日程調整</h1>
-    <p class="subtitle">3週間以内で空き時間をマッチング</p>
+    <h1 onclick="location.href=location.pathname" style="cursor: pointer;" id="mainTitle">日程調整</h1>
+    <p class="subtitle" id="mainSubtitle">3週間以内で空き時間をマッチング</p>
 
     <!-- ステップインジケーター（主催者用） -->
     <div class="step-indicator" id="stepIndicator">
@@ -1116,10 +1103,7 @@
 
         <!-- 参加者: ウェルカム画面（URL経由で開いた場合） -->
         <div class="participant-welcome" id="participantWelcome">
-            <div class="event-title-display" id="eventTitleDisplay" style="display: none;">
-                <span id="displayEventTitle"></span>
-            </div>
-            <h2>📅 日程調整</h2>
+            <h2 id="participantTitle">📅 日程調整</h2>
             <p>設定された空き時間から、希望の日時を選択してください</p>
             <div class="slot-info">
                 選択可能: <span id="availableSlotCount">0</span>件
@@ -1359,10 +1343,13 @@
                 document.getElementById('availableSlotCount').textContent = decoded.slots.length;
                 document.getElementById('calendarLink').classList.add('hidden');
 
-                // タイトルがあれば表示
+                // メインタイトルとサブタイトルを非表示
+                document.getElementById('mainTitle').classList.add('hidden');
+                document.getElementById('mainSubtitle').classList.add('hidden');
+
+                // タイトルがあれば表示を更新
                 if (decoded.title) {
-                    document.getElementById('eventTitleDisplay').style.display = 'block';
-                    document.getElementById('displayEventTitle').textContent = '「' + decoded.title + '」の日程調整';
+                    document.getElementById('participantTitle').textContent = '「' + decoded.title + '」の📅 日程調整';
                 }
 
                 updateLegend();
