@@ -362,6 +362,136 @@
     .note-care h4 {
       color: var(--green);
     }
+
+    /* Purpose & Effects Section */
+    .purpose-effects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .purpose-box,
+    .effect-box {
+      background: var(--white);
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .purpose-box {
+      border-left: 5px solid var(--blue);
+    }
+
+    .effect-box {
+      border-left: 5px solid var(--teal);
+    }
+
+    .purpose-box h4,
+    .effect-box h4 {
+      font-size: 15px;
+      font-weight: 900;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .purpose-box h4 {
+      color: var(--blue);
+    }
+
+    .effect-box h4 {
+      color: var(--teal);
+    }
+
+    .purpose-list {
+      list-style: none;
+    }
+
+    .purpose-list li {
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 8px;
+      padding-left: 18px;
+      position: relative;
+    }
+
+    .purpose-list li::before {
+      content: '●';
+      position: absolute;
+      left: 0;
+      color: var(--blue);
+      font-size: 10px;
+      top: 2px;
+    }
+
+    .effects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .effect-item {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 16px 10px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(0, 0, 0, 0.03);
+    }
+
+    .effect-emoji {
+      font-size: 24px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .effect-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--dark);
+      line-height: 1.4;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px dashed rgba(0, 0, 0, 0.1);
+      text-align: center;
+      padding-bottom: 20px;
+      font-size: 13px;
+      color: var(--mid);
+    }
+
+    .footer-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 4px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .footer-content a {
+      color: var(--blue);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .footer-content a:hover {
+      opacity: 0.7;
+    }
+
+    .copyright {
+      font-size: 10px;
+      opacity: 0.7;
+      letter-spacing: 0.05em;
+    }
   </style>
 </head>
 
@@ -381,6 +511,34 @@
       </div>
     </div>
 
+    <div class="purpose-effects-grid">
+      <div class="purpose-box">
+        <h4>🎯 目的</h4>
+        <ul class="purpose-list">
+          <li>親と先生以外の地域の大人とのつながり（ご縁）を通じて自己肯定感・将来への希望を育む[事業目的]</li>
+          <li>学校が踏み込めない課題も見据えて、将来に向けた正しい知識を届ける[今回の授業目的]</li>
+        </ul>
+      </div>
+
+      <div class="effect-box">
+        <h4>✨ 期待される効果</h4>
+        <div class="effects-grid">
+          <div class="effect-item">
+            <span class="effect-emoji">📚</span>
+            <div class="effect-label">正しい性知識の<br>習得</div>
+          </div>
+          <div class="effect-item">
+            <span class="effect-emoji">🤝</span>
+            <div class="effect-label">地域専門家<br>との繋がり</div>
+          </div>
+          <div class="effect-item">
+            <span class="effect-emoji">💪</span>
+            <div class="effect-label">自己決定力の<br>向上</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="section-label">🕐 タイムライン</div>
     <div class="timeline">
       <div class="timeline-item">
@@ -388,8 +546,18 @@
         <div class="timeline-dot"></div>
         <div class="timeline-content">
           <div class="timeline-title">
+            <span>生徒到着</span>
+          </div>
+          <div class="timeline-desc">学校車で生徒が到着。</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">10:35</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-title">
             <span>はじまりの会</span>
-            <span class="tc-badge badge-amber">10分</span>
+            <span class="tc-badge badge-amber">5分</span>
           </div>
           <div class="timeline-desc">安里会長の挨拶。今日の流れの確認と、シート記入。</div>
         </div>
@@ -438,6 +606,27 @@
             <span class="tc-badge badge-green">10分</span>
           </div>
           <div class="timeline-desc">感想シートの記入・発表。※出席扱いの根拠資料として活用。</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">12:20</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-title">
+            <span>終わりの会</span>
+            <span class="tc-badge badge-amber">10分</span>
+          </div>
+          <div class="timeline-desc">安里会長あいさつ。</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">12:30</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-title">
+            <span>授業終了</span>
+          </div>
+          <div class="timeline-desc">お疲れ様でした！生徒は学校車で中学校へ移動。</div>
         </div>
       </div>
     </div>
@@ -489,6 +678,18 @@
         拒否反応があれば<b>席を外すことも可</b>。無理強いせず興味を引き出すアプローチ。
       </div>
     </div>
+
+    <footer>
+      <div class="footer-content">
+        <span>🌺 喜名自治会 |</span>
+        <a href="https://news.ryukyu-tane.com" target="_blank">株式会社 琉球のタネ</a>
+        <span>|</span>
+        <a href="https://x.gd/qSXYc" target="_blank">子どもたちが自立した大人に成長する“ご縁づくり” 🌺</a>
+      </div>
+      <div class="copyright">
+        © 2025 喜名地域協育振興プロジェクト. All rights reserved.
+      </div>
+    </footer>
 
   </div>
 
