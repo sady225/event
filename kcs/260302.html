@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>3月2日 KCS授業</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=M+PLUS+Rounded+1c:wght@400;700;900&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --sky: #E8F4FD;
+      --blue: #3B82C4;
+      --teal: #2BBCB0;
+      --coral: #F06965;
+      --amber: #F5A623;
+      --green: #5BB85D;
+      --purple: #8B5CF6;
+      --dark: #1A2332;
+      --mid: #4A5568;
+      --light: #F7FAFC;
+      --white: #FFFFFF;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
+      --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: linear-gradient(135deg, #E8F4FD 0%, #EDF9F8 50%, #FEF3EC 100%);
+      min-height: 100vh;
+      color: var(--dark);
+    }
+
+    /* Views */
+    .view {
+      padding: 20px 16px 40px;
+    }
+
+    /* ===== PONCHIE VIEW ===== */
+    .ponchie-hero {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--teal) 100%);
+      border-radius: 20px;
+      padding: 28px 24px;
+      color: white;
+      text-align: center;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ponchie-hero::before {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 120px;
+      height: 120px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 50%;
+    }
+
+    .ponchie-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: -20px;
+      width: 80px;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 50%;
+    }
+
+    .hero-date {
+      font-size: 13px;
+      font-weight: 500;
+      opacity: 0.85;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+
+    .hero-title {
+      font-family: 'M PLUS Rounded 1c', sans-serif;
+      font-size: 26px;
+      font-weight: 900;
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+
+    .hero-sub {
+      font-size: 13px;
+      opacity: 0.9;
+      line-height: 1.7;
+    }
+
+    .hero-tags {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .hero-tag {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* Lecturers */
+    .section-label {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--mid);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      margin-top: 20px;
+      padding-left: 4px;
+    }
+
+    .lecturers-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .lecturer-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      border-top: 4px solid;
+      text-align: center;
+    }
+
+    .lecturer-card:first-child {
+      border-color: var(--coral);
+    }
+
+    .lecturer-card:last-child {
+      border-color: var(--teal);
+    }
+
+    .lecturer-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin: 0 auto 10px;
+    }
+
+    .lecturer-card:first-child .lecturer-icon {
+      background: #FEE8E7;
+    }
+
+    .lecturer-card:last-child .lecturer-icon {
+      background: #E0FAF8;
+    }
+
+    .lecturer-org {
+      font-size: 10px;
+      color: var(--mid);
+      margin-bottom: 4px;
+      line-height: 1.4;
+    }
+
+    .lecturer-name {
+      font-weight: 900;
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: var(--dark);
+    }
+
+    .lecturer-topic {
+      font-size: 11px;
+      color: var(--mid);
+      line-height: 1.5;
+      background: #F7FAFC;
+      border-radius: 8px;
+      padding: 6px 8px;
+    }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 42px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--blue), var(--teal), var(--green));
+      border-radius: 2px;
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 14px;
+      align-items: flex-start;
+    }
+
+    .timeline-time {
+      min-width: 38px;
+      text-align: right;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--mid);
+      padding-top: 12px;
+      line-height: 1.3;
+    }
+
+    .timeline-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 3px solid;
+      margin-top: 14px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .timeline-item:nth-child(1) .timeline-dot {
+      border-color: var(--amber);
+    }
+
+    .timeline-item:nth-child(2) .timeline-dot {
+      border-color: var(--coral);
+    }
+
+    .timeline-item:nth-child(3) .timeline-dot {
+      border-color: var(--green);
+    }
+
+    .timeline-content {
+      flex: 1;
+      background: var(--white);
+      border-radius: 14px;
+      padding: 14px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+    }
+
+    .timeline-title {
+      font-weight: 900;
+      font-size: 14px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tc-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 10px;
+      color: white;
+    }
+
+    .badge-amber {
+      background: var(--amber);
+    }
+
+    .badge-coral {
+      background: var(--coral);
+    }
+
+    .badge-green {
+      background: var(--green);
+    }
+
+    .timeline-desc {
+      font-size: 12px;
+      color: var(--mid);
+      line-height: 1.7;
+    }
+
+    /* Experience cards */
+    .exp-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .exp-card {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 14px 10px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .exp-emoji {
+      font-size: 28px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .exp-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--dark);
+      line-height: 1.4;
+    }
+
+    /* Notes strip */
+    .notes-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .note-card {
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .note-card h4 {
+      font-weight: 900;
+      font-size: 13px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .note-room {
+      background: #EEF2FF;
+    }
+
+    .note-room h4 {
+      color: var(--purple);
+    }
+
+    .note-care {
+      background: #ECFDF5;
+    }
+
+    .note-care h4 {
+      color: var(--green);
+    }
+
+    /* Purpose & Effects Section */
+    .purpose-effects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .purpose-box,
+    .effect-box {
+      background: var(--white);
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .purpose-box {
+      border-left: 5px solid var(--blue);
+    }
+
+    .effect-box {
+      border-left: 5px solid var(--teal);
+    }
+
+    .purpose-box h4,
+    .effect-box h4 {
+      font-size: 15px;
+      font-weight: 900;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .purpose-box h4 {
+      color: var(--blue);
+    }
+
+    .effect-box h4 {
+      color: var(--teal);
+    }
+
+    .purpose-list {
+      list-style: none;
+    }
+
+    .purpose-list li {
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 8px;
+      padding-left: 18px;
+      position: relative;
+    }
+
+    .purpose-list li::before {
+      content: '●';
+      position: absolute;
+      left: 0;
+      color: var(--blue);
+      font-size: 10px;
+      top: 2px;
+    }
+
+    .effects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .effect-item {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 16px 10px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(0, 0, 0, 0.03);
+    }
+
+    .effect-emoji {
+      font-size: 24px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .effect-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--dark);
+      line-height: 1.4;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px dashed rgba(0, 0, 0, 0.1);
+      text-align: center;
+      padding-bottom: 20px;
+      font-size: 13px;
+      color: var(--mid);
+    }
+
+    .footer-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 4px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .footer-content a {
+      color: var(--blue);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .footer-content a:hover {
+      opacity: 0.7;
+    }
+
+    .copyright {
+      font-size: 10px;
+      opacity: 0.7;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== PONCHIE ===== -->
+  <div id="view-ponchie" class="view active">
+
+    <div class="ponchie-hero">
+      <div class="hero-date">喜名地域協育振興プロジェクト<br>2026年3月2日（月）Kina Career School授業</div>
+      <div class="hero-title">🌱 いのちの授業<br>性教育プログラム</div>
+      <div class="hero-sub">中学2年生 男子3名を対象</div>
+      <div class="hero-tags">
+        <span class="hero-tag">👦 中2男子3名</span>
+        <span class="hero-tag">🏠 畳間（保育室）</span>
+        <span class="hero-tag">🤝 外部講師2名</span>
+      </div>
+    </div>
+
+    <div class="purpose-effects-grid">
+      <div class="purpose-box">
+        <h4>🎯 目的</h4>
+        <ul class="purpose-list">
+          <li>親と先生以外の地域の大人とのつながり（ご縁）を通じて自己肯定感・将来への希望を育む[事業目的]</li>
+          <li>学校が踏み込めない課題も見据えて、将来に向けた正しい知識を届ける[今回の授業目的]</li>
+        </ul>
+      </div>
+
+      <div class="effect-box">
+        <h4>✨ 期待される効果</h4>
+        <div class="effects-grid">
+          <div class="effect-item">
+            <span class="effect-emoji">📚</span>
+            <div class="effect-label">正しい性知識の<br>習得</div>
+          </div>
+          <div class="effect-item">
+            <span class="effect-emoji">🤝</span>
+            <div class="effect-label">地域専門家<br>との繋がり</div>
+          </div>
+          <div class="effect-item">
+            <span class="effect-emoji">💪</span>
+            <div class="effect-label">自己決定力の<br>向上</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+    <div class="section-label">🕐 タイムライン</div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-time">10:40</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-title">
+            <span>生徒到着</span>
+          </div>
+          <div class="timeline-desc">学校車で生徒が到着。</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">10:45</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-title">
+            <span>はじまりの会</span>
+            <span class="tc-badge badge-amber">5分</span>
+          </div>
+          <div class="timeline-desc">安里会長の挨拶。今日の流れの確認と、シート記入。</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">10:50</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-title">
+            <span tc-badge="">ワーク１：１週間フィードバック(ホップ授業)</span>
+            <span class="tc-badge badge-amber">20分</span>
+          </div>
+          <div class="timeline-desc">
+            「対話」を通して生徒の先週の様子・職場体験・睡眠など生活状況を確認し、メタ認知を育てる。学校・N-Linkでの大人との「やりとり」を確認し、大人間の「相違」を確認する。打ち解けながらリラックスした雰囲気で話しやすい雰囲気をつくる。
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">11:10</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-title">
+            <span>休憩</span>
+            <span class="tc-badge badge-green">10分</span>
+          </div>
+          <div class="timeline-desc">リフレッシュタイム。コーラとお菓子。</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">11:20</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-title">
+            <span>ワーク２：『みんなの保健室』(ステップ授業 part4)</span>
+            <span class="tc-badge badge-coral">50分</span>
+          </div>
+          <div class="timeline-desc">【前半・西平美幸さん】受精から誕生のいのちのお話<br>【後半・港川寛さん】二次性徴・体の仕組み・コンドームの話</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">12:10</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-title">
+            <span>振り返り</span>
+            <span class="tc-badge badge-green">10分</span>
+          </div>
+          <div class="timeline-desc">感想シートの記入・発表。※出席扱いの根拠資料として活用。</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">12:20</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-title">
+            <span>終わりの会</span>
+            <span class="tc-badge badge-amber">10分</span>
+          </div>
+          <div class="timeline-desc">安里会長あいさつ。</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-time">12:30</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-title">
+            <span>授業終了</span>
+          </div>
+          <div class="timeline-desc">お疲れ様でした！生徒は学校車で中学校へ移動。</div>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+    <div class="section-label">👩⚕️ 講師紹介</div>
+    <div class="lecturers-row">
+      <div class="lecturer-card">
+        <div class="lecturer-icon">🤱</div>
+        <div class="lecturer-org">てのひら助産院</div>
+        <div class="lecturer-name">西平美幸さん</div>
+        <div class="lecturer-topic">受精から誕生まで<br>「いのちのお話」</div>
+      </div>
+      <div class="lecturer-card">
+        <div class="lecturer-icon">🏥</div>
+        <div class="lecturer-org">みんなの保健室</div>
+        <div class="lecturer-name">港川寛さん</div>
+        <div class="lecturer-topic">二次性徴・体の仕組み<br>避妊の話</div>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="section-label">🎮 体験型プログラム</div>
+    <div class="exp-grid">
+      <div class="exp-card">
+        <span class="exp-emoji">👶</span>
+        <div class="exp-label">赤ちゃん<br>抱っこ体験</div>
+      </div>
+      <div class="exp-card">
+        <span class="exp-emoji">🤰</span>
+        <div class="exp-label">妊婦<br>体験</div>
+      </div>
+      <div class="exp-card">
+        <span class="exp-emoji">🔵</span>
+        <div class="exp-label">コンドーム<br>装着体験</div>
+      </div>
+    </div>
+
+    <hr>
+    <div class="section-label">📌 実施上の配慮</div>
+    <div class="notes-strip">
+      <div class="note-card note-room">
+        <h4>🏠 会場</h4>
+        広いホールから<b>2階の畳間</b>へ変更。よりリラックスして学べる環境に。
+      </div>
+      <div class="note-card note-care">
+        <h4>💚 心理配慮</h4>
+        拒否反応があれば<b>席を外すことも可</b>。無理強いせず興味を引き出すアプローチ。
+      </div>
+    </div>
+
+    <footer>
+      <hr>
+      <div class="footer-content">
+        🌺 <span><a href="https://www.facebook.com/kinakouminkan?locale=ja_JP" target="_blank">喜名自治会</a></span>
+        <span>|</span>
+        <a href="https://news.ryukyu-tane.com" target="_blank">株式会社 琉球のタネ</a>
+        <span>|</span>
+        <a href="https://x.gd/qSXYc" target="_blank">子どもたちが自立した大人に成長する“ご縁づくり”</a> 🌺
+      </div>
+      <div class="copyright">
+        © 2025 喜名地域協育振興プロジェクト. All rights reserved.
+      </div>
+    </footer>
+
+  </div>
+
+</body>
+
+</html>

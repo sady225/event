@@ -1,0 +1,2803 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap" rel="stylesheet">
+    <title>沖縄文芸フリマ in 田場公民館</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', sans-serif;
+            background-color: #fef9e3;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .sticky-header {
+            background: white;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            /* 軽い影 */
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 12px 16px;
+        }
+
+        .scroll-header {
+            background: white;
+            padding: 0 16px 16px 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            /* 下部の影 */
+        }
+
+        .header-content {
+            max-width: 768px;
+            margin: 0 auto;
+        }
+
+        .header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            /* 中央揃えに変更 */
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #8b4513;
+            margin: 0 0 8px 0;
+            font-family: 'RocknRoll One', 'Klee One', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+            letter-spacing: 0.05em;
+            line-height: 1.4;
+        }
+
+        .date-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #4b5563;
+            font-size: 13px;
+        }
+
+        .header-links {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .header-link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: #9333ea;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .header-link-btn:hover {
+            background: #7c3aed;
+            transform: translateY(-1px);
+        }
+
+        .header-link-btn:active {
+            transform: translateY(0);
+        }
+
+        .schedule-btn {
+            background: #0ea5e9;
+        }
+
+        .schedule-btn:hover {
+            background: #0284c7;
+        }
+
+        .venue-btn {
+            background: #9333ea;
+        }
+
+        .schedule-list {
+            margin-top: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .schedule-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .schedule-item:last-child {
+            border-bottom: none;
+        }
+
+        .schedule-icon {
+            font-size: 20px;
+            width: 32px;
+            text-align: center;
+        }
+
+        .schedule-detail {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .schedule-time {
+            font-size: 13px;
+            font-weight: 700;
+            color: #6b21a8;
+        }
+
+        .schedule-desc {
+            font-size: 14px;
+            color: #374151;
+        }
+
+
+
+        .settings-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid #e9d5ff;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .settings-btn:active {
+            background: #f3e8ff;
+        }
+
+        .admin-badge {
+            margin-top: 12px;
+            padding: 8px 12px;
+            background: #f3e8ff;
+            border: 1px solid #d8b4fe;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #6b21a8;
+            font-weight: 500;
+        }
+
+        .add-exhibitor-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #9333ea;
+            color: white;
+            border: none;
+            box-shadow: 0 4px 12px rgba(147, 51, 234, 0.4);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            z-index: 50;
+        }
+
+        .add-exhibitor-btn:hover {
+            background: #7c3aed;
+            transform: scale(1.1);
+        }
+
+        .add-exhibitor-btn:active {
+            transform: scale(0.95);
+        }
+
+        .container {
+            max-width: 768px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        .stats-display {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #4b5563;
+        }
+
+        .stat-item svg {
+            color: #9333ea;
+        }
+
+        .stat-item strong {
+            color: #7c3aed;
+            font-size: 18px;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            border: 2px solid #e9d5ff;
+            border-radius: 8px;
+            font-size: 15px;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #c084fc;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+        }
+
+        .filter-section {
+            margin-bottom: 16px;
+        }
+
+        .filter-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        .filter-select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #e9d5ff;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: white;
+            color: #374151;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b21a8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            cursor: pointer;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #9333ea;
+        }
+
+
+
+        .filter-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid #e5e7eb;
+            background: white;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .filter-btn.active {
+            background: #9333ea;
+            color: white;
+            border-color: #9333ea;
+            box-shadow: 0 2px 8px rgba(147, 51, 234, 0.3);
+        }
+
+        .filter-btn.location.active {
+            background: #16a34a;
+            border-color: #16a34a;
+            box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3);
+        }
+
+        .filter-btn.time.active {
+            background: #ea580c;
+            border-color: #ea580c;
+            box-shadow: 0 2px 8px rgba(234, 88, 12, 0.3);
+        }
+
+        .count-display {
+            text-align: center;
+            margin: 16px 0;
+            color: #4b5563;
+            font-size: 14px;
+        }
+
+        .count-number {
+            font-weight: bold;
+            color: #7c3aed;
+            font-size: 20px;
+        }
+
+        .exhibitor-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 16px;
+            margin-bottom: 12px;
+            border-left: 4px solid #e5e7eb;
+            /* デフォルト色 */
+            transition: box-shadow 0.2s;
+        }
+
+        .exhibitor-card.border-food {
+            border-left-color: #fca5a5;
+        }
+
+        /* Red/Pink */
+        .exhibitor-card.border-art {
+            border-left-color: #c084fc;
+        }
+
+        /* Purple */
+        .exhibitor-card.border-workshop {
+            border-left-color: #86efac;
+        }
+
+        /* Green */
+        .exhibitor-card.border-stage {
+            border-left-color: #fbbf24;
+        }
+
+        /* Yellow/Orange */
+        .exhibitor-card.border-other {
+            border-left-color: #9ca3af;
+        }
+
+        /* Gray */
+
+        .exhibitor-card:active {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .card-content {
+            flex: 1;
+        }
+
+        .exhibitor-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .exhibitor-image {
+            margin: 8px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #f9fafb;
+            /* 画像がない部分の背景色 */
+        }
+
+        .exhibitor-image img {
+            width: 100%;
+            height: 100px;
+            /* 高さを約1/3に */
+            object-fit: contain;
+            /* 画像全体を表示 */
+            display: block;
+        }
+
+        .exhibitor-description {
+            font-size: 14px;
+            color: #374151;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #4b5563;
+            margin-bottom: 4px;
+        }
+
+        .info-row.location {
+            font-weight: 600;
+        }
+
+        .type-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            border: 1px solid;
+            margin-top: 4px;
+        }
+
+        .type-badge.art {
+            background: #f3e8ff;
+            color: #7c3aed;
+            border-color: #e9d5ff;
+        }
+
+        .type-badge.food {
+            background: #fed7aa;
+            color: #c2410c;
+            border-color: #fdba74;
+        }
+
+        .type-badge.workshop {
+            background: #ccfbf1;
+            color: #0f766e;
+            border-color: #5eead4;
+        }
+
+        .type-badge.stage {
+            background: #dbeafe;
+            color: #1e40af;
+            border-color: #bfdbfe;
+        }
+
+        .edit-btn {
+            padding: 4px 12px;
+            background: #9333ea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .interaction-row {
+            display: flex;
+            gap: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e5e7eb;
+            margin-top: 12px;
+        }
+
+        .stamp-btn,
+        .comment-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 2px solid #e5e7eb;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .stamp-btn.active {
+            background: #dcfce7;
+            color: #16a34a;
+            border-color: #86efac;
+        }
+
+        .comment-btn {
+            border-color: #e5e7eb;
+            color: #374151;
+        }
+
+        .comments-section {
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .comment-card {
+            background: #f3e8ff;
+            border: 1px solid #e9d5ff;
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        .comment-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .comment-author {
+            font-size: 11px;
+            font-weight: 600;
+            color: #6b21a8;
+        }
+
+        .comment-text {
+            font-size: 13px;
+            color: #374151;
+            line-height: 1.4;
+        }
+
+        .edit-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .edit-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .edit-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .save-btn,
+        .cancel-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .save-btn {
+            background: #16a34a;
+            color: white;
+        }
+
+        .cancel-btn {
+            background: #6b7280;
+            color: white;
+        }
+
+        .delete-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            background: #dc2626;
+            color: white;
+            margin-top: 8px;
+        }
+
+        .delete-btn:hover {
+            background: #b91c1c;
+        }
+
+        /* ビュー切り替え */
+        .view-controls {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .view-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 9999px;
+            border: 1px solid #e9d5ff;
+            background: white;
+            color: #6b21a8;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .view-btn.active {
+            background: #9333ea;
+            color: white;
+            border-color: #9333ea;
+            box-shadow: 0 4px 12px rgba(147, 51, 234, 0.2);
+        }
+
+        /* 出展者テーブル (一覧ビュー) */
+        .exhibitor-table-container {
+            width: 100%;
+            overflow-x: auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e9d5ff;
+            margin-bottom: 30px;
+        }
+
+        .exhibitor-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            min-width: 600px;
+        }
+
+        .exhibitor-table th {
+            background: #fdf4ff;
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 700;
+            color: #7c3aed;
+            border-bottom: 2px solid #e9d5ff;
+            white-space: nowrap;
+        }
+
+        .exhibitor-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #f3e8ff;
+            vertical-align: middle;
+            color: #4b5563;
+        }
+
+        .exhibitor-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .exhibitor-table tr:hover {
+            background: #faf5ff;
+        }
+
+        .table-exhibitor-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .table-thumb {
+            width: 48px;
+            height: 48px;
+            border-radius: 6px;
+            object-fit: cover;
+            border: 1px solid #e5e7eb;
+        }
+
+        .table-exhibitor-name {
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .table-exhibitor-content {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 2px;
+        }
+
+        .table-type-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            background: #f3e8ff;
+            color: #6b21a8;
+        }
+
+        .table-location {
+            font-weight: 600;
+            color: #16a34a;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        @media (max-width: 640px) {
+
+            .exhibitor-table th:nth-child(4),
+            .exhibitor-table td:nth-child(4) {
+                display: none;
+            }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 400px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+
+        /* コメント履歴のスタイル */
+        .comment-history {
+            margin-top: 24px;
+            border-top: 1px solid #eee;
+            padding-top: 16px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .comment-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+            font-size: 12px;
+        }
+
+        .comment-author {
+            font-weight: bold;
+            color: #4b5563;
+        }
+
+        .comment-date {
+            color: #9ca3af;
+        }
+
+        .comment-text {
+            background: #f3f4f6;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #374151;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 15px;
+            margin-bottom: 12px;
+        }
+
+        .modal-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 15px;
+            margin-bottom: 16px;
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .modal-btn.primary {
+            background: #9333ea;
+            color: white;
+        }
+
+        .modal-btn.primary:disabled {
+            background: #9ca3af;
+        }
+
+        .modal-btn.secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .footer {
+            margin-top: 48px;
+            padding-bottom: 32px;
+            text-align: center;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .info-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #6b21a8;
+            margin-bottom: 12px;
+        }
+
+        .info-text {
+            color: #374151;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f3f4f6;
+            color: #6b7280;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background: #9333ea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .social-link:active {
+            transform: translateY(0);
+        }
+
+        .footer-text {
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 48px 16px;
+            color: #6b7280;
+            font-size: 15px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 48px 16px;
+            color: #6b7280;
+            font-size: 15px;
+        }
+
+        @media (max-width: 390px) {
+            h1 {
+                font-size: 18px;
+            }
+
+            .filter-btn {
+                font-size: 13px;
+                padding: 6px 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sticky-header">
+        <div class="header-content">
+            <div class="header-flex">
+                <h1 style="margin: 0; font-size: 20px;">
+                    <span style="color: #4cb7b9;">沖縄</span><span style="color: #e769a1;">文芸フリマ</span> in 田場公民館
+                </h1>
+                <button class="settings-btn" onclick="showPasswordModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                        <circle cx="12" cy="12" r="3" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="scroll-header">
+        <div class="header-content">
+            <div class="date-info">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                    <circle cx="12" cy="10" r="3" />
+                </svg>
+                <span>2025年12月13日開催</span>
+            </div>
+            <div class="header-links">
+                <button onclick="showScheduleModal()" class="header-link-btn schedule-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    <span>タイムスケジュール</span>
+                </button>
+                <a href="https://250215ainoie.my.canva.site/12-13" target="_blank" rel="noopener noreferrer"
+                    class="header-link-btn venue-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                        <circle cx="12" cy="10" r="3" />
+                    </svg>
+                    <span>会場レイアウト</span>
+                </a>
+            </div>
+            <div id="adminBadge" style="display: none;" class="admin-badge">
+                👑 管理者モード
+            </div>
+            <!-- 管理者メニュー (JSで中身を表示) -->
+            <div id="adminMenu"
+                style="display: none; background: #fff; padding: 10px; margin-top: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="stats-display">
+            <div class="stat-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
+                <span>コメント: <strong id="totalComments">0</strong>件</span>
+            </div>
+            <div class="stat-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                </svg>
+                <span>みつけた: <strong id="totalStamps">0</strong>件</span>
+            </div>
+        </div>
+
+        <div class="search-box">
+            <svg xmlns="http://www.w3.org/2000/svg" class="search-icon" width="18" height="18" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input type="text" class="search-input" id="searchInput" placeholder="出展者名や内容で検索...">
+        </div>
+
+        <div class="filter-section">
+            <div class="filter-title">カテゴリで絞り込み</div>
+            <select id="categorySelect" class="filter-select" onchange="selectCategory(this.value)">
+                <option value="all">全てのカテゴリ</option>
+            </select>
+        </div>
+
+        <div class="filter-section" id="locationFilterSection" style="display: none;">
+            <div class="filter-title">場所で絞り込み</div>
+            <select id="locationSelect" class="filter-select" onchange="selectLocation(this.value)">
+                <option value="all">全ての場所</option>
+            </select>
+        </div>
+
+        <div class="filter-section" id="timeFilterSection" style="display: none;">
+            <div class="filter-title">時間で絞り込み</div>
+            <select id="timeSelect" class="filter-select" onchange="selectTime(this.value)">
+                <option value="all">全ての時間</option>
+            </select>
+        </div>
+
+        <div class="view-controls">
+            <button class="view-btn active" id="btnViewCard" onclick="changeView('card')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7" />
+                    <rect x="14" y="3" width="7" height="7" />
+                    <rect x="14" y="14" width="7" height="7" />
+                    <rect x="3" y="14" width="7" height="7" />
+                </svg>
+                <span>カード</span>
+            </button>
+            <button class="view-btn" id="btnViewList" onclick="changeView('list')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="8" y1="6" x2="21" y2="6" />
+                    <line x1="8" y1="12" x2="21" y2="12" />
+                    <line x1="8" y1="18" x2="21" y2="18" />
+                    <line x1="3" y1="6" x2="3.01" y2="6" />
+                    <line x1="3" y1="12" x2="3.01" y2="12" />
+                    <line x1="3" y1="18" x2="3.01" y2="18" />
+                </svg>
+                <span>リスト</span>
+            </button>
+        </div>
+
+        <div class="count-display">
+            <span class="count-number" id="countDisplay">0</span> 件の出展
+        </div>
+
+        <div id="exhibitorList">
+            <div class="loading">読み込み中...</div>
+        </div>
+
+        <div class="footer">
+            <div class="info-card">
+                <div class="info-title">イベント情報</div>
+                <div class="info-text">📅 日時: 2025年12月13日</div>
+                <div class="info-text">📍 場所: 田場公民館</div>
+                <div class="info-text" id="totalCount">🎨 総出展数: 20組</div>
+                <div class="social-links">
+                    <a href="https://furima.ryukyu-tane.com/" target="_blank" rel="noopener noreferrer"
+                        class="social-link" title="公式HP">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="2" y1="12" x2="22" y2="12" />
+                            <path
+                                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                        </svg>
+                    </a>
+                    <a href="https://www.instagram.com/bungei.oki/" target="_blank" rel="noopener noreferrer"
+                        class="social-link" title="Instagram">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                        </svg>
+                    </a>
+                    <a href="https://note.com/kodomo_no_mikata/m/m17370ab49a80" target="_blank"
+                        rel="noopener noreferrer" class="social-link" title="note">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                            <polyline points="14 2 14 8 20 8" />
+                            <line x1="16" y1="13" x2="8" y2="13" />
+                            <line x1="16" y1="17" x2="8" y2="17" />
+                        </svg>
+                    </a>
+                    <a href="https://x.com/bungei_oki" target="_blank" rel="noopener noreferrer" class="social-link"
+                        title="X (Twitter)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                            fill="currentColor">
+                            <path
+                                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 40px; margin-bottom: 20px;">
+                <div style="font-size: 14px; color: #4b5563; margin-bottom: 8px;">
+                    主催: 琉球のタネ　共催：田場区自治会
+                </div>
+                <div class="footer-text">素敵な作品との出会いをお楽しみください!</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- パスワードモーダル -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">管理者ログイン</div>
+            <input type="password" class="modal-input" id="passwordInput" placeholder="パスワードを入力">
+            <div class="modal-actions">
+                <button class="modal-btn primary" onclick="handleAdminLogin()">ログイン</button>
+                <button class="modal-btn secondary" onclick="hidePasswordModal()">キャンセル</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- コメントモーダル -->
+    <div id="commentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">良かったこと・感動したことをシェア!</div>
+            <input type="text" class="modal-input" id="userNameInput" placeholder="お名前(省略可)">
+            <textarea class="modal-textarea" id="commentInput" placeholder="ポジティブなコメントをお願いします✨"></textarea>
+            <div class="modal-actions">
+                <button class="modal-btn primary" id="submitCommentBtn" onclick="submitComment()">投稿する</button>
+                <button class="modal-btn secondary" onclick="hideCommentModal()">キャンセル</button>
+            </div>
+            <!-- コメント履歴表示エリア -->
+            <div id="commentHistory" class="comment-history">
+                <!-- ここにコメントが追加されます -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 出展者追加モーダル -->
+    <div id="addExhibitorModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">新しい出展者を追加</div>
+            <input type="text" class="modal-input" id="add-name" placeholder="出展者名">
+            <input type="text" class="modal-input" id="add-content" placeholder="内容">
+            <div style="margin-bottom: 8px;">
+                <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">カテゴリ (複数選択可)</label>
+                <div id="add-category-container" class="checkbox-group"
+                    style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+                    <!-- JSで生成 -->
+                </div>
+            </div>
+            <textarea class="modal-input" id="add-activity-intro" placeholder="活動紹介文" rows="3"></textarea>
+            <input type="text" class="modal-input" id="add-link-url" placeholder="Webサイト/SNSリンク (URL)">
+            <input type="text" class="modal-input" id="add-type" placeholder="タイプ(例:大人販売、子ども展示)">
+            <input type="text" class="modal-input" id="add-location" placeholder="場所(省略可)">
+            <input type="text" class="modal-input" id="add-time" placeholder="時間(省略可)">
+            <input type="text" class="modal-input" id="add-imageUrl" placeholder="画像URL（省略可）">
+            <div style="margin-bottom: 12px;">
+                <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">または画像をアップロード</label>
+                <input type="file" id="newExhibitorImageFile" accept="image/*" class="modal-input"
+                    style="padding: 8px;">
+                <div id="newExhibitorImagePreview" style="margin-top: 8px; max-width: 100%; text-align: center;">
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn primary" onclick="createExhibitor()">追加する</button>
+                <button class="modal-btn secondary" onclick="hideAddExhibitorModal()">キャンセル</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- タイムスケジュールモーダル -->
+    <div id="scheduleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">タイムスケジュール</div>
+            <div id="scheduleContent" style="max-height: 60vh; overflow-y: auto;">
+                <div class="schedule-list">
+                    <div class="schedule-item">
+                        <span class="schedule-icon">🎪</span>
+                        <div class="schedule-detail">
+                            <span class="schedule-time">12:00</span>
+                            <span class="schedule-desc">開演</span>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <span class="schedule-icon">🍚</span>
+                        <div class="schedule-detail">
+                            <span class="schedule-time">12:15</span>
+                            <span class="schedule-desc">深川めし（限定50食）</span>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <span class="schedule-icon">🥐</span>
+                        <div class="schedule-detail">
+                            <span class="schedule-time">13:00</span>
+                            <span class="schedule-desc">パン作りワークショップ</span>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <span class="schedule-icon">🎷</span>
+                        <div class="schedule-detail">
+                            <span class="schedule-time">15:00</span>
+                            <span class="schedule-desc">田場小金管バンド</span>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <span class="schedule-icon">💃</span>
+                        <div class="schedule-detail">
+                            <span class="schedule-time">15:30</span>
+                            <span class="schedule-desc">高校生ダンス</span>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <span class="schedule-icon">🍰</span>
+                        <div class="schedule-detail">
+                            <span class="schedule-time">16:00</span>
+                            <span class="schedule-desc">出店ブース終了</span>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <span class="schedule-icon">🎆</span>
+                        <div class="schedule-detail">
+                            <span class="schedule-time">16:45</span>
+                            <span class="schedule-desc">VR花火</span>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <span class="schedule-icon">🧹</span>
+                        <div class="schedule-detail">
+                            <span class="schedule-time">17:20</span>
+                            <span class="schedule-desc">片付け</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="modal-btn secondary" onclick="hideScheduleModal()">閉じる</button>
+        </div>
+    </div>
+
+    <!-- 更新履歴モーダル -->
+    <div id="changelogModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">更新履歴</div>
+            <div id="changelogContent" style="max-height: 60vh; overflow-y: auto; text-align: left;">
+                <!-- JSで生成 -->
+            </div>
+            <button class="modal-btn secondary" onclick="hideChangelogModal()">閉じる</button>
+        </div>
+    </div>
+
+    <!-- データ管理モーダル -->
+    <div id="dataModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">データ管理</div>
+
+            <div style="margin-bottom: 20px;">
+                <h3 style="font-size:16px; margin-bottom:8px;">バックアップ・復元</h3>
+                <p style="font-size:12px; color:#666; margin-bottom:8px;">
+                    現在のデータをテキストとして保存したり、保存したテキストから復元したりできます。
+                </p>
+                <textarea id="dataInput" placeholder="ここにバックアップデータを貼り付けてください..."
+                    style="width: 100%; height: 100px; margin-bottom: 8px; padding:8px; border:1px solid #ddd; border-radius:4px; font-family:monospace; font-size:12px;"></textarea>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button class="action-btn" onclick="importData()" style="flex:1;">🔄 データを復元</button>
+                    <button class="action-btn secondary" onclick="exportData()" style="flex:1;">📋 データをコピー</button>
+                </div>
+            </div>
+
+            <div style="border-top: 1px dashed #ccc; padding-top: 20px; margin-top:20px;">
+                <h3 style="font-size:16px; margin-bottom:8px;">初期化</h3>
+                <p style="font-size: 12px; color: #d00; margin-bottom: 12px; font-weight:bold;">
+                    注意：これまで編集したすべての内容が消去され、初期状態に戻ります。
+                </p>
+                <button class="delete-btn" onclick="resetToInitial()" style="width:100%;">⚠️ 初期データに戻す</button>
+            </div>
+
+            <button class="modal-btn secondary" onclick="hideDataModal()" style="margin-top: 20px;">閉じる</button>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, doc, getDoc, getDocs, setDoc, updateDoc, deleteDoc, onSnapshot, arrayUnion, arrayRemove } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        // Firebase設定
+        const firebaseConfig = {
+            apiKey: "AIzaSyBj4ubC2YCFzzSFcBmVNyTFNi6lnNDVxtY",
+            authDomain: "bungeifurima.firebaseapp.com",
+            projectId: "bungeifurima",
+            storageBucket: "bungeifurima.firebasestorage.app",
+            messagingSenderId: "1084109790336",
+            appId: "1:1084109790336:web:9a5a53f33fac9c83a95a65",
+            measurementId: "G-HLKQ196YY3"
+        };
+
+        // Firebase初期化
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // 更新履歴データ
+        const changelog = [
+            {
+                date: '2025/12/12 20:45',
+                title: '管理者機能強化・デザイン調整',
+                details: [
+                    '背景色を温かみのあるクリーム色(#fef9e3)に変更',
+                    '管理者用：更新履歴（この画面）の追加',
+                    '管理者用：統計情報の「全体集計」表示（通常は自分のみ）',
+                    'ヘッダーの動作変更：スクロール時にタイトルのみ固定表示し、他の情報は隠れるように調整',
+                    'フィルタ表示の変更：横スクロールボタン式からプルダウン形式に変更し、視認性を向上',
+                    'プルダウンの表示修正：アイコン文字列（storeなど）を削除し、日本語のみの表示に修正',
+                    'データ復旧：「木の子まき」様ほか、一部出展者の画像・リンク・紹介文データを復元',
+                    '新機能（管理者）：データ管理機能（バックアップ・復元・初期化）を追加'
+                ]
+            },
+            {
+                date: '2025/12/12 20:15',
+                title: '出展者情報・統計機能の強化',
+                details: [
+                    '各端末ごとの「自分だけのアクション数」表示機能の実装',
+                    '出展者情報に「活動紹介文」「Webサイト/SNSリンク」を追加',
+                    '出展者追加/編集画面の項目追加',
+                    'カテゴリ別の色分け表示（枠線の色変更）'
+                ]
+            },
+            {
+                date: '2025/12/12 19:30',
+                title: 'データ同期・バックアップ機能',
+                details: [
+                    '現在のデータを初期データとして保存（リセット時の安全性向上）',
+                    '現在のデータをJSONとしてコピーする「書き出し機能」の復活',
+                    'GitHubへの自動デプロイ設定'
+                ]
+            },
+            {
+                date: '2025/12/12 18:00',
+                title: '基本機能の実装',
+                details: [
+                    'タイムスケジュール機能の実装',
+                    '会場案内図リンクの追加',
+                    'コメント・スタンプ機能の実装',
+                    '画像のアップロード・表示機能'
+                ]
+            }
+        ];
+
+        // 初期出展者データ
+        const initialExhibitors = [
+            {
+                "id": 1,
+                "name": "木の子まき",
+                "content": "絵画・オリジナルグッズ販売",
+                "imageUrl": "https://scontent-dus1-1.cdninstagram.com/v/t51.71878-15/588141038_1788240575915321_8603746726061751829_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&cb=8438d1d6-0aee74db&ig_cache_key=Mzc3NjE5MTU2OTI2MDA2MDA2OQ%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=DZT5JFuxrQwQ7kNvwHBMHV3&_nc_oc=AdkFKULlHfQIkKkjG72YccFGzz8MqtcfFhsReR-72hCNT3uW__yqz3_1ueufry0jBWE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-dus1-1.cdninstagram.com&_nc_gid=9LqwPvmlgh8FMSIrixpUKQ&oh=00_Afkhg9wexvy3w4dDyxh7bHBfDA1rJL3U3d_G13c72FkQcQ&oe=6941EB93",
+                "type": "大人販売",
+                "activity_intro": "重曹アートや手描きハット\nポストカードなどをご出展🍄",
+                "category": ["art"],
+                "link_url": "https://www.instagram.com/kinokomaqui/",
+                "location": "",
+                "time": ""
+            },
+            {
+                "id": 10,
+                "name": "平和学習の旅　神田志有",
+                "content": "戦跡記録",
+                "imageUrl": "https://pbs.twimg.com/media/G7-StfMbIAAlyZ2?format=jpg&name=4096x4096",
+                "type": "子ども展示",
+                "activity_intro": "日本中の戦跡について調べたことを紹介いたします。また参考となる資料の閲覧や、執筆もご覧いただけます。\n\n沖縄から北海道まで、日本縦断した「戦跡記録」を一挙大公開。\n\n中学１年生とは思えない情報量の多さは、出会う大人を圧倒します。",
+                "category": ["art"],
+                "link_url": "",
+                "location": "",
+                "time": ""
+            },
+            {
+                "id": 11,
+                "name": "地謡軽トラ",
+                "content": "作品展示",
+                "imageUrl": "https://pbs.twimg.com/media/G7-R6xbboAAhdA1?format=jpg&name=4096x4096",
+                "type": "子ども展示",
+                "activity_intro": "沖縄東青年会が好きすぎて、地謡がのる軽トラをつくっちゃいました。\n\n最新作の「版画」出展もお楽しみください。",
+                "category": ["art"],
+                "link_url": "",
+                "location": "",
+                "time": ""
+            },
+            {
+                "id": 12,
+                "name": "具志川東中",
+                "content": "作品展示",
+                "type": "子ども展示",
+                "category": ["art"],
+                "location": "",
+                "time": ""
+            },
+            {
+                "id": 13,
+                "name": "やどかり喫茶店",
+                "content": "ケーキ・コーヒー(ホール内出店)",
+                "imageUrl": "https://scontent-fra5-1.cdninstagram.com/v/t51.71878-15/588609029_1549581329501347_7843143527333972457_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&cb=8438d1d6-0aee74db&ig_cache_key=Mzc4MzczMDczMjQ2OTQ2MTY1Ng%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=g0QR6N4-G5MQ7kNvwHbtHfH&_nc_oc=AdkGmjzXu-kXFpUijM0amXg1zP2qExwXdh8EAfWkQvAOxjhdsCQxzXm7v4Osed3htWo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra5-1.cdninstagram.com&_nc_gid=Q_T7RdNsQMb00LFf6dLW3g&oh=00_Afn-OhVa4RAY8JERs01lL6SGJcIXQAr7QvQ4qfKy281Kgw&oe=6941B83F",
+                "type": "飲食",
+                "category": ["food"],
+                "location": "",
+                "time": ""
+            },
+            {
+                "id": 14,
+                "name": "深川めし （限定50食）藤澤利紗 ",
+                "content": "東京都江東区の郷土料理。あさりの炊き込みご飯。",
+                "imageUrl": "https://scontent-fra5-1.cdninstagram.com/v/t51.71878-15/590376323_1229904569189189_5856333744498979387_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&cb=8438d1d6-0aee74db&ig_cache_key=Mzc4MjY1NzMxMzgxNjY3MjE4Nw%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=aAsJdxmvrlYQ7kNvwFXawy9&_nc_oc=AdlmB2ziA08HOoD9Bl2MpNl85uGbdiOogmrA8ctDPtQz2iGqRoA_aMTvh3TXhZ_9crI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra5-1.cdninstagram.com&_nc_gid=Q_T7RdNsQMb00LFf6dLW3g&oh=00_Afnk641JeWGnBWLcUA_aQaamflcKgaqV1z1ewbbhLNVbZQ&oe=6941BA0D",
+                "type": "飲食",
+                "category": ["food"],
+                "time": "12:15",
+                "location": ""
+            },
+            {
+                "id": 15,
+                "name": "パナマ原人",
+                "content": "肉巻きおにぎり・ジャークチキン・ポテト・スイーツ ",
+                "imageUrl": "https://scontent-fra5-2.cdninstagram.com/v/t51.71878-15/589736357_1240686074552190_4599107608114709999_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&cb=8438d1d6-0aee74db&ig_cache_key=Mzc4MDQ1OTM2NDYzMDEyNjc0Mw%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=keHfZFKRVNUQ7kNvwEjsSAT&_nc_oc=AdlvATG3v5-OTnGyl0KP_9KGn-Vf5UBuEx_KZneptPF6A4XVHZ6C8YEPPLcwyjMw-Dc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra5-2.cdninstagram.com&_nc_gid=qwlTpKc5vpzcmfJsS-FzrA&oh=00_Afk_eqv0pLFEL6mMxACMCPhF-Oyzf1aC5oRTUdErPbthxw&oe=6941AFA7",
+                "type": "飲食",
+                "activity_intro": "◆パナマ原人さん 子供から大人まで笑顔になれるフードを心掛け、デザートからバーベキュー料理まで幅広く提供させていただいております。 ジャークチキンにかけてるセクシーソースは、当店自慢のオリジナルソースです。  ◆メニュー いちご飴、トルネードポテト、肉巻きおにぎり、ジャークチキン、ジャークチキンオーバーライス。 寒ければクラムチャウダー、暑ければみかんかき氷の予定です。  パナマ原人さん",
+                "category": ["food"],
+                "link_url": "https://www.instagram.com/panama.genjin",
+                "location": "",
+                "time": ""
+            },
+            {
+                "id": 16,
+                "name": "焼鳥たまりば",
+                "content": "焼き鳥",
+                "imageUrl": "https://instagram.fitm2-2.fna.fbcdn.net/v/t51.2885-19/361405624_810017604053030_3421417599615922827_n.jpg?efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby45NjguYzIifQ&_nc_ht=instagram.fitm2-2.fna.fbcdn.net&_nc_cat=102&_nc_oc=Q6cZ2QGBO9WeaI42MKMehfzw9OXdZLsDg97t3JDSe7nqttXgNLPd4Q8yPNobLTkBPtLc15q0EdbFFJB5WGaPB8y7OneB&_nc_ohc=ykxpAu0htP4Q7kNvwE1foZE&_nc_gid=a_xKJLNgynx6ir5zU0ZySA&edm=ALGbJPMBAAAA&ccb=7-5&oh=00_AfmCvc7L-VJRyxVf9jCB8P3fdQRPatvf-c4-cOskzgNNZg&oe=6941BBC7&_nc_sid=7d3ac5",
+                "type": "飲食",
+                "category": ["food"],
+                "location": "",
+                "time": ""
+            },
+            {
+                "id": 17,
+                "name": "kametas'br",
+                "content": "ブラジル料理",
+                "imageUrl": "https://scontent-fra3-1.cdninstagram.com/v/t51.71878-15/588648777_1416066539943649_8193593081574906528_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&cb=8438d1d6-0aee74db&ig_cache_key=Mzc4MzAzNTgzNzk1ODI1NDc5NA%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=3HENTYxpjxsQ7kNvwEx-4_c&_nc_oc=AdlzytJb4sqTt8w9yZo_ab5ubW9lMIxUgaQ_NGGH4jTvKSVk6wXYnvByNIZwPC9vrlg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra3-1.cdninstagram.com&_nc_gid=Q_T7RdNsQMb00LFf6dLW3g&oh=00_AfmTh8jL7ObnzO_vWRNNekGPCjI6ClcEL7jN6Dkp3KVMUw&oe=6941A8E5",
+                "type": "飲食",
+                "category": ["food"],
+                "location": "",
+                "time": ""
+            },
+            {
+                "id": 1765534344366,
+                "name": "Ichimura",
+                "content": "フライトシミュレーター",
+                "imageUrl": "https://scontent-fra3-2.cdninstagram.com/v/t51.71878-15/590413548_1359237839002475_1153889328740698340_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&cb=8438d1d6-0aee74db&ig_cache_key=Mzc4MzA2NTI5NTQ2MTE3OTQ3OA%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=pnpCY7HhTM8Q7kNvwHaibz0&_nc_oc=AdkSWdLk92MJTsWZv4XovmJlbp-M1eIu7iLjtGWaiMJYOb-AHuLzN1Et_7S0T1JYurk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra3-2.cdninstagram.com&_nc_gid=Q_T7RdNsQMb00LFf6dLW3g&oh=00_AflWXE6KjHUqXyfJc80i87ZC5ZQYtl99LZh3Ncn8uGZr8A&oe=6941A6A2",
+                "type": "特別展示",
+                "activity_intro": "「地球上の地形をまるごと再現する」\nことを目標に開発されたマイクロソフトフライトシミュレーター。\n\n飛行機の操縦を体験することができます。\nあなたもパイロット気分を楽しみませんか？",
+                "category": ["workshop"],
+                "link_url": "",
+                "location": "ホール",
+                "time": ""
+            },
+            {
+                "id": 18,
+                "name": "LOVELY ZIPPER",
+                "content": "私たちは...（省略）",
+                "imageUrl": "https://scontent-dus1-1.cdninstagram.com/v/t51.71878-15/589915643_842357685158654_1727063156528902381_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&cb=8438d1d6-0aee74db&ig_cache_key=Mzc4MDAxMzQ0MDA5NTA5NTk2Nw%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=NaJZI_qinJYQ7kNvwFkD_ih&_nc_oc=AdmdtaX7849G8MSHc0bz1sSTLttJyCzcn-I92TYqamkF9Yc7E7j2QbdRvXeV1fkARUs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-dus1-1.cdninstagram.com&_nc_gid=naFycSi6rQK06FESnKL4Tw&oh=00_AfnQugqXMGMVSvVSq2U0SzczgBrPTFbcx9PlYmnlcqvXnQ&oe=6941D523",
+                "type": "舞台",
+                "category": ["stage"],
+                "time": "15:30",
+                "location": ""
+            },
+            {
+                "id": 19,
+                "name": "田場小金管バンド",
+                "content": "楽器演奏",
+                "imageUrl": "https://assets.st-note.com/img/1723596796875-sWLqrxeUwv.jpg?width=1200",
+                "type": "舞台",
+                "activity_intro": "",
+                "category": ["stage"],
+                "location": "中庭",
+                "link_url": "",
+                "time": "15:00"
+            },
+            {
+                "id": 2,
+                "name": "福島太郎",
+                "content": "文学作品",
+                "imageUrl": "https://scontent-fra3-1.cdninstagram.com/v/t51.71878-15/588225985_4233353160276342_4285427582063031397_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&cb=8438d1d6-0aee74db&ig_cache_key=Mzc3NjIwMzgyNjc4NjM5MjYzNw%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=LaC_LXbpNKYQ7kNvwFgbBuj&_nc_oc=Adl1UArPb8KwQtHxAz-80MZIc9jkBBToellbuSEgFH2iY4nPecibASEPLQfLo6F1de4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra3-1.cdninstagram.com&_nc_gid=rH5KRflfEe6BpxBAEYEK3Q&oh=00_AfkbfUe_dY3E0LbALUuN3GZLDjLxdD1DwYLQHf42tdv_hg&oe=6941CDEA",
+                "type": "特別展示",
+                "activity_intro": "福島文学の生みの親\n福島太郎さん\n\n公務員の経験を生かした「公務員のタマゴに伝えたい話」を発刊後、福島の凄い人を掘り起こした「人間讃歌」の物語を中心に執筆中。\n\n沖縄のことが大好きで作品中にも随所に沖縄が登場します📗\n\n本屋さんでは手に入らない福島文学\n\nどうぞこの機会にお求めください🍀\n\n",
+                "category": ["art"],
+                "link_url": "https://note.com/tarofukushima",
+                "location": "会議室",
+                "time": ""
+            },
+            {
+                "id": 20,
+                "name": "バーチャル花火",
+                "content": "高校生",
+                "imageUrl": "https://scontent-dus1-1.cdninstagram.com/v/t39.30808-6/557630425_1339561274835599_6979112432021280984_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&cb=8438d1d6-0aee74db&ig_cache_key=MzczNTA3NDU0NzkzODk5NTM1OQ%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEwODB4MTM1MC5zZHIuQzMifQ%3D%3D&_nc_ohc=TocEmyNUzUkQ7kNvwFdTYiP&_nc_oc=AdnqKAIvehhkFBbUiKqIJ4-9-E0Mj2uRvZxvDszECSMP8VfD0nK_pWQ1xlgfnKPZQm4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-dus1-1.cdninstagram.com&_nc_gid=3cq-hPgNbh21Fvy2IAPnqw&oh=00_AfmULxIvHvWae7w508ddNeGk6R3pxAPkzwC0fsNFGSFe7g&oe=6941E778",
+                "type": "舞台",
+                "category": ["stage"],
+                "activity_intro": "",
+                "location": "ホール",
+                "link_url": "",
+                "time": ""
+            },
+            {
+                "id": 21,
+                "name": "えたに あやこ",
+                "content": "パステルアート",
+                "imageUrl": "https://scontent-fra3-1.cdninstagram.com/v/t51.71878-15/591159973_2342042522902093_6318062152330017134_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&cb=8438d1d6-0aee74db&ig_cache_key=Mzc4NDk2MDE5ODA4MDMzOTQ1OQ%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMiJ9&_nc_ohc=x7iCAYtox-kQ7kNvwHBNhEk&_nc_oc=Admh2BR7TLjGCGmRCzVLi8iUPG_ElF0v8_rlP2kcQ7CEA5-aJLY37u4n810339wY98E&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra3-1.cdninstagram.com&_nc_gid=Q_T7RdNsQMb00LFf6dLW3g&oh=00_AfkoJAabr8ypky7XMuwCgcj2WqOoucmlj4fEygiN_mdUkA&oe=6941D145",
+                "type": "大人販売",
+                "activity_intro": "元美術科教諭、現スクールカウンセラー、時々染織家のアートと心理のアート教室主催。\n「自分らしく生きるサポート&応援団」のもと、\n上手い下手にこだわらず、自分らしい表現をめざしてアートと自分を愉しむ活動を推進しています💕",
+                "category": ["art", "workshop"],
+                "link_url": "",
+                "location": "ホール",
+                "time": ""
+            },
+            {
+                "id": 22,
+                "name": "バッシーのパン作りワークショップ🥐",
+                "content": "バターロールパン作り",
+                "imageUrl": "https://scontent-fra3-2.cdninstagram.com/v/t51.71878-15/591165876_900884205811868_2091783877656892319_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&cb=8438d1d6-0aee74db&ig_cache_key=Mzc4MzcyNjk2Njk3NDM2NjE3Ng%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=sYKUS19FhEIQ7kNvwGf-vfa&_nc_oc=AdnMXyixO0GAotzhJiol0Nt4urNnx1jnbQUSGTsP6a7b2frAETNAhopycpOYaL10usw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra3-2.cdninstagram.com&_nc_gid=Q_T7RdNsQMb00LFf6dLW3g&oh=00_AflMljevyTP5nN-iVmOFdUviOtVs-7rxx9Sgi2_Vlb0OsA&oe=6941AAF2",
+                "type": "大人販売",
+                "category": ["workshop"],
+                "location": "調理室",
+                "time": "13:00"
+            },
+            {
+                "id": 23,
+                "name": "日本の五節句　阿賀嶺 正子",
+                "content": "季節の彩りを感じる",
+                "imageUrl": "",
+                "type": "特別展示",
+                "category": ["art"],
+                "location": "会議室",
+                "time": ""
+            },
+            {
+                "id": 3,
+                "name": "さささりん&ボブリ",
+                "content": "イラスト・オリジナルグッズ販売",
+                "imageUrl": "https://scontent-fra5-1.cdninstagram.com/v/t51.71878-15/589825613_2926751227508145_6503039651316328030_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&cb=8438d1d6-0aee74db&ig_cache_key=Mzc3OTAyNzgyNjQxOTkzMjA4MA%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=071l8vS1XZMQ7kNvwFvPBPz&_nc_oc=AdljG2k5UMKsoTUFBr0c_fEBIgd7rYYrRqWbWvy-QsHtI8RlFdkZvOe42Kqlxp_27WM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra5-1.cdninstagram.com&_nc_gid=81uiloyoaa-4dBBC2RPZFQ&oh=00_AfkbP4AwNtgh24Bh56L4oPPHB8_S9rCdhWIKrTfFyEUtKQ&oe=69420135",
+                "type": "大人販売",
+                "activity_intro": "高校生イラストレーター\n\nオリジナルイラスト\nにじさんじファンアート\nなどを出展します。",
+                "category": ["art"],
+                "link_url": "",
+                "location": "",
+                "time": ""
+            },
+            {
+                "id": 4,
+                "name": "モモ",
+                "content": "缶バッチワークショップ",
+                "imageUrl": "https://scontent-fra5-2.cdninstagram.com/v/t51.71878-15/590404062_870729688977189_7443547700361578666_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&cb=8438d1d6-0aee74db&ig_cache_key=Mzc4MzA1NTAyMTIxMTU3OTM1MA%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=8d1Z8gel_yMQ7kNvwG-nSOm&_nc_oc=AdkfIGPYBWT2YJAxouYNiWVCjTO0KIbIe_DOJBsCYZM8cmnmOZgByNDXo3oyrtyOPTY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-fra5-2.cdninstagram.com&_nc_gid=Q_T7RdNsQMb00LFf6dLW3g&oh=00_Afn_xFmNdcaxhWK48Xc6NNnZZBpb9XFl0xGvixTvSTi2iA&oe=6941C95D",
+                "type": "子ども販売",
+                "category": ["art", "workshop"],
+                "time": "",
+                "location": ""
+            },
+            {
+                "id": 5,
+                "name": "nekozukitati🐱",
+                "content": "動物ブローチ販売",
+                "imageUrl": "https://scontent-ham3-1.cdninstagram.com/v/t51.71878-15/587009695_872064358649074_3784524735952367883_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&cb=8438d1d6-0aee74db&ig_cache_key=Mzc3NzI1MjA2MzYyNjU0MzM2Mg%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=Letd8Ta6TCoQ7kNvwGYg8U6&_nc_oc=AdmULNR-v1b_LnFL3tHOOX64m9DAy-9yB-H3rdLrftd5g8RolCrn0dIZdHCZmjpC3A0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ham3-1.cdninstagram.com&_nc_gid=BB0US8xWT4v9Kzj5AqMuYA&oh=00_AfktPFVms47dsDbTQWeV2zNS7BPvZRNarKrAifDaYCZs2g&oe=6941D73D",
+                "type": "子ども販売",
+                "category": ["art"],
+                "activity_intro": "ゆるかわ動物ブローチと小物たち。\n布のふんわり感がかわいい手作りアクセ、ひとつひとつ表情が違って見てるだけで癒される作品です♪",
+                "link_url": "",
+                "time": "",
+                "location": ""
+            },
+            {
+                "id": 6,
+                "name": "大城うた",
+                "content": "イラスト展示",
+                "imageUrl": "https://scontent-ber1-1.cdninstagram.com/v/t51.71878-15/588219510_1344046156945250_982639533216825612_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&cb=8438d1d6-0aee74db&ig_cache_key=Mzc3OTI5MTMxMTI0NjU2ODg2MA%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=Qk4C1ckwLusQ7kNvwHhZ5V4&_nc_oc=AdlDe_t4GQHej9Z2QPgX8tL1NdW4z03XUuIjb1-HeVIwrYoajgpwLfi8A6b1JWM_Eec&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ber1-1.cdninstagram.com&_nc_gid=QhMJL1jgUHUCH94AQP5UhA&oh=00_AfnrPk0Mo9StevL7Ss92tGHc-xPRspwrkeO-WBE8jO1ppg&oe=6941DB59",
+                "type": "子ども展示",
+                "category": ["art"],
+                "activity_intro": "小学一年生の頃からアニメの絵を描くようになり、チェンソーマンやダンダダン、ジョジョの奇妙な物語、進撃の巨人、呪術廻戦などを描き始めると何時間でも集中して描きすすめています",
+                "link_url": "",
+                "location": "",
+                "time": ""
+            },
+            {
+                "id": 7,
+                "name": "mimamorineko & CheePluss",
+                "content": "宝石石鹸・編み物グッズ",
+                "imageUrl": "https://scontent-dus1-1.cdninstagram.com/v/t51.71878-15/588616818_843750855234356_7780632271618642507_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&cb=8438d1d6-0aee74db&ig_cache_key=Mzc3OTMwNjEyMzQzMTE1NjY3MQ%3D%3D.3-ccb7-5-cb8438d1d6-0aee74db&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM4LnNkci5DMyJ9&_nc_ohc=bE3RYU0tZRkQ7kNvwG20W4b&_nc_oc=AdkdTraKOF3d-ssHuW2Upcwjhp0qn2wOakTIzSm357NvjxfqpvlwLFNT2ZO97i3RPFk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-dus1-1.cdninstagram.com&_nc_gid=Jhtxxjx9rCTqqng0mZyXpA&oh=00_AflZV4t6qY2kKrN7vlZBSHaRa_Uxceup2B8Xr1WrK6suBg&oe=6941CA82",
+                "type": "大人販売",
+                "activity_intro": "mimamorineko GEM SOAP は、あなたを癒し本来の素敵なあなたらしさに導きます。 水晶powder配合 水晶は浄化、開運、潜在能力を高める、健康、生命力を意味します。 お守り‡プレゼントとしてどうぞ✨ あなたらしい素敵な毎日をおくれますように✨ @mim.amorineko  CheePluss chie 三児のママです。日頃モクモクと編み物しています。 時々、実家の庭いじりも...作った作品を見て頂けたら嬉しいです★ @cheepluss",
+                "category": ["art"],
+                "link_url": "",
+                "location": "ホール",
+                "time": ""
+            },
+            {
+                "id": 8,
+                "name": "りつ(ももやま食堂)",
+                "content": "絵画作品展示",
+                "imageUrl": "https://scontent-ber1-1.cdninstagram.com/v/t51.71878-15/588375518_1382514463470355_4111485297693787861_n.jpg?stp=cmp1_dst-jpg_e35_s640x640_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=Obr659POQNsQ7kNvwGidsko&_nc_oc=AdmE8f5C0wsDqTxrUBrNctQqL30vujr_1X28P4KiOWSxKeM-DD0-KokIRCMzyaBWAW0&_nc_zt=23&_nc_ht=scontent-ber1-1.cdninstagram.com&_nc_gid=e_e1-hG5Rd1xJcrnweNoqg&oh=00_AflZYacUcWGhQUqMv5zE8uVEMuXYgMnpJJ-cO7NXyH77Iw&oe=6941A330",
+                "type": "大人展示",
+                "category": ["art"],
+                "location": "",
+                "time": ""
+            },
+            {
+                "id": 9,
+                "name": "中学生(中部地区)",
+                "content": "作品展示(小説・イラスト・折り紙)",
+                "imageUrl": "https://pbs.twimg.com/media/G7-RU1VagAM2Wd_?format=jpg&name=4096x4096",
+                "type": "子ども展示",
+                "activity_intro": "イラスト・小説・折り紙など\n創作作品を展示\n\n感想のお礼にサンタの指輪を作成",
+                "category": ["art"],
+                "link_url": "",
+                "location": "会議室",
+                "time": ""
+            }
+        ];
+
+        let exhibitors = [];
+        let isAdminMode = false;
+        let selectedCategory = 'all';
+        let selectedLocation = 'all';
+        let selectedTime = 'all';
+        let viewMode = 'card';
+        let editingId = null;
+        let selectedExhibitorId = null;
+
+        const categories = [
+            { id: 'all', name: '全て', icon: 'store' },
+            { id: 'art', name: 'アート・販売', icon: 'palette' },
+            { id: 'food', name: '飲食', icon: 'utensils' },
+            { id: 'workshop', name: 'ワークショップ', icon: 'wrench' },
+            { id: 'stage', name: '舞台', icon: 'music' }
+        ];
+
+        // ユーザーID取得
+        function getUserId() {
+            let userId = localStorage.getItem('furima_user_id');
+            if (!userId) {
+                userId = 'user_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('furima_user_id', userId);
+            }
+            return userId;
+        }
+
+        // 初期化
+        async function init() {
+            await loadData();
+            renderCategoryFilters();
+            renderLocationFilters();
+            renderTimeFilters();
+            renderExhibitors();
+            updateStatistics();
+
+            // リアルタイム更新の監視
+            setupRealtimeListeners();
+
+            document.getElementById('searchInput').addEventListener('input', renderExhibitors);
+            document.getElementById('passwordInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleAdminLogin();
+            });
+            document.getElementById('commentInput').addEventListener('input', () => {
+                const btn = document.getElementById('submitCommentBtn');
+                btn.disabled = !document.getElementById('commentInput').value.trim();
+            });
+        }
+
+        // データ読み込み
+        async function loadData() {
+            try {
+                const exhibitorsRef = collection(db, 'exhibitors');
+                const snapshot = await getDocs(exhibitorsRef);
+
+                if (snapshot.empty) {
+                    // 初回: 初期データをFirestoreに保存
+                    console.log('初期データを作成中...');
+                    for (const ex of initialExhibitors) {
+                        await setDoc(doc(db, 'exhibitors', String(ex.id)), ex);
+                    }
+                    exhibitors = initialExhibitors;
+                } else {
+                    // データ取得
+                    exhibitors = snapshot.docs.map(doc => {
+                        const data = doc.data();
+                        if (typeof data.category === 'string') data.category = [data.category];
+                        return data;
+                    });
+                }
+            } catch (error) {
+                console.error('データ読み込みエラー:', error);
+                exhibitors = initialExhibitors;
+            }
+        }
+
+        // リアルタイム更新の監視
+        function setupRealtimeListeners() {
+            // 出展者データの監視
+            onSnapshot(collection(db, 'exhibitors'), (snapshot) => {
+                exhibitors = snapshot.docs.map(doc => {
+                    const data = doc.data();
+                    if (typeof data.category === 'string') data.category = [data.category];
+                    return data;
+                });
+                renderLocationFilters();
+                renderTimeFilters();
+                renderExhibitors();
+            });
+
+            // コメントとスタンプの監視
+            onSnapshot(collection(db, 'comments'), () => {
+                updateStatistics();
+            });
+
+            onSnapshot(collection(db, 'stamps'), () => {
+                updateStatistics();
+            });
+        }
+
+        // 出展者データ保存
+        async function saveExhibitor(exhibitor) {
+            try {
+                // カテゴリデータの正規化（文字列 -> 配列）
+                if (typeof exhibitor.category === 'string') {
+                    exhibitor.category = [exhibitor.category];
+                }
+                await setDoc(doc(db, 'exhibitors', String(exhibitor.id)), exhibitor);
+            } catch (error) {
+                console.error('保存エラー:', error);
+                throw error; // エラーを上位に投げる
+            }
+        }
+
+        // スタンプ追加/解除(トグル)
+        async function addStamp(exhibitorId) {
+            const userId = getUserId();
+            const stampRef = doc(db, 'stamps', String(exhibitorId));
+
+            try {
+                const stampDoc = await getDoc(stampRef);
+
+                if (stampDoc.exists()) {
+                    const stamps = stampDoc.data().users || [];
+                    if (stamps.includes(userId)) {
+                        // 既にスタンプ済み → 解除
+                        await updateDoc(stampRef, {
+                            users: arrayRemove(userId)
+                        });
+                    } else {
+                        // 未スタンプ → 追加
+                        await updateDoc(stampRef, {
+                            users: arrayUnion(userId)
+                        });
+                    }
+                } else {
+                    // 初回スタンプ → 追加
+                    await setDoc(stampRef, {
+                        users: [userId]
+                    });
+                }
+                renderExhibitors();
+            } catch (error) {
+                console.error('スタンプエラー:', error);
+            }
+        }
+
+        // スタンプ数取得
+        async function getStampCount(exhibitorId) {
+            try {
+                const stampDoc = await getDoc(doc(db, 'stamps', String(exhibitorId)));
+                if (stampDoc.exists()) {
+                    return (stampDoc.data().users || []).length;
+                }
+                return 0;
+            } catch (error) {
+                return 0;
+            }
+        }
+
+        // ユーザーがスタンプ済みか確認
+        async function hasUserStamped(exhibitorId) {
+            const userId = getUserId();
+            try {
+                const stampDoc = await getDoc(doc(db, 'stamps', String(exhibitorId)));
+                if (stampDoc.exists()) {
+                    return (stampDoc.data().users || []).includes(userId);
+                }
+                return false;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        // コメント投稿
+        async function submitComment() {
+            const userName = document.getElementById('userNameInput').value.trim() || '匿名';
+            const commentText = document.getElementById('commentInput').value.trim();
+
+            if (!commentText) return;
+
+            const comment = {
+                id: Date.now(),
+                userId: getUserId(),
+                userName: userName,
+                text: commentText,
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                const commentRef = doc(db, 'comments', String(selectedExhibitorId));
+                const commentDoc = await getDoc(commentRef);
+
+                if (commentDoc.exists()) {
+                    await updateDoc(commentRef, {
+                        comments: arrayUnion(comment)
+                    });
+                } else {
+                    await setDoc(commentRef, {
+                        comments: [comment]
+                    });
+                }
+
+                document.getElementById('userNameInput').value = '';
+                document.getElementById('commentInput').value = '';
+
+                // コメントリストを再描画
+                await renderCommentHistory(selectedExhibitorId);
+                renderExhibitors();
+
+            } catch (error) {
+                console.error('コメント投稿エラー:', error);
+                alert('コメントの投稿に失敗しました');
+            }
+        }
+
+        // コメント取得
+        async function getComments(exhibitorId) {
+            try {
+                const commentDoc = await getDoc(doc(db, 'comments', String(exhibitorId)));
+                if (commentDoc.exists()) {
+                    return commentDoc.data().comments || [];
+                }
+                return [];
+            } catch (error) {
+                return [];
+            }
+        }
+
+        // --- モーダル共通処理 ---
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.add('show');
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+        // --- 個別モーダル制御 ---
+
+        // 新規追加モーダル
+        // 管理者ログインモーダル
+        function showPasswordModal() {
+            showModal('passwordModal');
+            document.getElementById('passwordInput').focus();
+        }
+
+        function hidePasswordModal() {
+            hideModal('passwordModal');
+            document.getElementById('passwordInput').value = '';
+        }
+
+        function handleAdminLogin() {
+            const password = document.getElementById('passwordInput').value;
+            if (password === 'furima2024') {
+                isAdminMode = true;
+                document.getElementById('adminBadge').style.display = 'block';
+
+                // 管理者メニュー構築
+                const menu = document.getElementById('adminMenu');
+                menu.innerHTML = `
+                    <div style="font-weight:bold; margin-bottom:10px;">管理者メニュー</div>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+                        <button onclick="showAddExhibitorModal()" style="padding:8px; background:#4ade80; color:white; border:none; border-radius:4px;">＋ 出展者追加</button>
+                        <button onclick="showDataModal()" style="padding:8px; background:#f97316; color:white; border:none; border-radius:4px;">📊 データ管理</button>
+                        <button onclick="showChangelogModal()" style="padding:8px; background:#6b7280; color:white; border:none; border-radius:4px; grid-column: span 2;">📝 更新履歴</button>
+                    </div>
+                `;
+                menu.style.display = 'block';
+                hidePasswordModal();
+                updateStatistics(); // 統計情報を更新（管理者用：全体表示）
+                renderExhibitors();
+            } else {
+                alert('パスワードが違います');
+            }
+        }
+
+        // データ管理モーダル
+        function showDataModal() {
+            document.getElementById('dataInput').value = '';
+            showModal('dataModal');
+        }
+
+        function hideDataModal() {
+            hideModal('dataModal');
+        }
+
+        // データをエクスポート（コピー）
+        async function exportData() {
+            try {
+                const json = JSON.stringify(exhibitors, null, 4);
+                const textarea = document.getElementById('dataInput');
+                textarea.value = json;
+                textarea.select();
+                await navigator.clipboard.writeText(json);
+                alert('データをコピーしました！\n（テキストエリアにも表示されています）');
+            } catch (err) {
+                console.error('コピー失敗:', err);
+                alert('コピーに失敗しました。');
+            }
+        }
+
+        // データをインポート（復元）
+        async function importData() {
+            const jsonText = document.getElementById('dataInput').value;
+            if (!jsonText) {
+                alert('データを貼り付けてください');
+                return;
+            }
+
+            try {
+                const importedData = JSON.parse(jsonText);
+                if (!Array.isArray(importedData)) {
+                    throw new Error('データ形式が不正です（配列ではありません）');
+                }
+
+                if (!confirm('【確認】\n現在のデータを上書きして復元しますか？\n（この操作は取り消せません）')) {
+                    return;
+                }
+
+                // 既存データ削除
+                const snapshot = await getDocs(collection(db, 'exhibitors'));
+                const deletePromises = snapshot.docs.map(doc => deleteDoc(doc.ref));
+                await Promise.all(deletePromises);
+
+                // インポートデータ登録
+                for (const ex of importedData) {
+                    await setDoc(doc(db, 'exhibitors', String(ex.id)), ex);
+                }
+
+                exhibitors = importedData;
+                alert('復元が完了しました！');
+                renderExhibitors();
+                hideDataModal();
+            } catch (err) {
+                console.error('インポートエラー:', err);
+                alert('復元に失敗しました：' + err.message);
+            }
+        }
+
+        // 初期データにリセット
+        async function resetToInitial() {
+            if (!confirm('【警告】\n本当に初期データに戻しますか？\nこれまでの編集内容はすべて消えます！！')) {
+                return;
+            }
+
+            try {
+                // 全削除
+                const snapshot = await getDocs(collection(db, 'exhibitors'));
+                const deletePromises = snapshot.docs.map(doc => deleteDoc(doc.ref));
+                await Promise.all(deletePromises);
+
+                // 初期データ投入
+                for (const ex of initialExhibitors) {
+                    await setDoc(doc(db, 'exhibitors', String(ex.id)), ex);
+                }
+
+                exhibitors = [...initialExhibitors]; // メモリも更新
+                alert('初期データにリセットしました！');
+                renderExhibitors();
+                hideDataModal();
+            } catch (err) {
+                console.error('リセットエラー:', err);
+                alert('リセットに失敗しました');
+            }
+        }
+
+        // コメントモーダル
+        async function showCommentModal(exhibitorId) {
+            selectedExhibitorId = exhibitorId;
+            showModal('commentModal');
+            document.getElementById('commentInput').focus();
+            await renderCommentHistory(exhibitorId);
+        }
+
+        async function renderCommentHistory(exhibitorId) {
+            const container = document.getElementById('commentHistory');
+            container.innerHTML = '<div style="text-align:center; color:#9ca3af; font-size:13px;">読み込み中...</div>';
+
+            try {
+                const comments = await getComments(exhibitorId);
+                if (comments.length === 0) {
+                    container.innerHTML = '<div style="text-align:center; color:#9ca3af; font-size:13px; padding:20px;">まだコメントはありません</div>';
+                    return;
+                }
+
+                // 日付の新しい順に表示
+                const sortedComments = comments.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+                container.innerHTML = sortedComments.map(c => {
+                    const date = new Date(c.timestamp);
+                    const dateStr = `${date.getMonth() + 1}/${date.getDate()} ${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`;
+                    return `
+                        <div class="comment-item">
+                            <div class="comment-header">
+                                <span class="comment-author">${c.userName || '匿名'}</span>
+                                <span class="comment-date">${dateStr}</span>
+                            </div>
+                            <div class="comment-text">${c.text}</div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('コメント読み込みエラー:', error);
+                container.innerHTML = '<div style="text-align:center; color:#ef4444; font-size:13px;">コメントの読み込みに失敗しました</div>';
+            }
+        }
+
+        function hideCommentModal() {
+            document.getElementById('commentModal').classList.remove('show');
+            document.getElementById('userNameInput').value = '';
+            document.getElementById('commentInput').value = '';
+            document.getElementById('commentHistory').innerHTML = ''; // クリア
+            selectedExhibitorId = null;
+        }
+
+        // 画像アップロード処理 (Base64変換 & リサイズ)
+        function handleImageUpload(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+
+                        // 最大サイズ設定
+                        const MAX_WIDTH = 800;
+                        const MAX_HEIGHT = 800;
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > height) {
+                            if (width > MAX_WIDTH) {
+                                height *= MAX_WIDTH / width;
+                                width = MAX_WIDTH;
+                            }
+                        } else {
+                            if (height > MAX_HEIGHT) {
+                                width *= MAX_HEIGHT / height;
+                                height = MAX_HEIGHT;
+                            }
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        // JPEG形式で圧縮率0.7で出力
+                        resolve(canvas.toDataURL('image/jpeg', 0.7));
+                    };
+                    img.src = e.target.result;
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        let newExhibitorImageFile = null;
+        let editExhibitorImageFile = null;
+
+        // 出展者追加モーダル
+        function showAddExhibitorModal() {
+            if (!isAdminMode) return;
+            showModal('addExhibitorModal');
+            // カテゴリチェックボックスを動的に生成
+            const categoryContainer = document.getElementById('add-category-container');
+            categoryContainer.innerHTML = categories.filter(c => c.id !== 'all').map(c => `
+                <label style="display: inline-flex; align-items: center; gap: 4px; font-size: 13px;">
+                    <input type="checkbox" name="add-category" value="${c.id}" ${c.id === 'art' ? 'checked' : ''}> ${c.name}
+                </label>
+            `).join('');
+
+            // ファイル入力のリセットとリスナー設定
+            const fileInput = document.getElementById('newExhibitorImageFile');
+            fileInput.value = '';
+            newExhibitorImageFile = null;
+            document.getElementById('newExhibitorImagePreview').innerHTML = '';
+
+            fileInput.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    newExhibitorImageFile = file;
+                    // プレビュー表示
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        document.getElementById('newExhibitorImagePreview').innerHTML =
+                            `<img src="${e.target.result}" style="max-height: 100px; max-width: 100%; border-radius: 4px;">`;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            document.getElementById('add-name').focus();
+        }
+
+        function hideAddExhibitorModal() {
+            hideModal('addExhibitorModal');
+            // フォームをクリア
+            document.getElementById('add-name').value = '';
+            document.getElementById('add-content').value = '';
+            document.getElementById('add-activity-intro').value = '';
+            document.getElementById('add-link-url').value = '';
+            // カテゴリのリセット
+            document.querySelectorAll('input[name="add-category"]').forEach(cb => cb.checked = false);
+            // デフォルトでartをチェック
+            const artCb = document.querySelector('input[name="add-category"][value="art"]');
+            if (artCb) artCb.checked = true;
+            document.getElementById('add-type').value = '';
+            document.getElementById('add-location').value = '';
+            document.getElementById('add-time').value = '';
+            document.getElementById('add-imageUrl').value = '';
+            document.getElementById('newExhibitorImageFile').value = ''; // ファイル入力もクリア
+            document.getElementById('newExhibitorImagePreview').innerHTML = ''; // プレビューもクリア
+            newExhibitorImageFile = null; // ファイルデータもクリア
+        }
+
+        // 新しい出展者を作成
+        async function createExhibitor() {
+            const name = document.getElementById('add-name').value.trim();
+            const content = document.getElementById('add-content').value.trim();
+            const activity_intro = document.getElementById('add-activity-intro').value.trim();
+            const link_url = document.getElementById('add-link-url').value.trim();
+            const type = document.getElementById('add-type').value.trim();
+            const location = document.getElementById('add-location').value.trim();
+            const time = document.getElementById('add-time').value.trim();
+
+            if (!name || !content || !type) {
+                alert('出展者名、内容、タイプは必須です');
+                return;
+            }
+
+            // カテゴリ収集（チェックボックス）
+            const checkedCategories = Array.from(document.querySelectorAll('input[name="add-category"]:checked'))
+                .map(cb => cb.value);
+
+            // 画像処理
+            let imageUrl = document.getElementById('add-imageUrl').value;
+            if (newExhibitorImageFile) {
+                try {
+                    imageUrl = await handleImageUpload(newExhibitorImageFile);
+                } catch (e) {
+                    console.error('画像処理エラー', e);
+                    alert('画像の処理に失敗しました');
+                    return;
+                }
+            }
+
+            const newExhibitor = {
+                id: Date.now(),
+                name: name,
+                content: content,
+                activity_intro: activity_intro,
+                link_url: link_url,
+                category: checkedCategories.length > 0 ? checkedCategories : ['art'], // デフォルト
+                type: type,
+                location: location,
+                time: time,
+                imageUrl: imageUrl
+            };
+
+            try {
+                await setDoc(doc(db, 'exhibitors', String(newExhibitor.id)), newExhibitor);
+                hideAddExhibitorModal();
+                renderExhibitors();
+            } catch (error) {
+                console.error('追加エラー:', error);
+                alert('追加に失敗しました');
+            }
+        }
+
+        // カテゴリフィルター
+        function renderCategoryFilters() {
+            const select = document.getElementById('categorySelect');
+            // 既存のオプションをクリア（最初の「全て」以外）
+            select.innerHTML = '<option value="all">全てのカテゴリ</option>';
+
+            categories.forEach(cat => {
+                if (cat.id === 'all') return; // 「全て」は既に追加済みなのでスキップ
+                const option = document.createElement('option');
+                option.value = cat.id;
+                option.textContent = cat.name;
+                if (selectedCategory === cat.id) option.selected = true;
+                select.appendChild(option);
+            });
+        }
+
+        function selectCategory(categoryId) {
+            selectedCategory = categoryId;
+            renderExhibitors();
+        }
+
+        function getLocations() {
+            const locations = new Set();
+            exhibitors.forEach(ex => {
+                if (ex.location && ex.location.trim()) {
+                    locations.add(ex.location.trim());
+                }
+            });
+            return Array.from(locations).sort();
+        }
+
+        function renderLocationFilters() {
+            const locations = getLocations();
+            const section = document.getElementById('locationFilterSection');
+            const select = document.getElementById('locationSelect');
+
+            if (locations.length === 0) {
+                section.style.display = 'none';
+                return;
+            }
+
+            section.style.display = 'block';
+
+            // 既存オプションクリア
+            select.innerHTML = '<option value="all">全ての場所</option>';
+
+            locations.forEach(loc => {
+                const option = document.createElement('option');
+                option.value = loc;
+                option.textContent = loc;
+                if (selectedLocation === loc) option.selected = true;
+                select.appendChild(option);
+            });
+        }
+
+        function selectLocation(location) {
+            selectedLocation = location;
+            renderExhibitors();
+        }
+
+        function getTimeSlots() {
+            const timeSet = new Set();
+            exhibitors.forEach(ex => {
+                if (ex.time && ex.time.trim()) {
+                    timeSet.add(ex.time.trim());
+                }
+            });
+            return Array.from(timeSet).sort();
+        }
+
+        function renderTimeFilters() {
+            const timeSlots = getTimeSlots();
+            const section = document.getElementById('timeFilterSection');
+            const select = document.getElementById('timeSelect');
+
+            if (timeSlots.length === 0) {
+                section.style.display = 'none';
+                return;
+            }
+
+            section.style.display = 'block';
+
+            // 既存オプションクリア
+            select.innerHTML = '<option value="all">全ての時間</option>';
+
+            timeSlots.forEach(time => {
+                const option = document.createElement('option');
+                option.value = time;
+                option.textContent = time;
+                if (selectedTime === time) option.selected = true;
+                select.appendChild(option);
+            });
+        }
+
+        function selectTime(time) {
+            selectedTime = time;
+            renderExhibitors();
+        }
+
+        // 統計情報の更新
+        async function updateStatistics() {
+            try {
+                const userId = getUserId();
+                const commentsSnapshot = await getDocs(collection(db, 'comments'));
+                const stampsSnapshot = await getDocs(collection(db, 'stamps'));
+
+                let displayedComments = 0;
+                let displayedStamps = 0;
+
+                if (isAdminMode) {
+                    // 管理者モード: 全体の総数を計算
+                    commentsSnapshot.forEach(doc => {
+                        const data = doc.data();
+                        if (data.comments) {
+                            displayedComments += data.comments.length;
+                        }
+                    });
+
+                    stampsSnapshot.forEach(doc => {
+                        const data = doc.data();
+                        if (data.users) {
+                            displayedStamps += data.users.length;
+                        }
+                    });
+                } else {
+                    // 通常モード: 自分のアクションのみ計算
+                    commentsSnapshot.forEach(doc => {
+                        const data = doc.data();
+                        if (data.comments) {
+                            displayedComments += data.comments.filter(c => c.userId === userId).length;
+                        }
+                    });
+
+                    stampsSnapshot.forEach(doc => {
+                        const data = doc.data();
+                        if (data.users && data.users.includes(userId)) {
+                            displayedStamps++;
+                        }
+                    });
+                }
+
+                document.getElementById('totalComments').textContent = displayedComments;
+                document.getElementById('totalStamps').textContent = displayedStamps;
+
+            } catch (error) {
+                console.error('統計情報の更新エラー:', error);
+            }
+        }
+
+        // 出展者フィルタリング
+        function getFilteredExhibitors() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            return exhibitors.filter(ex => {
+                const matchesSearch = ex.name.toLowerCase().includes(searchTerm) ||
+                    ex.content.toLowerCase().includes(searchTerm);
+
+                // カテゴリマッチング修正（配列対応）
+                let matchesCategory = false;
+                if (selectedCategory === 'all') {
+                    matchesCategory = true;
+                } else if (Array.isArray(ex.category)) {
+                    matchesCategory = ex.category.includes(selectedCategory);
+                } else {
+                    matchesCategory = ex.category === selectedCategory;
+                }
+
+                const matchesLocation = selectedLocation === 'all' || ex.location === selectedLocation;
+                const matchesTime = selectedTime === 'all' || ex.time === selectedTime;
+                return matchesSearch && matchesCategory && matchesLocation && matchesTime;
+            });
+        }
+
+        // ビュー切り替え
+        function changeView(mode) {
+            viewMode = mode;
+            document.getElementById('btnViewCard').classList.toggle('active', mode === 'card');
+            document.getElementById('btnViewList').classList.toggle('active', mode === 'list');
+            renderExhibitors();
+        }
+
+        async function renderExhibitorTable(filtered) {
+            const mapPinIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>';
+
+            const rows = filtered.map(ex => `
+                <tr onclick="showCommentModal(${ex.id})" style="cursor: pointer;">
+                    <td>
+                        <div class="table-exhibitor-info">
+                            ${ex.imageUrl ? `<img src="${ex.imageUrl}" class="table-thumb" alt="${ex.name}">` : '<div class="table-thumb" style="background:#f3f4f6; display:flex; align-items:center; justify-content:center; color:#9ca3af;">No Image</div>'}
+                            <div>
+                                <div class="table-exhibitor-name">${ex.name}</div>
+                                <div class="table-exhibitor-content">${ex.content}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="table-type-badge">${ex.type}</div>
+                    </td>
+                    <td>
+                        ${ex.location ? `
+                            <div class="table-location">
+                                ${mapPinIcon}
+                                <span>${ex.location}</span>
+                            </div>
+                        ` : '-'}
+                    </td>
+                    <td>
+                        <div style="font-size: 13px; color: #6b7280; max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                            ${ex.activity_intro || '-'}
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+
+            return `
+                <div class="exhibitor-table-container">
+                    <table class="exhibitor-table">
+                        <thead>
+                            <tr>
+                                <th>出展者</th>
+                                <th>タイプ</th>
+                                <th>場所</th>
+                                <th>紹介</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${rows}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        // 出展者表示
+        async function renderExhibitors() {
+            const filtered = getFilteredExhibitors();
+            const container = document.getElementById('exhibitorList');
+            document.getElementById('countDisplay').textContent = filtered.length;
+            document.getElementById('totalCount').textContent = `🎨 総出展数: ${exhibitors.length}組`;
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="no-results">該当する出展者が見つかりませんでした</div>';
+                return;
+            }
+
+            if (viewMode === 'list') {
+                container.innerHTML = await renderExhibitorTable(filtered);
+                return;
+            }
+
+            const cards = await Promise.all(filtered.map(async ex => {
+                if (editingId === ex.id) {
+                    return renderEditForm(ex);
+                }
+                return await renderExhibitorCard(ex);
+            }));
+
+            container.innerHTML = cards.join('');
+        }
+
+        // 編集フォーム
+        function renderEditForm(ex) {
+            const saveIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>';
+            const xIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+            const trashIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>';
+
+            return `
+                <div class="exhibitor-card">
+                    <div class="edit-form">
+                        <input type="text" class="edit-input" id="edit-name-${ex.id}" value="${ex.name}" placeholder="名前">
+                        <textarea class="edit-input" id="edit-content-${ex.id}" rows="2" placeholder="内容">${ex.content}</textarea>
+                        <textarea class="edit-input" id="edit-activity-intro-${ex.id}" rows="3" placeholder="活動紹介文">${ex.activity_intro || ''}</textarea>
+                        <input type="text" class="edit-input" id="edit-link-url-${ex.id}" value="${ex.link_url || ''}" placeholder="Webサイト/SNSリンク (URL)">
+                        <div style="margin-bottom: 8px;">
+                            <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">カテゴリ (複数選択可)</label>
+                            <div class="category-checkboxes" id="edit-category-container-${ex.id}" style="display: flex; flex-wrap: wrap; gap: 8px;">
+                                ${categories.filter(c => c.id !== 'all').map(c => `
+                                    <label style="display: inline-flex; align-items: center; gap: 4px; font-size: 13px;">
+                                        <input type="checkbox" name="edit-category-${ex.id}" value="${c.id}" 
+                                            ${(Array.isArray(ex.category) ? ex.category.includes(c.id) : ex.category === c.id) ? 'checked' : ''}>
+                                        ${c.name}
+                                    </label>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <input type="text" class="edit-input" id="edit-type-${ex.id}" value="${ex.type}" placeholder="タイプ(例:展示、販売、体験)">
+                        <input type="text" class="edit-input" id="edit-location-${ex.id}" value="${ex.location}" placeholder="場所(例:1階ホール、A-12ブース)">
+                        <input type="text" class="edit-input" id="edit-time-${ex.id}" value="${ex.time}" placeholder="時間(例:10:00-16:00)">
+                        <input type="text" class="edit-input" id="edit-imageUrl-${ex.id}" value="${ex.imageUrl || ''}" placeholder="画像URL(省略可)">
+                        <div style="margin-bottom: 12px;">
+                            <label style="display:block; font-size:12px; color:#666; margin-bottom:4px;">または画像をアップロード</label>
+                            <input type="file" id="edit-imageFile-${ex.id}" accept="image/*" class="edit-input" style="padding: 8px;">
+                            <div id="edit-imagePreview-${ex.id}" style="margin-top: 8px; max-width: 100%; text-align: center;">
+                                ${ex.imageUrl ? `<img src="${ex.imageUrl}" style="max-height: 100px; max-width: 100%; border-radius: 4px;">` : ''}
+                            </div>
+                        </div>
+                        <div class="edit-actions">
+                            <button class="save-btn" onclick="saveEdit(${ex.id})">${saveIcon} 保存</button>
+                            <button class="cancel-btn" onclick="cancelEdit()">${xIcon} キャンセル</button>
+                        </div>
+                        <button class="delete-btn" onclick="deleteExhibitor(${ex.id})">${trashIcon} 削除</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 出展者カード
+        async function renderExhibitorCard(ex) {
+            const stampCount = await getStampCount(ex.id);
+            const hasStamped = await hasUserStamped(ex.id);
+            const exhibitorComments = await getComments(ex.id);
+            const recentComments = exhibitorComments.slice(-3);
+
+            const mapPinIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>';
+            const clockIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+            const messageIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
+            const heartIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #9333ea;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+
+            // 配列の最初のカテゴリをバッジの色に使用
+            const badgeCategory = Array.isArray(ex.category) ? ex.category[0] : ex.category;
+
+            // 枠線の色決定
+            let borderClass = 'border-other';
+            if (badgeCategory === 'food') borderClass = 'border-food';
+            else if (badgeCategory === 'art') borderClass = 'border-art';
+            else if (badgeCategory === 'workshop') borderClass = 'border-workshop';
+            else if (badgeCategory === 'stage') borderClass = 'border-stage';
+
+            let html = `<div class="exhibitor-card ${borderClass}">`;
+            html += '<div class="card-header">';
+            html += '<div class="card-content">';
+            html += `<div class="exhibitor-name">${ex.name}</div>`;
+
+            // 画像がある場合は表示
+            if (ex.imageUrl) {
+                html += `<div class="exhibitor-image"><img src="${ex.imageUrl}" alt="${ex.name}" onerror="this.parentElement.style.display='none'"></div>`;
+            }
+
+            html += `<div class="exhibitor-description">${ex.content}</div>`;
+
+            if (ex.activity_intro) {
+                html += `<div class="exhibitor-description" style="white-space: pre-wrap; margin-top: 8px; color: #666; font-size: 0.9em; border-top: 1px dashed #eee; padding-top: 8px;">${ex.activity_intro}</div>`;
+            }
+            if (ex.link_url) {
+                html += `<div style="margin-top: 8px;">
+                    <a href="${ex.link_url}" target="_blank" rel="noopener noreferrer" class="link-btn" style="display: inline-flex; align-items: center; gap: 4px; color: #0284c7; text-decoration: none; font-size: 0.9em; background: #f0f9ff; padding: 4px 8px; border-radius: 4px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                        Link / SNS
+                    </a>
+                </div>`;
+            }
+
+            if (ex.location) {
+                html += `<div class="info-row location">${mapPinIcon}<span>${ex.location}</span></div>`;
+            }
+
+            if (ex.time) {
+                html += `<div class="info-row">${clockIcon}<span>${ex.time}</span></div>`;
+            }
+
+            html += `<span class="type-badge ${badgeCategory}">${ex.type}</span>`;
+            html += '</div>';
+
+            if (isAdminMode) {
+                html += `<button class="edit-btn" onclick="startEdit(${ex.id})">編集</button>`;
+            }
+
+            html += '</div>';
+            html += '<div class="interaction-row">';
+            html += `<button class="stamp-btn ${hasStamped ? 'active' : ''}" onclick="addStamp(${ex.id})">`;
+            html += `<span style="font-size: 18px;">みつけた❤️</span><span>${stampCount}</span>`;
+            html += '</button>';
+            html += `<button class="comment-btn" onclick="showCommentModal(${ex.id})">`;
+            html += `${messageIcon}<span>${exhibitorComments.length}</span>`;
+            html += '</button>';
+            html += '</div>';
+
+            if (recentComments.length > 0) {
+                html += '<div class="comments-section">';
+                recentComments.forEach(comment => {
+                    html += '<div class="comment-card">';
+                    html += '<div class="comment-header">';
+                    html += `${heartIcon}<span class="comment-author">${comment.userName}</span>`;
+                    html += '</div>';
+                    html += `<div class="comment-text">${comment.text}</div>`;
+                    html += '</div>';
+                });
+                html += '</div>';
+            }
+
+            html += '</div>';
+            return html;
+        }
+
+        // 編集開始
+        function startEdit(id) {
+            editingId = id;
+            editExhibitorImageFile = null; // リセット
+            renderExhibitors();
+            // ファイル入力リスナーの設定
+            setTimeout(() => {
+                const fileInput = document.getElementById(`edit-imageFile-${id}`);
+                if (fileInput) {
+                    fileInput.onchange = (e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                            editExhibitorImageFile = file;
+                            // プレビュー表示
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                document.getElementById(`edit-imagePreview-${id}`).innerHTML =
+                                    `<img src="${e.target.result}" style="max-height: 100px; max-width: 100%; border-radius: 4px;">`;
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    };
+                }
+            }, 100);
+        }
+
+        // 編集キャンセル
+        function cancelEdit() {
+            editingId = null;
+            editExhibitorImageFile = null; // リセット
+            renderExhibitors();
+        }
+
+        // 編集保存
+        async function saveEdit(id) {
+            // カテゴリ収集
+            const checkedCategories = Array.from(document.querySelectorAll(`input[name="edit-category-${id}"]:checked`))
+                .map(cb => cb.value);
+
+            // 画像処理
+            let imageUrl = document.getElementById(`edit-imageUrl-${id}`).value;
+            if (editExhibitorImageFile) {
+                try {
+                    imageUrl = await handleImageUpload(editExhibitorImageFile);
+                } catch (e) {
+                    console.error('画像処理エラー', e);
+                    alert('画像の処理に失敗しました');
+                    return;
+                }
+            }
+
+            const updatedData = {
+                name: document.getElementById(`edit-name-${id}`).value,
+                content: document.getElementById(`edit-content-${id}`).value,
+                activity_intro: document.getElementById(`edit-activity-intro-${id}`).value,
+                link_url: document.getElementById(`edit-link-url-${id}`).value,
+                category: checkedCategories.length > 0 ? checkedCategories : ['art'],
+                type: document.getElementById(`edit-type-${id}`).value,
+                location: document.getElementById(`edit-location-${id}`).value,
+                time: document.getElementById(`edit-time-${id}`).value,
+                imageUrl: imageUrl
+            };
+
+            try {
+                const exhibitorRef = doc(db, 'exhibitors', String(id));
+                await updateDoc(exhibitorRef, updatedData);
+
+                // メモリ上のデータも更新
+                const index = exhibitors.findIndex(ex => ex.id === id);
+                if (index !== -1) {
+                    exhibitors[index] = { ...exhibitors[index], ...updatedData };
+                }
+
+                editingId = null;
+                editExhibitorImageFile = null; // リセット
+                renderExhibitors();
+            } catch (error) {
+                console.error('保存エラー:', error);
+                alert('保存に失敗しました');
+            }
+        }
+
+        // 出展者削除
+        async function deleteExhibitor(id) {
+            const ex = exhibitors.find(e => e.id === id);
+            if (!ex) return;
+
+            const confirmed = confirm(`「${ex.name}」を削除しますか？\n\nこの操作は元に戻せません。`);
+            if (!confirmed) return;
+
+            try {
+                await deleteDoc(doc(db, 'exhibitors', String(id)));
+                editingId = null;
+                alert('削除しました');
+            } catch (error) {
+                console.error('削除エラー:', error);
+                alert('削除に失敗しました');
+            }
+        }
+
+        // タイムスケジュールモーダル
+        function showScheduleModal() {
+            showModal('scheduleModal');
+        }
+
+        function hideScheduleModal() {
+            hideModal('scheduleModal');
+        }
+
+        // 更新履歴モーダル
+        function showChangelogModal() {
+            const container = document.getElementById('changelogContent');
+            container.innerHTML = changelog.map(log => `
+                <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee;">
+                    <div style="font-size: 12px; color: #666; margin-bottom: 4px;">${log.date}</div>
+                    <div style="font-weight: bold; margin-bottom: 8px; color: #333;">${log.title}</div>
+                    <ul style="padding-left: 20px; margin: 0; font-size: 14px; color: #444;">
+                        ${log.details.map(d => `<li style="margin-bottom: 4px;">${d}</li>`).join('')}
+                    </ul>
+                </div>
+            `).join('');
+            showModal('changelogModal');
+        }
+
+        function hideChangelogModal() {
+            hideModal('changelogModal');
+        }
+
+        // グローバル関数として公開
+        window.showPasswordModal = showPasswordModal;
+        window.hidePasswordModal = hidePasswordModal;
+        window.handleAdminLogin = handleAdminLogin;
+        window.showCommentModal = showCommentModal;
+        window.hideCommentModal = hideCommentModal;
+        window.submitComment = submitComment;
+        window.selectCategory = selectCategory;
+        window.selectLocation = selectLocation;
+        window.selectTime = selectTime;
+        window.addStamp = addStamp;
+        window.showAddExhibitorModal = showAddExhibitorModal;
+        window.hideAddExhibitorModal = hideAddExhibitorModal;
+        window.createExhibitor = createExhibitor;
+        window.startEdit = startEdit;
+        window.cancelEdit = cancelEdit;
+        window.saveEdit = saveEdit;
+        window.deleteExhibitor = deleteExhibitor;
+        window.showDataModal = showDataModal;
+        window.hideDataModal = hideDataModal;
+        window.importData = importData;
+        window.exportData = exportData;
+        window.resetToInitial = resetToInitial;
+        window.showScheduleModal = showScheduleModal;
+        window.hideScheduleModal = hideScheduleModal;
+        window.showChangelogModal = showChangelogModal;
+        window.hideChangelogModal = hideChangelogModal;
+
+        // 初期化実行
+        init();
+    </script>
+</body>
+
+</html>

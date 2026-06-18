@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#FF6B9D">
+  <title>沖縄ルネサンス - 地域と未来をつなぐ</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #FF6B9D;
+      --primary-dark: #E5528A;
+      --bg-main: #FFF5F8;
+      --text-main: #2D2D2D;
+      --text-sub: #6B6B6B;
+      --card-bg: #FFFFFF;
+      --shadow: 0 2px 12px rgba(0,0,0,0.08);
+      --shadow-hover: 0 4px 20px rgba(255,107,157,0.15);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', sans-serif;
+      background: var(--bg-main);
+      color: var(--text-main);
+      padding-bottom: 80px;
+      line-height: 1.6;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 20px 16px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .header p {
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px 16px;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title::before {
+      content: '';
+      width: 4px;
+      height: 20px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .card-image {
+      width: 100%;
+      aspect-ratio: 16/10;
+      background: linear-gradient(135deg, #FFE5EE 0%, #FFD1E3 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+    }
+
+    .card-content {
+      padding: 12px;
+    }
+
+    .card-tag {
+      display: inline-block;
+      padding: 3px 8px;
+      background: var(--primary);
+      color: white;
+      font-size: 0.7rem;
+      border-radius: 4px;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .card-tag.service {
+      background: #6B9DFF;
+    }
+
+    .card-tag.pickup {
+      background: #FFB86B;
+    }
+
+    .card-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+
+    .card-desc {
+      font-size: 0.75rem;
+      color: var(--text-sub);
+      line-height: 1.5;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      box-shadow: 0 -2px 12px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-around;
+      padding: 8px 0;
+      z-index: 100;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 12px;
+      text-decoration: none;
+      color: var(--text-sub);
+      transition: all 0.3s ease;
+      border-radius: 12px;
+      min-width: 60px;
+    }
+
+    .nav-item:hover {
+      background: var(--bg-main);
+    }
+
+    .nav-item.active {
+      color: var(--primary);
+      background: var(--bg-main);
+    }
+
+    .nav-item.center {
+      transform: scale(1.15);
+      color: var(--primary);
+    }
+
+    .nav-icon {
+      font-size: 1.5rem;
+    }
+
+    .nav-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    @media (min-width: 600px) {
+      .card-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🌺 沖縄ルネサンス</h1>
+    <p>地域と未来をつなぐ、学びと表現の場</p>
+  </div>
+
+  <div class="container">
+    <div class="section-title">新着・ピックアップ</div>
+    <div class="card-grid">
+      <a href="#" class="card">
+        <div class="card-image">🏝️</div>
+        <div class="card-content">
+          <span class="card-tag">#地域</span>
+          <div class="card-title">孤立を防ぐ、新しいつながり方</div>
+          <div class="card-desc">地域で始まった小さな活動の物語</div>
+        </div>
+      </a>
+
+      <a href="#" class="card">
+        <div class="card-image">🏠</div>
+        <div class="card-content">
+          <span class="card-tag service">SERVICE</span>
+          <div class="card-title">てぃあんだぁクラブ</div>
+          <div class="card-desc">家庭で安心を取り戻す場所</div>
+        </div>
+      </a>
+
+      <a href="#" class="card">
+        <div class="card-image">👥</div>
+        <div class="card-content">
+          <span class="card-tag">#教育</span>
+          <div class="card-title">子どもたちの居場所づくり</div>
+          <div class="card-desc">学校以外での学びの形</div>
+        </div>
+      </a>
+
+      <a href="#" class="card">
+        <div class="card-image">📚</div>
+        <div class="card-content">
+          <span class="card-tag service">SERVICE</span>
+          <div class="card-title">アルパカすく〜る</div>
+          <div class="card-desc">現実を学ぶ体験の場</div>
+        </div>
+      </a>
+
+      <a href="#" class="card">
+        <div class="card-image">💭</div>
+        <div class="card-content">
+          <span class="card-tag">#孤立を防ぐ</span>
+          <div class="card-title">誰かとつながる第一歩</div>
+          <div class="card-desc">オンラインでも、対面でも</div>
+        </div>
+      </a>
+
+      <a href="#" class="card">
+        <div class="card-image">🎨</div>
+        <div class="card-content">
+          <span class="card-tag pickup">PICK UP</span>
+          <div class="card-title">表現が社会に出る場</div>
+          <div class="card-desc">文芸フリマでの体験</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="section-title">活動を探す</div>
+    <div class="card-grid">
+      <a href="#" class="card">
+        <div class="card-image">📖</div>
+        <div class="card-content">
+          <span class="card-tag service">SERVICE</span>
+          <div class="card-title">universe</div>
+          <div class="card-desc">記録と教材の棚</div>
+        </div>
+      </a>
+
+      <a href="#" class="card">
+        <div class="card-image">🌙</div>
+        <div class="card-content">
+          <span class="card-tag service">SERVICE</span>
+          <div class="card-title">夢つむぎ</div>
+          <div class="card-desc">内側を整える時間</div>
+        </div>
+      </a>
+
+      <a href="#" class="card">
+        <div class="card-image">✍️</div>
+        <div class="card-content">
+          <span class="card-tag service">SERVICE</span>
+          <div class="card-title">文芸フリマ</div>
+          <div class="card-desc">社会参加と表現の場</div>
+        </div>
+      </a>
+
+      <a href="#" class="card">
+        <div class="card-image">🤝</div>
+        <div class="card-content">
+          <span class="card-tag">#参加</span>
+          <div class="card-title">活動に参加する</div>
+          <div class="card-desc">あなたも一緒に</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="#" class="nav-item">
+      <div class="nav-icon">🏠</div>
+      <div class="nav-label">安心</div>
+    </a>
+    <a href="#" class="nav-item">
+      <div class="nav-icon">📘</div>
+      <div class="nav-label">学ぶ</div>
+    </a>
+    <a href="#" class="nav-item center active">
+      <div class="nav-icon">🌺</div>
+      <div class="nav-label">ルネサンス</div>
+    </a>
+    <a href="#" class="nav-item">
+      <div class="nav-icon">🎨</div>
+      <div class="nav-label">参加</div>
+    </a>
+    <a href="#" class="nav-item">
+      <div class="nav-icon">📚</div>
+      <div class="nav-label">記録</div>
+    </a>
+  </nav>
+
+  <script>
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.querySelectorAll('.nav-item').forEach(nav => {
+          nav.classList.remove('active');
+        });
+        item.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
